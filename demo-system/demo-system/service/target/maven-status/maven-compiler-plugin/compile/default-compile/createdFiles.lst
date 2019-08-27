@@ -1,0 +1,7 @@
+com\manage\system\config\MybatisConfig.class
+com\manage\system\bean\BaseCurrency.class
+com\manage\system\dao\BaseCurrencyMapper.class
+com\manage\system\service\BaseCurrencyService.class
+com\manage\system\base\AbstractService.class
+com\manage\system\config\MybatisConfig$1.class
+com\manage\system\service\impl\BaseCurrencyServiceImpl.class
