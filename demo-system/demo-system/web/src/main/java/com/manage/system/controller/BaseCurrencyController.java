@@ -1,6 +1,5 @@
 package com.manage.system.controller;
 
-import com.manage.system.bean.BaseCurrency;
 import com.manage.system.service.BaseCurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
