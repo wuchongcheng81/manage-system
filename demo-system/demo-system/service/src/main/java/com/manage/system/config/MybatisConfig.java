@@ -57,7 +57,7 @@ public class MybatisConfig {
         Set<BeanDefinition> definitions = provider.findCandidateComponents("com.manage.system.dao");
         if (CollectionUtils.isEmpty(definitions)) {
             throw new IllegalStateException("Mappers can not be null, please check!");
-        }
+        } 
 
         for (BeanDefinition definition : definitions) {
             String beanName = definition.getBeanClassName();
