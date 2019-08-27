@@ -1,5 +1,6 @@
 package com.manage.system.base;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
@@ -13,14 +14,14 @@ public class BaseModel<ID extends Serializable> implements Serializable {
     protected static final long serialVersionUID = 1L;
 
     private ID id;
+    @TableField(exist = false)
     private Integer sort;
-    private Integer count;
+    @TableField(exist = false)
     private Integer pageNumber;
+    @TableField(exist = false)
     private Integer pageSize;
-    private Date dateStart;
-    private Date dateEnd;
+    @TableField(exist = false)
     private Date createTime;
+    @TableField(exist = false)
     private Date updateTime;
-    private LinkedHashMap<String, Object[]> idsMap;
-    private LinkedHashMap<String, String> orderByMap;
 }
