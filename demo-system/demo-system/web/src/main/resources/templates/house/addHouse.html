@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <th:block th:insert="header :: common_header"/>
+    <script th:src="@{/js/house/addHouse.js(v=2)}"></script>
+    <style type="text/css">
+        .form-control {
+            width: 70%;
+        }
+
+        .labelbtn {
+            width: 35px;
+            height: 35px;
+            text-align: center;
+        }
+
+        .labelInput {
+            width: 125px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .divBorder {
+            border: 1px solid #C1C1C1;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+
+<body style="background:#fff; min-width: 1000px">
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+     aria-hidden="false" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="successModalLabel">
+                    提示框
+                </h4>
+            </div>
+            <div class="modal-body">
+                新增楼盘成功！
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="closeSuccessBtn">
+                    确认
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="msgModal" tabindex="-1" role="dialog" aria-labelledby="msgModalLabel" aria-hidden="false"
+     data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="msgModalLabel">
+                    提示框
+                </h4>
+            </div>
+            <div class="modal-body" id="msgContent">
+                楼盘标签个数不可大于6！
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="closeBtn">
+                    确认
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    提示框
+                </h4>
+            </div>
+            <div class="modal-body">
+                是否要保存楼盘信息？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">取消
+                </button>
+                <button type="button" class="btn btn-primary" id="continueBtn">
+                    确认
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="calls" id="addHouse">
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try {
+                ace.settings.check('breadcrumbs', 'fixed')
+            } catch (e) {
+            }
+        </script>
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home home-icon"></i>
+                <a href="#">首页</a>
+            </li>
+            <li class="active">楼盘管理</li>
+            <li class="active">新增楼盘</li>
+        </ul><!-- .breadcrumb -->
+    </div>
+
+    <div class="page-content">
+
+        <div class="panel-body" style="padding-bottom:0px;">
+            <form id="coverForm">
+                <div class="form-group">
+                    <label>封面</label>
+                    <div style="height: 100px;">
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <div style="float: left; height: 100px" id="headImgDiv" class="divBorder">
+                            <img style="width: 100px" :src="cover">
+                        </div>
+                        <div style="float: left; margin-top: 50px; margin-left: 10px">
+                            <button type="button" class="btn btn-info" style="margin-right: 15px"
+                                    onclick="uploadCover()">上传封面
+                            </button>
+                            <input type="file" style="display: none;" id="coverFile" name="file">
+                        </div>
+                    </div>
+                    <span style="color: #B94A48; font-size: 12px" v-show="cover == null || cover == ''">请选择封面</span>
+                </div>
+            </form>
+
+            <form role="form" class="required-validate" id="addHouseForm" method="post" action="/house/saveHouse"
+                  enctype="multipart/form-data">
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">省份</label>
+                                <select class="form-control" id="provinceId" name="provinceId"
+                                        @change="getCity(provinceId)" v-model="provinceId">
+                                    <option v-for="(p,index) in province" :value="p.provinceId">{{p.name}}</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">城市</label>
+                                <select class="form-control" id="cityId" name="cityId" @change="getDistrict(cityId)"
+                                        v-model="cityId">
+                                    <option v-for="(c,index) in city" :value="c.cityId">{{c.name}}</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">区</label>
+                                <select class="form-control" id="districtId" name="districtId" v-model="districtId">
+                                    <option v-for="(d,index) in district" :value="d.districtId">{{d.name}}</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <hr/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div class="form-group">
+                                <label for="name">楼盘标题</label>
+                                <input type="text" class="form-control labelInput" @keyup="checkLabel(1)"
+                                       id="firstLabel"
+                                       placeholder="请输入楼盘标题"
+                                       name="labelNameStr">
+                                <input type="text" class="form-control labelInput" @keyup="checkLabel(1)"
+                                       v-show="houseLabel[0].show" v-model="houseLabel[0].value"
+                                       placeholder="请输入楼盘标题"
+                                       name="labelNameStr">
+                                <input type="text" class="form-control labelInput" @keyup="checkLabel(1)"
+                                       v-show="houseLabel[1].show" v-model="houseLabel[1].value"
+                                       placeholder="请输入楼盘标题"
+                                       name="labelNameStr">
+                                <input type="text" class="form-control labelInput" @keyup="checkLabel(1)"
+                                       v-show="houseLabel[2].show" v-model="houseLabel[2].value"
+                                       placeholder="请输入楼盘标题"
+                                       name="labelNameStr">
+                                <input type="text" class="form-control labelInput" @keyup="checkLabel(1)"
+                                       v-show="houseLabel[3].show" v-model="houseLabel[3].value"
+                                       placeholder="请输入楼盘标题"
+                                       name="labelNameStr">
+                                <input type="text" class="form-control labelInput" @keyup="checkLabel(1)"
+                                       v-show="houseLabel[4].show" v-model="houseLabel[4].value"
+                                       placeholder="请输入楼盘标题"
+                                       name="labelNameStr">
+                                <button type="button" class="btn btn-default labelbtn" id="addLabel"
+                                        @click="addLabelInput()">+
+                                </button>
+                                <button type="button" class="btn btn-default labelbtn" id="minusLabel"
+                                        @click="minusLabelInput()">-
+                                </button>
+                                <br/>
+                                <span style="color: #B94A48; font-size: 12px" v-show="labelTipShow">请输入标题</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">楼盘名称</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                       placeholder="请输入楼盘名称">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">开发商</label>
+                                <input type="text" class="form-control" id="devCompany" name="devCompany"
+                                       placeholder="请输入开发商">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">楼盘单价（元/平方米）</label>
+                                <input type="text" class="form-control" id="price" name="price"
+                                       placeholder="请输入楼盘单价">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td>
+                            <div class="form-group">
+                                <label for="name">楼盘总价（万）</label>
+                                <input type="text" class="form-control" id="totalPrice" name="totalPrice"
+                                       placeholder="请输入楼盘总价">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">楼盘状态</label>
+                                <select class="form-control" id="state" name="state">
+                                    <option value="1">在售</option>
+                                    <option value="0">售完</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">参考均价（元/平方米）</label>
+                                <input type="text" class="form-control" id="averagePrice" name="averagePrice"
+                                       placeholder="请输入参考均价">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">最新开盘时间</label>
+                                <input type="text" class="form-control" id="saleTime"
+                                       placeholder="请输入最新开盘时间">
+                                <input type="hidden" id="saleTimeStamp" name="saleTimeStamp">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">交房时间</label>
+                                <input type="text" class="form-control" id="commitTime"
+                                       placeholder="请输入交房时间">
+                                <input type="hidden" id="commitTimeStamp" name="commitTimeStamp">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">区域位置</label>
+                                <input type="text" class="form-control" id="cityName" name="cityName"
+                                       placeholder="请输入区域位置，例如：广州市">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">楼盘地址</label>
+                                <input type="text" class="form-control" id="address" name="address"
+                                       placeholder="请输入楼盘地址">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">售楼处地址</label>
+                                <input type="text" class="form-control" id="saleAddress" name="saleAddress"
+                                       placeholder="请输入售楼处地址">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">建筑类型</label>
+                                <input type="text" class="form-control" id="buildingType" name="buildingType"
+                                       placeholder="请输入建筑类型">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">装修标准</label>
+                                <input type="text" class="form-control" id="decoration" name="decoration"
+                                       placeholder="请输入装修标准">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">装修价格（元/平方米）</label>
+                                <input type="text" class="form-control" id="decorationPrice" name="decorationPrice"
+                                       placeholder="请输入装修价格">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">产权年限（年）</label>
+                                <input type="text" class="form-control" id="years" name="years"
+                                       placeholder="请输入产权年限">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">绿化率（%）</label>
+                                <input type="text" class="form-control" id="greenRate" name="greenRate"
+                                       placeholder="请输入绿化率">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">规划户数（户）</label>
+                                <input type="text" class="form-control" id="familyCount" name="familyCount"
+                                       placeholder="请输入规划户数">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">规划车位（个）</label>
+                                <input type="text" class="form-control" id="carPlace" name="carPlace"
+                                       placeholder="请输入规划车位">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">物业类型</label>
+                                <select class="form-control" id="houseType" name="houseType">
+                                    <option value="residence">住宅</option>
+                                    <option value="villa">别墅</option>
+                                    <option value="apartment">公寓</option>
+                                    <option value="shop">商铺</option>
+                                    <option value="officeBuilding">写字楼</option>
+                                    <option value="commercial">商住</option>
+                                    <option value="business">商业</option>
+                                    <option value="limitdProperty">小产权</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">物业公司</label>
+                                <input type="text" class="form-control" id="houseCompany" name="houseCompany"
+                                       placeholder="请输入物业公司">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">物业费（元/平方米/月）</label>
+                                <input type="text" class="form-control" id="housePay" name="housePay"
+                                       placeholder="请输入物业费">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">供暖方式</label>
+                                <input type="text" class="form-control" id="hotAir" name="hotAir"
+                                       placeholder="请输入供暖方式">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">是否热门楼盘</label>
+                                <select class="form-control" id="hot" name="hot">
+                                    <option value="0">否</option>
+                                    <option value="1">是</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">咨询电话</label>
+                                <input type="text" class="form-control" id="phone" name="phone"
+                                       placeholder="请输入咨询电话">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">经度</label>
+                                <input type="text" class="form-control" id="lat" name="lat"
+                                       placeholder="请输入经度">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label for="name">维度</label>
+                                <input type="text" class="form-control" id="lon" name="lon"
+                                       placeholder="请输入经度">
+                            </div>
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <hr/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div class="form-group">
+                                <label for="name">激励政策</label>
+                                <textarea id="tip" name="tip" class="form-control" rows="3"></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div class="form-group">
+                                <label for="name">佣金说明</label>
+                                <textarea id="commissionDesc" name="commissionDesc" class="form-control"
+                                          rows="3"></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div class="form-group">
+                                <label for="name">客户转介</label>
+                                <textarea id="customerReferralDesc" name="customerReferralDesc" class="form-control"
+                                          rows="3"></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div class="form-group">
+                                <label for="name">佣金结算说明</label>
+                                <textarea id="commissionSettlementDesc" name="commissionSettlementDesc"
+                                          class="form-control" rows="3"></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div class="form-group">
+                                <label for="name">带看流程</label>
+                                <textarea id="lookProcessDesc" name="lookProcessDesc" class="form-control"
+                                          rows="3"></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div class="form-group">
+                                <label for="name">CALL客词</label>
+                                <textarea id="callWord" name="callWord" class="form-control" rows="3"></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div class="form-group">
+                                <label for="name">推广语</label>
+                                <textarea id="extensionDesc" name="extensionDesc" class="form-control"
+                                          rows="3"></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div style="margin-bottom: 10px; width: 70%">
+                    <input type="file" name="txt_file01" id="txt_file01" multiple class="file-loading"/>
+                </div>
+
+
+                <!--<div class="form-group">-->
+                <!--<label for="inputfile">文件输入</label>-->
+                <!--<input type="file" id="inputfile">-->
+                <!--<p class="help-block">这里是块级帮助文本的实例。</p>-->
+                <!--<button type="submit" class="btn btn-default" id="addHouseBtn">提交</button>-->
+                <button type="submit" class="btn btn-default" id="validaterBtn" name="test" style="margin-bottom: 5%">
+                    提交
+                </button>
+                <button type="button" class="btn btn-default" id="testbtn" style="margin-bottom: 5%">测试</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    var vm = new Vue({
+        el: '#addHouse',
+        data: {
+            cover: null,
+            province: [],
+            city: [],
+            district: [],
+            provinceId: '',
+            cityId: '',
+            districtId: '',
+            labelTipShow: false,
+            houseLabel: [
+                {show: false, value: ''},
+                {show: false, value: ''},
+                {show: false, value: ''},
+                {show: false, value: ''},
+                {show: false, value: ''}
+            ],
+            houseLabelShowIndex: 0
+        },
+        mounted: function () {
+            this.getProvince();
+        },
+        methods: {
+            getProvince: function () {
+                $.post('/area/getProvince', {}, function (data) {
+                    vm.province = data.result;
+                    vm.provinceId = data.result[0].provinceId;
+                    vm.getCity(vm.provinceId);
+                    vm.cityId = data.result[0].cities[0].cityId;
+                    vm.getDistrict(vm.cityId);
+                    vm.districtId = data.result[0].cities[0].districts[0].districtId;
+
+                })
+            },
+            getCity: function (provinceId) {
+                vm.districtId = '';
+                vm.district = [];
+                vm.cityId = '';
+                vm.city = [];
+                vm.province.forEach(function (val, index) {
+                    if (val.provinceId == provinceId) {
+                        vm.city = val.cities;
+                        vm.cityId = val.cities[0].cityId;
+                        vm.district = val.cities[0].districts;
+                        vm.districtId = val.cities[0].districts[0].districtId;
+                    }
+                });
+            },
+            getDistrict: function (cityId) {
+                vm.city.forEach(function (val, index) {
+                    if (val.cityId == cityId) {
+                        vm.district = val.districts;
+                        vm.districtId = val.districts[0].districtId;
+                    }
+                });
+            },
+            addLabelInput: function () {
+                if (vm.houseLabel[4].show == true) {
+                    $('#msgContent').html('楼盘标签个数不可大于6！');
+                    $('#msgModal').modal('show');
+                    return;
+                }
+                vm.houseLabel[vm.houseLabelShowIndex].show = true;
+                vm.houseLabelShowIndex = vm.houseLabelShowIndex + 1;
+                vm.checkLabel();
+            },
+            minusLabelInput: function () {
+                if (vm.houseLabelShowIndex == 0) {
+                    $('#msgContent').html('楼盘标签至少填1个！');
+                    $('#msgModal').modal('show');
+                    return;
+                }
+                vm.houseLabelShowIndex = vm.houseLabelShowIndex - 1;
+                vm.houseLabel[vm.houseLabelShowIndex].show = false;
+                var currName = 'labelNameStr' + (vm.houseLabelShowIndex + 1);
+                vm.checkLabel();
+            },
+            checkLabel: function (type) {
+                if (type == 1) {
+                    $('#validaterBtn').removeAttr('disabled');
+                }
+                var flag = true;
+                if ($('#firstLabel').val() == null || $('#firstLabel').val() == '') {
+                    flag = false;
+                }
+                vm.houseLabel.forEach(function (label) {
+                    if (label.show == true && (label.value == null || label.value == '')) {
+                        flag = false;
+                    }
+                })
+                if (!flag) {
+                    vm.labelTipShow = true;
+                } else {
+                    vm.labelTipShow = false;
+                }
+            }
+        }
+    })
+</script>
+
+</body>
+</html>
+
+
+
+

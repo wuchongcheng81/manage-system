@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <th:block th:insert="header :: common_header"/>
+    <style type="text/css">
+        .form-control {
+            width: 300px;
+        }
+        .coverDiv {
+            border: 1px solid #C1C1C1;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+
+<body style="background:#fff; min-width: 900px">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    提示框
+                </h4>
+            </div>
+            <div class="modal-body">
+                是否要保存用户信息？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">取消
+                </button>
+                <button type="button" class="btn btn-primary" id="continueBtn">
+                    确认
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="pwdModal" tabindex="-1" role="dialog" aria-labelledby="pwdModalLabel" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="pwdModalLabel">
+                    提示框
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>原密码</label>
+                    <input type="password" id="oldPwd" class="form-control" style="width: 90%;" onkeyup="clearOldPwdSpan()">
+                    <span id="oldPwdSpan" style="color: #B94A48"></span>
+                </div>
+                <div class="form-group">
+                    <label>新密码</label>
+                    <input type="password" id="newPwd" class="form-control" style="width: 90%;" onkeyup="clearNewPwdSpan()">
+                    <span id="newPwdSpan" style="color: #B94A48"></span>
+                </div>
+                <div class="form-group">
+                    <label>确认密码</label>
+                    <input type="password" id="cnewPwd" class="form-control" style="width: 90%;" onkeyup="clearCnewPwdSpan()">
+                    <span id="cnewPwdSpan" style="color: #B94A48"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">取消
+                </button>
+                <button type="button" class="btn btn-primary" id="savePwdBtn">
+                    确认
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+     aria-hidden="false" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="successModalLabel">
+                    提示框
+                </h4>
+            </div>
+            <div class="modal-body">
+                修改密码成功！
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="closeSuccessBtn">
+                    确认
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="calls" id="updateUser">
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try {
+                ace.settings.check('breadcrumbs', 'fixed')
+            } catch (e) {
+            }
+        </script>
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home home-icon"></i>
+                <a href="#">首页</a>
+            </li>
+            <li class="active">用户信息</li>
+            <!--<li class="active">修改资讯</li>-->
+        </ul><!-- .breadcrumb -->
+    </div>
+
+    <div class="page-content">
+        <form id="updateUserForm">
+        <div class="panel-body" style="padding-bottom:0px;">
+                <hr/>
+                <div class="form-group">
+                    <label>账号</label>
+                    <input type="text" class="form-control" :value="user.userName" readonly="readonly">
+                </div>
+                <hr/>
+                <div class="form-group">
+                    <label>姓名</label>
+                    <input type="text" class="form-control" id="realName" name="realName" :value="user.realName"
+                           placeholder="请输入姓名">
+                </div>
+                <hr/>
+                <div class="form-group">
+                    <label>邮箱</label>
+                    <input type="text" class="form-control" id="email" name="email" :value="user.email"
+                           placeholder="请输入邮箱">
+                </div>
+                <hr/>
+                <div class="form-group">
+                    <label>联系方式</label>
+                    <br>
+                    <input type="text" class="form-control" id="phone" name="phone" :value="user.phone" readonly="readonly"
+                           style="display: inline-block; width: 270px" placeholder="请输入联系方式">
+                    <a href="#">修改</a>
+                </div>
+                <hr/>
+                <div class="form-group">
+                    <label>性别</label>
+                    <div>
+                        男<input type="radio" value="1" name="sex" id="sexBoy">
+                        女<input type="radio" value="2" name="sex" id="sexGirl">
+                    </div>
+                </div>
+                <hr/>
+                <div class="form-group">
+                    <label>密码</label>
+                    <br>
+                    <a href="#" @click="changePwd()">修改</a>
+                </div>
+                <hr/>
+
+                <button type="button" class="btn btn-default" id="validaterBtn" style="margin-bottom: 5%">提交</button>
+        </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    var vm = new Vue({
+        el: '#updateUser',
+        data: {
+            user: {}
+        },
+        beforeMount: function () {
+
+        },
+        mounted: function () {
+
+        },
+        created: function () {
+            $.post('/user/getUserInfo', function(data) {
+                vm.user = data.user;
+                if (data.user.sex == 1) {
+                    $('#sexBoy').attr('checked', 'checked');
+                } else {
+                    $('#sexGirl').attr('checked', 'checked');
+                }
+            });
+        },
+        methods: {
+            changePwd :function() {
+                $('#oldPwdSpan').text('');
+                $('#newPwdSpan').text('');
+                $('#cnewPwdSpan').text('');
+                $('#pwdModal').modal('show');
+            }
+        }
+    })
+
+
+    $(function () {
+        $('#validaterBtn').on('click', function () {
+            $('#myModal').modal('show');
+        })
+        $('#closeSuccessBtn').on('click', function () {
+            $('#successModal').modal('hide');
+        })
+        $('#continueBtn').on('click', function () {
+            var entity = new FormData($('#updateUserForm')[0]);
+            entity.append('id', vm.user.id);
+            entity.append('sex', vm.user.sex);
+            entity.append('status', vm.user.status);
+            $.ajax({
+                url: '/user/update',
+                type: 'POST',
+                dataType: 'json',
+                data: entity,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.state == 11) {
+                        $('#myModal').modal('hide');
+                        parent.window.addTab(1, '用户信息', 'updateUser.html');
+                    }
+                }
+            });
+        })
+        $('#savePwdBtn').on('click', function () {
+            if($('#oldPwd').val() == null || $('#oldPwd').val() == '') {
+                $('#oldPwdSpan').text('请输入密码');
+                return;
+            }
+            if($('#newPwd').val() == null || $('#newPwd').val() == '') {
+                $('#newPwdSpan').text('请输入新密码');
+                return;
+            }
+            if($('#newPwd').val().length <8) {
+                $('#newPwdSpan').text('请输入至少8位新密码');
+                return;
+            }
+            if($('#newPwd').val().length >15) {
+                $('#newPwdSpan').text('新密码长度不可超过15');
+                return;
+            }
+            if($('#cnewPwd').val() == null || $('#cnewPwd').val() == '') {
+                $('#cnewPwdSpan').text('请输入确认密码');
+                return;
+            }
+            if($('#newPwd').val() != $('#cnewPwd').val()) {
+                $('#cnewPwdSpan').text('请与新密码保持一致');
+                return;
+            }
+            $.post('/user/update',
+                {
+                    id: vm.user.id,
+                    status: vm.user.status,
+                    sex: vm.user.sex,
+                    password: $('#newPwd').val(),
+                    oldPwd: $('#oldPwd').val()
+                }, function(data) {
+                if(data.state == '11') {
+                    $('#pwdModal').modal('hide');
+                    $('#successModal').modal('show');
+                }else {
+                    $('#oldPwdSpan').text(data.note);
+                }
+            });
+        })
+    })
+    function clearOldPwdSpan() {
+        $('#oldPwdSpan').text('');
+    }
+    function clearNewPwdSpan() {
+        $('#newPwdSpan').text('');
+    }
+    function clearCnewPwdSpan() {
+        $('#cnewPwdSpan').text('');
+    }
+
+</script>
+</body>
+</html>
+
+
+
+

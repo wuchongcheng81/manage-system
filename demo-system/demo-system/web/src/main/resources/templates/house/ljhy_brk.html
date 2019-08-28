@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <th:block th:insert="header :: common_header"/>
+</head>
+
+<body style="background:#fff">
+
+<div class="calls brk">
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try {
+                ace.settings.check('breadcrumbs', 'fixed')
+            } catch (e) {
+            }
+        </script>
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home home-icon"></i>
+                <a href="#">首页</a>
+            </li>
+            <li class="active">病人库</li>
+        </ul><!-- .breadcrumb -->
+    </div>
+
+    <div class="page-content">
+        <div class="page-header">
+            <h1>
+                病人库
+                <small>
+                    <i class="icon-double-angle-right"></i>
+                    详情
+                </small>
+            </h1>
+        </div><!-- /.page-header -->
+
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <div class="row">
+
+                    <div class="col-sm-12">
+                        <form class="form-inline query_ipt">
+                            <div class="row">
+                                <div class="col-sm-11">
+                                    <div class="form-group ipt_item">
+                                        <span class="form_til">姓名</span>
+                                        <input type="text" class=" input-sm" id=""
+                                               placeholder="请输入姓名">
+                                    </div>
+                                    <div class="form-group ipt_item">
+                                        <span class="form_til">用户ID</span>
+                                        <input type="text" class=" input-sm" id=""
+                                               placeholder="请输入ID">
+                                    </div>
+                                    <div class="form-group ipt_item">
+                                        <span class="form_til">手机号</span>
+                                        <input type="text" class=" input-sm" id=""
+                                               placeholder="请输入手机号">
+                                    </div>
+                                    <div class="form-group ipt_item">
+                                        <span class="form_til">咨询时间</span>
+                                        <span class="input-icon">
+												     <input type="text" id="" class="date-picker" style="width:120px;">
+												     <i class="icon-calendar blue"></i>
+											        </span>
+                                        到
+                                        <span class="input-icon">
+												     <input type="text" id="" class="date-picker" style="width:120px;">
+												     <i class="icon-calendar blue"></i>
+											        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <button style="vertical-align: bottom;" type="submit"
+                                            class="btn btn-default btn-sm">查询
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-xs-12 brk_panel_container">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <div class="brk_panel clearfix">
+                                    <div class="per_img">
+                                                <span class="profile-picture">
+													<img id="avatar" width="60" height="60"
+                                                         class="editable img-responsive" alt="Alex's Avatar"
+                                                         th:src="@{/assets/avatars/profile-pic.jpg"/>
+												</span>
+                                    </div>
+                                    <ul class="per_info">
+                                        <li class="top_line">
+                                            <span class="til">刘青(女 16岁)</span>
+                                        </li>
+                                        <li>
+                                            <span class="info_name">用户ID</span><span class="info_value">123</span>
+                                        </li>
+                                        <li>
+                                            <span class="info_name">所在地</span><span class="info_value">浙江杭州</span>
+                                        </li>
+                                        <li>
+                                            <span class="info_name">手机号</span><span
+                                                class="info_value">13888888888</span>
+                                        </li>
+                                        <li>
+                                            <span class="info_name">身份证</span><span
+                                                class="info_value">500000000000000</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="brk_panel clearfix">
+                                    <div class="per_img">
+                                                <span class="profile-picture">
+													<img id="avatar" width="60" height="60"
+                                                         class="editable img-responsive" alt="Alex's Avatar"
+                                                         th:src="@{/assets/avatars/profile-pic.jpg"/>
+												</span>
+                                    </div>
+                                    <ul class="per_info">
+                                        <li class="top_line">
+                                            <span class="til">刘青(女 16岁)</span>
+                                        </li>
+                                        <li>
+                                            <span class="info_name">用户ID</span><span class="info_value">123</span>
+                                        </li>
+                                        <li>
+                                            <span class="info_name">所在地</span><span class="info_value">浙江杭州</span>
+                                        </li>
+                                        <li>
+                                            <span class="info_name">手机号</span><span
+                                                class="info_value">13888888888</span>
+                                        </li>
+                                        <li>
+                                            <span class="info_name">身份证</span><span
+                                                class="info_value">500000000000000</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <div class="brk_panel clearfix">
+                                    <div class="per_img">
+                                                <span class="profile-picture">
+													<img id="avatar" width="60" height="60"
+                                                         class="editable img-responsive" alt="Alex's Avatar"
+                                                         th:src="@{/assets/avatars/profile-pic.jpg"/>
+												</span>
+                                    </div>
+                                    <ul class="per_info">
+                                        <li class="top_line">
+                                            <span class="til">刘青(女 16岁)</span>
+                                        </li>
+                                        <li>
+                                            <span class="info_name">用户ID</span><span class="info_value">123</span>
+                                        </li>
+                                        <li>
+                                            <span class="info_name">所在地</span><span class="info_value">浙江杭州</span>
+                                        </li>
+                                        <li>
+                                            <span class="info_name">手机号</span><span
+                                                class="info_value">13888888888</span>
+                                        </li>
+                                        <li>
+                                            <span class="info_name">身份证</span><span
+                                                class="info_value">500000000000000</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <div class="brk_panel clearfix">
+                                    <div class="per_img">
+                                                <span class="profile-picture">
+													<img id="avatar" width="60" height="60"
+                                                         class="editable img-responsive" alt="Alex's Avatar"
+                                                         th:src="@{/assets/avatars/profile-pic.jpg"/>
+												</span>
+                                    </div>
+                                    <ul class="per_info">
+                                        <li class="top_line">
+                                            <span class="til">刘青(女 16岁)</span>
+                                        </li>
+                                        <li>
+                                            <span class="info_name">用户ID</span><span class="info_value">123</span>
+                                        </li>
+                                        <li>
+                                            <span class="info_name">所在地</span><span class="info_value">浙江杭州</span>
+                                        </li>
+                                        <li>
+                                            <span class="info_name">手机号</span><span
+                                                class="info_value">13888888888</span>
+                                        </li>
+                                        <li>
+                                            <span class="info_name">身份证</span><span
+                                                class="info_value">500000000000000</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr hr32 hr-dotted"></div>
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.page-content -->
+</div>
+
+
+<script type="text/javascript">
+
+    //日历
+    $('.date-picker').datepicker({autoclose: true}).on(ace.click_event, function () {
+        $(this).focus();
+    });
+
+
+</script>
+
+</body>
+</html>
+
+
+
+

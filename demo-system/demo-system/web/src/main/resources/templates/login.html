@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+    <script th:src="@{/js/jquery-3.0.0.min.js}"></script>
+</head>
+
+<body style="background-color: #F7F7F7">
+<div style="margin:0 auto; width:350px; height:150px; margin-top: 200px; ">
+    <div style="text-align: center; margin-bottom: 20px;">
+        <div style="float: left; ">
+            <img th:src="@{/assets/img/top1.png}" style="width: 50px">
+        </div>
+        <div style="float: left; margin-top: 5px; margin-left: 20%">
+            <span style="font-size: 30px">管理后台</span>
+        </div>
+    </div>
+    <div style="clear: left"></div>
+    <div style="border: 1px solid #999;border-radius: 10px;">
+        <div class="form-group" style="width: 250px; margin-left: 50px; margin-top: 20px">
+            <span style="color: #999; font-size: 16px">账号</span>
+            <br>
+            <input type="text" class="form-control" style="display: inline-block; width: 250px"
+                   id="username" name="username" value="admin"
+                   placeholder="请输入账号">
+        </div>
+        <div class="form-group" style="width: 250px; margin-left: 50px">
+            <span style="color: #999; font-size: 16px">密码</span>
+            <br>
+            <input type="password" class="form-control" style="display: inline-block; width: 250px"
+                   id="password" name="password" value="a1234567"
+                   placeholder="请输入密码">
+        </div>
+        <div style="margin-top: 10px; margin-left: 50px;">
+            <a href="/view/house/forgetPwd" style="color: #B8B8B8">忘记密码</a>
+        </div>
+        <div style="margin-top: 10px; margin-left: 50px;">
+            <button onclick="login()" class="btn btn-default" style="width: 250px;background-color: #0997F7">
+                <span style="color: white">登录</span>
+            </button>
+        </div>
+        <div style="margin-top: 10px; margin-left: 50px; margin-bottom: 20px">
+            <a href="/view/house/addUser" style="color: #1A42E6">注册</a>
+        </div>
+    </div>
+    <!--<div class="form-group" style="margin: 0px;">-->
+        <!--<p>-->
+            <!--<input type="checkbox" name="rememberMe" />&nbsp;&nbsp;记住我</p>-->
+    <!--</div>-->
+
+</div>
+</body>
+
+<script>
+function login() {
+    var rememberMe = $(".one input[name='rememberMe']").is(':checked');
+    $.ajax({
+        type: 'post',
+        url: 'login',
+        data: {
+            'username': $('#username').val(),
+            'password': $('#password').val(),
+            'rememberMe': rememberMe
+        },
+        dataType: 'json',
+        success: function (r) {
+            console.log(r);
+            if (r.state == '11') {
+                console.log(r);
+                location.href = '/view/house/home';
+            } else {
+                console.log(r);
+            }
+        }
+    })
+}
+</script>
+
+</html>
