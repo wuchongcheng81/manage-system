@@ -10,18 +10,11 @@ import java.util.LinkedHashMap;
 
 @Data
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
-public class BaseModel<ID extends Serializable> implements Serializable {
+public class BaseModel implements Serializable {
     protected static final long serialVersionUID = 1L;
 
-    private ID id;
-    @TableField(exist = false)
-    private Integer sort;
     @TableField(exist = false)
     private Integer pageNumber;
     @TableField(exist = false)
     private Integer pageSize;
-    @TableField(exist = false)
-    private Date createTime;
-    @TableField(exist = false)
-    private Date updateTime;
 }

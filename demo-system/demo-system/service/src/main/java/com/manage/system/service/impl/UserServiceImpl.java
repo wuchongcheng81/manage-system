@@ -72,10 +72,10 @@ public class UserServiceImpl extends AbstractService<User, UserMapper> implement
     }
 
     @Override
-    public int uploadRoleId(String userId, String roleId) {
+    public int updateRoleId(String userId, Integer roleId) {
         User user = new User();
         user.setId(userId);
-        user.setRoleId(roleId);
+        user.setRoleId(roleId.toString());
         return mapper.updateById(user);
     }
 
@@ -85,7 +85,7 @@ public class UserServiceImpl extends AbstractService<User, UserMapper> implement
     }
 
     @Override
-    public int uploadLogin(String userName) {
+    public int updateLogin(String userName) {
         User user = new User();
         user.setLoginTime(new Date());
         QueryWrapper<User> wrapper = new QueryWrapper<>();
@@ -94,7 +94,7 @@ public class UserServiceImpl extends AbstractService<User, UserMapper> implement
     }
 
     @Override
-    public int uploadPasswordByUserName(String userName, String password) {
+    public int updatePasswordByUserName(String userName, String password) {
         User user = new User();
         user.setLoginTime(new Date());
         user.setPassword(MD5Util.getPasswordMD5(user.getPassword()));

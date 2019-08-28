@@ -12,8 +12,8 @@ public interface UserService {
     int queryTotal(User user);
     List<User> queryList(User user);
     User findByUserName(String userName);
-    int uploadRoleId(String userId, String roleId);
+    int updateRoleId(String userId, Integer roleId);
     int deleteByIds(String[] ids);
-    int uploadLogin(String userName);
-    int uploadPasswordByUserName(String userName, String password);
+    int updateLogin(String userName);
+    int updatePasswordByUserName(String userName, String password);
 }

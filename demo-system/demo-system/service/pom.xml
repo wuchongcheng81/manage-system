@@ -97,6 +97,5 @@
             <artifactId>shiro-spring</artifactId>
             <version>1.4.0</version>
         </dependency>
-
     </dependencies>
 </project>

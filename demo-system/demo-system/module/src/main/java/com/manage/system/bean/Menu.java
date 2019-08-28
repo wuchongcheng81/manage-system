@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @TableName("t_menu")
-public class Menu extends BaseModel<Integer> {
+public class Menu extends BaseModel {
 
     @TableId(type = IdType.AUTO)
     private Integer id;

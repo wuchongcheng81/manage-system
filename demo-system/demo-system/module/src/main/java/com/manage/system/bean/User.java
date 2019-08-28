@@ -1,5 +1,7 @@
 package com.manage.system.bean;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.manage.system.base.BaseModel;
 import lombok.Data;
@@ -9,7 +11,10 @@ import java.util.Date;
 
 @Data
 @TableName("t_user")
-public class User extends BaseModel<String> {
+public class User extends BaseModel {
+
+    @TableId
+    private String id;
     //用户账号
     private String userName;
     //用户密码
@@ -34,6 +39,10 @@ public class User extends BaseModel<String> {
     private String oldPwd;
 
     private Date loginTime;
+
+    private Date createTime;
+
+    private Date updateTime;
 
     public String getAuthCacheKey() {
         return getId();
