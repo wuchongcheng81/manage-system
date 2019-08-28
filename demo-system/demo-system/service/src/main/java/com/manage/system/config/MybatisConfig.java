@@ -17,6 +17,9 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.type.ClassMetadata;
 import org.springframework.util.CollectionUtils;
 import javax.sql.DataSource;
@@ -57,7 +60,7 @@ public class MybatisConfig {
         Set<BeanDefinition> definitions = provider.findCandidateComponents("com.manage.system.dao");
         if (CollectionUtils.isEmpty(definitions)) {
             throw new IllegalStateException("Mappers can not be null, please check!");
-        } 
+        }
 
         for (BeanDefinition definition : definitions) {
             String beanName = definition.getBeanClassName();
@@ -81,6 +84,9 @@ public class MybatisConfig {
         MybatisSqlSessionFactoryBean sqlSessionFactoryBean = new MybatisSqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
         sqlSessionFactoryBean.setConfiguration(mybatisConfiguration);
+        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        Resource[] xmlMappers = resolver.getResources("classpath*:mybatis/mapper/*.xml");
+        sqlSessionFactoryBean.setMapperLocations(xmlMappers);
         return sqlSessionFactoryBean.getObject();
     }
 

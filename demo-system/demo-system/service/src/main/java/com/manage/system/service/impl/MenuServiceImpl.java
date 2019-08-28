@@ -68,7 +68,27 @@ public class MenuServiceImpl extends AbstractService<Menu, MenuMapper> implement
 
     @Override
     public List<Menu> findByUserId(String userId) {
-        return mapper.findByUserId(userId);
+        List<Menu> menus = new ArrayList<>();
+
+        List<Menu> menuEntities = mapper.findByUserId(userId);
+        menuEntities.forEach(m-> {
+            if(m.getLevel() == 0) {
+                menus.add(m);
+            }
+        });
+        menuEntities.removeAll(menus);
+
+        menus.forEach(m-> {
+            List<Menu> childs = new ArrayList<>();
+            menuEntities.forEach(c-> {
+                if(c.getParentId() == m.getId()) {
+                    childs.add(c);
+                }
+            });
+            m.setChilds(childs);
+        });
+
+        return menus;
     }
 
     private QueryWrapper getWrapper(Menu menu) {
