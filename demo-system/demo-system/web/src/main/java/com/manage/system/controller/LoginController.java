@@ -23,12 +23,12 @@ public class LoginController {
 
     @GetMapping({"/","/index"})
     public String index(){
-        return"/index";
+        return "index";
     }
 
     @GetMapping("/login")
     public String login(){
-        return "/login";
+        return "login";
     }
 
     @PostMapping("/login")
@@ -37,8 +37,8 @@ public class LoginController {
         JSONObject result = new JSONObject();
         result.put(Constants.STATE, Constants.STATE_FAIL);
         password = MD5Util.getPasswordMD5(password);
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
 
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
         try {
             Subject subject = ShiroUtils.getSubject();
             subject.login(token);

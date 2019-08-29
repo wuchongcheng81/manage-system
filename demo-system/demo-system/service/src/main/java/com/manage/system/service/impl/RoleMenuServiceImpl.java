@@ -21,6 +21,7 @@ public class RoleMenuServiceImpl extends AbstractService<RoleMenu, RoleMenuMappe
 
     @Override
     public int save(String roleId, String[] menuIds) {
+        mapper.deleteByRoleId(roleId);
         return mapper.save(roleId, menuIds);
     }
 

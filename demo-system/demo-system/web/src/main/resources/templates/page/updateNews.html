@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/summernote.css}"/>
     <script th:src="@{/js/summernote.js}"></script>
     <script th:src="@{/js/summernote-zh-CN.js}"></script>
-    <script th:src="@{/js/house/addNews.js(v=1)}"></script>
+    <script th:src="@{/js/base/updateNews.js(v=1)}"></script>
     <style type="text/css">
         .form-control {
             width: 70%;
@@ -59,7 +59,7 @@
                 </h4>
             </div>
             <div class="modal-body">
-                新增资讯成功！
+                修改资讯成功！
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="closeSuccessBtn">
@@ -70,7 +70,7 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div class="calls" id="addActivity">
+<div class="calls" id="updateActivity">
     <div class="breadcrumbs" id="breadcrumbs">
         <script type="text/javascript">
             try {
@@ -84,7 +84,7 @@
                 <a href="#">首页</a>
             </li>
             <li class="active">资讯管理</li>
-            <li class="active">新增资讯</li>
+            <li class="active">修改资讯</li>
         </ul><!-- .breadcrumb -->
     </div>
 
@@ -106,26 +106,28 @@
                             <input type="file" style="display: none;" id="coverFile" name="file">
                         </div>
                     </div>
-                    <span style="color: #B94A48; font-size: 12px" v-show="cover == null || cover == ''">请选择封面</span>
+                    <span style="color: #B94A48; font-size: 12px" v-show="cover == null">请选择封面</span>
                 </div>
             </form>
-            <form id="newsAddForm">
+            <form id="newsUpdateForm">
+                <input type="hidden" name="id" :value="id">
                 <div class="form-group">
                     <label>类型</label>
                     <div>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        头条<input type="radio" value="0" name="type" checked="checked">
-                        活动<input type="radio" value="1" name="type">
+                        头条<input type="radio" value="0" name="type" id="headline">
+                        活动<input type="radio" value="1" name="type" id="activity">
                     </div>
                 </div>
                 <div class="form-group">
                     <label>标题</label>
-                    <input type="text" class="form-control" id="title" name="title"
+                    <input type="text" class="form-control" id="title" name="title" :value="title"
                            placeholder="请输入标题">
                 </div>
                 <div class="form-group">
                     <label>描述</label>
-                    <textarea id="desc" name="desc" class="form-control" rows="3" placeholder="请输入描述"></textarea>
+                    <textarea id="desc" name="desc" class="form-control" rows="3" placeholder="请输入描述"
+                              :value="desc"></textarea>
                 </div>
                 <div class="form-group">
                     <label>正文</label>
@@ -138,12 +140,12 @@
 </div>
 <script>
     var vm = new Vue({
-        el: '#addActivity',
+        el: '#updateActivity',
         data: {
-            houseId: '',
-            activity: {},
-            imgUrls: [],
-            cover: null
+            cover: null,
+            title: '',
+            desc: '',
+            id: ''
         },
         beforeMount: function () {
 
