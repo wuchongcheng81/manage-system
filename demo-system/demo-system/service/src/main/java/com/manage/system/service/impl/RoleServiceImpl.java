@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.manage.system.base.AbstractService;
+import com.manage.system.bean.Menu;
 import com.manage.system.bean.Role;
 import com.manage.system.dao.RoleMapper;
 import com.manage.system.service.RoleService;
@@ -18,7 +19,7 @@ import java.util.List;
 @Slf4j
 @Component
 @Transactional
-public class RoleServiceImpl extends AbstractService<Role, RoleMapper> implements RoleService {
+public class RoleServiceImpl extends AbstractService<Role, Long, RoleMapper> implements RoleService {
     @Override
     public int save(Role entity) {
         return mapper.insert(entity);
@@ -38,6 +39,11 @@ public class RoleServiceImpl extends AbstractService<Role, RoleMapper> implement
     public int queryTotal(Role entity) {
         QueryWrapper<Role> wrapper = getWrapper(entity);
         return mapper.selectCount(wrapper);
+    }
+
+    @Override
+    public IPage<Role> findPage(Role entity) {
+        return null;
     }
 
     @Override

@@ -11,11 +11,9 @@ import lombok.Data;
 public class Type extends BaseModel {
 
     @TableId(type = IdType.AUTO)
-    private int id;
+    private Integer id;
     //分类名称
     private String name;
     //排序
     private Integer sort;
-    //是否展示
-    private int isShow;
 }

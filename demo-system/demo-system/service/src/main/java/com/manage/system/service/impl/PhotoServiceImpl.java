@@ -1,5 +1,6 @@
 package com.manage.system.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.manage.system.base.AbstractService;
 import com.manage.system.bean.Photo;
 import com.manage.system.dao.PhotoMapper;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author wucc
@@ -20,7 +22,7 @@ import java.util.Date;
 @Slf4j
 @Component
 @Transactional
-public class PhotoServiceImpl extends AbstractService<Photo, PhotoMapper> implements PhotoService {
+public class PhotoServiceImpl extends AbstractService<Photo, Integer, PhotoMapper> implements PhotoService {
 
     @Override
     public String save(MultipartFile file, String filePath, String pattern, String relatedId, String host, int isShow) {
@@ -35,6 +37,21 @@ public class PhotoServiceImpl extends AbstractService<Photo, PhotoMapper> implem
             mapper.insert(photo);
             return imgUrl;
         }
+        return null;
+    }
+
+    @Override
+    public int queryTotal(Photo entity) {
+        return 0;
+    }
+
+    @Override
+    public IPage<Photo> findPage(Photo entity) {
+        return null;
+    }
+
+    @Override
+    public List<Photo> queryListByPage(Photo entity) {
         return null;
     }
 }

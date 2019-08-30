@@ -1,6 +1,8 @@
 package com.manage.system.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.manage.system.base.AbstractService;
+import com.manage.system.bean.Photo;
 import com.manage.system.bean.RoleMenu;
 import com.manage.system.dao.RoleMenuMapper;
 import com.manage.system.service.RoleMenuService;
@@ -13,7 +15,7 @@ import java.util.List;
 @Slf4j
 @Component
 @Transactional
-public class RoleMenuServiceImpl extends AbstractService<RoleMenu, RoleMenuMapper> implements RoleMenuService {
+public class RoleMenuServiceImpl extends AbstractService<RoleMenu, Integer, RoleMenuMapper> implements RoleMenuService {
     @Override
     public int deleteByRoleId(String roleId) {
         return mapper.deleteByRoleId(roleId);
@@ -28,5 +30,20 @@ public class RoleMenuServiceImpl extends AbstractService<RoleMenu, RoleMenuMappe
     @Override
     public List<RoleMenu> queryListByRoleId(String roleId) {
         return mapper.queryListByRoleId(roleId);
+    }
+
+    @Override
+    public int queryTotal(RoleMenu entity) {
+        return 0;
+    }
+
+    @Override
+    public IPage<RoleMenu> findPage(RoleMenu entity) {
+        return null;
+    }
+
+    @Override
+    public List<RoleMenu> queryListByPage(RoleMenu entity) {
+        return null;
     }
 }

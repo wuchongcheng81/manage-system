@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.manage.system.base.AbstractService;
 import com.manage.system.bean.Menu;
+import com.manage.system.bean.Photo;
 import com.manage.system.dao.MenuMapper;
 import com.manage.system.service.MenuService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,7 @@ import java.util.List;
 @Slf4j
 @Component
 @Transactional
-public class MenuServiceImpl extends AbstractService<Menu, MenuMapper> implements MenuService {
+public class MenuServiceImpl extends AbstractService<Menu, Integer, MenuMapper> implements MenuService {
     @Override
     public int save(Menu menu) {
         return mapper.insert(menu);
@@ -38,6 +39,11 @@ public class MenuServiceImpl extends AbstractService<Menu, MenuMapper> implement
     public int queryTotal(Menu entity) {
         QueryWrapper<Menu> wrapper = getWrapper(entity);
         return mapper.selectCount(wrapper);
+    }
+
+    @Override
+    public IPage<Menu> findPage(Menu entity) {
+        return null;
     }
 
     @Override
@@ -99,6 +105,7 @@ public class MenuServiceImpl extends AbstractService<Menu, MenuMapper> implement
             wrapper.eq("parent_id", menu.getParentId());
         if(StringUtils.isNotBlank(menu.getName()))
             wrapper.like("name", menu.getName());
+        wrapper.orderByAsc("sort");
         return wrapper;
     }
 }

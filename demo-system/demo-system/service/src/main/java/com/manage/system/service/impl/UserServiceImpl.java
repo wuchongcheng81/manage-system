@@ -20,7 +20,7 @@ import java.util.List;
 @Slf4j
 @Component
 @Transactional
-public class UserServiceImpl extends AbstractService<User, UserMapper> implements UserService {
+public class UserServiceImpl extends AbstractService<User, String, UserMapper> implements UserService {
     @Override
     public int save(User user) {
         Date now = new Date();
@@ -45,6 +45,16 @@ public class UserServiceImpl extends AbstractService<User, UserMapper> implement
     @Transactional(readOnly = true)
     public User findById(String id) {
         return mapper.selectById(id);
+    }
+
+    @Override
+    public IPage<User> findPage(User entity) {
+        return null;
+    }
+
+    @Override
+    public List<User> queryListByPage(User entity) {
+        return null;
     }
 
     @Override
@@ -116,6 +126,7 @@ public class UserServiceImpl extends AbstractService<User, UserMapper> implement
             wrapper.like("phone", user.getPhone());
         if(StringUtils.isNotBlank(user.getId()) && StringUtils.isNotBlank(user.getRoleCode()) && "admin".equals(user.getRoleCode()))
             wrapper.ne("id", user.getId());
+        wrapper.orderByDesc("create_time");
         return wrapper;
     }
 }

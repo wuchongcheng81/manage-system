@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
+import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
@@ -18,7 +19,7 @@ import java.util.*;
  * @email vipzhsh@163.com
  * @description
  */
-public abstract class AbstractService<T, M extends BaseMapper<T>> {
+public abstract class AbstractService<T, ID extends Serializable, M extends BaseMapper<T>>  implements BaseService<T, ID>{
 
     protected M mapper;
 
@@ -43,7 +44,7 @@ public abstract class AbstractService<T, M extends BaseMapper<T>> {
      */
     protected void addMapper() {
         // To get genetic param M's Class
-        Class<M> clazz = (Class<M>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+        Class<M> clazz = (Class<M>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[2];
         mapper = sqlSessionFactory.getConfiguration().getMapper(clazz, sqlSessionTemplate);
     }
 
@@ -72,5 +73,26 @@ public abstract class AbstractService<T, M extends BaseMapper<T>> {
         Collection collection = new HashSet();
         collection.addAll(Arrays.asList(items));
         return collection;
+    }
+
+
+    public int save(T entity) {
+        return this.mapper.insert(entity);
+    }
+
+    public int update(T entity) {
+        return this.mapper.updateById(entity);
+    }
+
+    public int delete(ID id) {
+        return this.mapper.deleteById(id);
+    }
+
+    public int deleteByIds(ID[] ids) {
+        return this.mapper.deleteBatchIds(Arrays.asList(ids));
+    }
+
+    public T findById(ID id) {
+        return this.mapper.selectById(id);
     }
 }
