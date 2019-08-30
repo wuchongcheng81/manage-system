@@ -1,31 +1,21 @@
 package com.manage.system.bean;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.manage.system.base.BaseModel;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
-@TableName("t_menu")
-public class Menu extends BaseModel {
+@TableName("t_type")
+public class Type extends BaseModel {
 
     @TableId(type = IdType.AUTO)
     private int id;
-    //菜单名
+    //分类名称
     private String name;
-    //地址
-    private String url;
-    //父级id
-    private Integer parentId;
-    //1父级2子级
-    private Integer level;
-
+    //排序
     private Integer sort;
-
-    @TableField(exist = false)
-    private List<Menu> childs;
+    //是否展示
+    private int isShow;
 }
