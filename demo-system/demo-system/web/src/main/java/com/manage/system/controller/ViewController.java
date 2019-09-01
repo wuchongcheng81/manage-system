@@ -12,7 +12,14 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class ViewController {
-    @RequestMapping(value = "/view/{dir}/{templateName}")
+    @RequestMapping(value = "/view/{type}/{dir}/{templateName}")
+    public ModelAndView view(@PathVariable String type, @PathVariable String dir, @PathVariable String templateName) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName(type + "/" + dir + "/" + templateName);
+        return mav;
+    }
+
+    @RequestMapping(value = "/view//{dir}/{templateName}")
     public ModelAndView view(@PathVariable String dir, @PathVariable String templateName) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName(dir + "/" + templateName);

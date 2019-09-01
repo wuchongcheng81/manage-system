@@ -4,26 +4,28 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.manage.system.base.AbstractService;
+import com.manage.system.bean.Photo;
 import com.manage.system.bean.Type;
 import com.manage.system.dao.TypeMapper;
+import com.manage.system.service.PhotoService;
 import com.manage.system.service.TypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Slf4j
 @Component
 @Transactional
 public class TypeServiceImpl extends AbstractService<Type, Integer, TypeMapper> implements TypeService {
-    @Override
-    public int queryTotal(Type entity) {
-        QueryWrapper<Type> wrapper = getWrapper(entity);
-        return mapper.selectCount(wrapper);
-    }
+
+    @Resource
+    private PhotoService photoService;
 
     @Override
     public IPage<Type> findPage(Type entity) {
@@ -33,16 +35,16 @@ public class TypeServiceImpl extends AbstractService<Type, Integer, TypeMapper> 
     }
 
     @Override
-    public List<Type> queryListByPage(Type entity) {
-        IPage<Type> result = findPage(entity);
-        if(result != null && !CollectionUtils.isEmpty(result.getRecords())) {
-            return result.getRecords();
-        }
-        return null;
+    public int delete(Integer id) {
+        Type type = new Type();
+        type.setId(id);
+        type.setIsDel(1);
+        return mapper.updateById(type);
     }
 
     private QueryWrapper getWrapper(Type entity) {
         QueryWrapper<Type> wrapper = new QueryWrapper<>();
+        wrapper.eq("is_del", 0);
         if(entity.getId() != null) {
             wrapper.eq("id", entity.getId());
         }

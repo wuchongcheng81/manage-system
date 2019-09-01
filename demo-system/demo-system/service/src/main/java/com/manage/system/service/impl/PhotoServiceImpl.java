@@ -1,8 +1,10 @@
 package com.manage.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.manage.system.base.AbstractService;
 import com.manage.system.bean.Photo;
+import com.manage.system.bean.User;
 import com.manage.system.dao.PhotoMapper;
 import com.manage.system.service.PhotoService;
 import com.manage.system.util.FileUtil;
@@ -25,24 +27,45 @@ import java.util.List;
 public class PhotoServiceImpl extends AbstractService<Photo, Integer, PhotoMapper> implements PhotoService {
 
     @Override
-    public String save(MultipartFile file, String filePath, String pattern, String relatedId, String host, int isShow) {
+    public Photo save(MultipartFile file, String filePath, String pattern, String relatedId, String host, int isShow) {
 
         String imgUrl = FileUtil.uploadFileReturnFileName(file, filePath);
         if(StringUtils.isNotBlank(imgUrl)) {
             Photo photo = new Photo();
+            photo.setId(uuid());
             photo.setImgUrl(host + pattern + "/" + imgUrl);
             photo.setIsShow(isShow);
             photo.setRelatedId(relatedId);
             photo.setCreateTime(new Date());
             mapper.insert(photo);
-            return imgUrl;
+            return photo;
         }
         return null;
     }
 
     @Override
-    public int queryTotal(Photo entity) {
-        return 0;
+    public Photo update(String id, MultipartFile file, String filePath, String pattern, String relatedId, String host, Integer isShow) {
+        Photo photo = new Photo();
+        if(!file.isEmpty()) {
+            String imgUrl = FileUtil.uploadFileReturnFileName(file, filePath);
+            photo.setImgUrl(host + pattern + "/" + imgUrl);
+        }
+        photo.setIsShow(isShow != null ? isShow : null);
+        photo.setRelatedId(StringUtils.isNotBlank(relatedId) ? relatedId : null);
+        mapper.update(photo, getWrapper(new Photo(id)));
+        return mapper.selectById(id);
+    }
+
+    @Override
+    public int updateIsShowById(String id, Integer isShow) {
+        Photo photo = new Photo();
+        photo.setIsShow(isShow);
+        return mapper.update(photo, getWrapper(new Photo(id)));
+    }
+
+    @Override
+    public Photo findById(String id) {
+        return mapper.selectById(id);
     }
 
     @Override
@@ -50,8 +73,9 @@ public class PhotoServiceImpl extends AbstractService<Photo, Integer, PhotoMappe
         return null;
     }
 
-    @Override
-    public List<Photo> queryListByPage(Photo entity) {
-        return null;
+    private QueryWrapper getWrapper(Photo entity) {
+        QueryWrapper<Photo> wrapper = new QueryWrapper<>();
+        wrapper.eq("id", entity.getId());
+        return wrapper;
     }
 }

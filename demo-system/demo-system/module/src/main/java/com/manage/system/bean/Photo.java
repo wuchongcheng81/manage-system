@@ -16,10 +16,16 @@ import java.util.Date;
 @TableName("t_photo")
 public class Photo extends BaseModel {
 
-    @TableId(type = IdType.AUTO)
-    private int id;
+    private String id;
     private int isShow;
     private String imgUrl;
     private String relatedId;
     private Date createTime;
+
+    public Photo(String id) {
+        this.id = id;
+    }
+
+    public Photo() {
+    }
 }

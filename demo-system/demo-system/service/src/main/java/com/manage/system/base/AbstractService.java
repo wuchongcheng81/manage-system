@@ -88,7 +88,7 @@ public abstract class AbstractService<T, ID extends Serializable, M extends Base
         return this.mapper.deleteById(id);
     }
 
-    public int deleteByIds(ID[] ids) {
+    public int deleteByIds(String[] ids) {
         return this.mapper.deleteBatchIds(Arrays.asList(ids));
     }
 

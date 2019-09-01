@@ -33,17 +33,7 @@ public class RoleMenuServiceImpl extends AbstractService<RoleMenu, Integer, Role
     }
 
     @Override
-    public int queryTotal(RoleMenu entity) {
-        return 0;
-    }
-
-    @Override
     public IPage<RoleMenu> findPage(RoleMenu entity) {
-        return null;
-    }
-
-    @Override
-    public List<RoleMenu> queryListByPage(RoleMenu entity) {
         return null;
     }
 }

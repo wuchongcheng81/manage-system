@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <th:block th:insert="header :: common_header"/>
+    <script th:src="@{/js/page/type/type.js(v=1)}"></script>
+    <script th:src="@{/js/bootstrap-table-editable.js}"></script>
+</head>
+<style type="text/css">
+    .coverDiv {
+        border: 1px solid #C1C1C1;
+        border-radius: 20px;
+    }
+</style>
+<body style="background:#fff">
+<div id="bodyList">
+
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel"
+         aria-hidden="false" data-keyboard="false">
+        <div class="modal-dialog" style="width: 550px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="addModalLabel">
+                        新增
+                    </h4>
+                </div>
+                <!--<form id="addForm">-->
+                    <div class="modal-body">
+                        <form id="addTypeForm" class="required-validate" role="form">
+                            <div class="form-group">
+                                <label>序号</label>
+                                <input type="text" class="form-control" id="a_sort" name="sort"
+                                       placeholder="请输入序号">
+                            </div>
+                            <div class="form-group">
+                                <label>分类名称</label>
+                                <input type="text" class="form-control" id="a_name" name="name"
+                                       placeholder="请输入分类名称">
+                            </div>
+                        </form>
+                        <div class="form-group">
+                            <form id="a_coverPageForm">
+                                <label>分类页面广告</label>
+                                <div style="height: 100px;">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div style="float: left; height: 100px" class="coverDiv" id="a_coverPageDiv">
+                                        <img style="width: 100px" :src="aPageImgUrl">
+                                    </div>
+                                    <div style="float: left; margin-top: 40px; margin-left: 20px">
+                                        <button type="button" class="btn btn-info" style="margin-right: 15px"
+                                                onclick="addPageCover()">上传照片
+                                        </button>
+                                        <br/>
+                                        是否显示 ：
+                                        否<input type="radio" value="0" name="aPageisShow" checked="checked">
+                                        是<input type="radio" value="1" name="aPageisShow">
+                                        <input type="file" style="display: none;" id="a_coverPageFile" name="file">
+                                    </div>
+                                </div>
+                            </form>
+                            <!--<span style="color: #B94A48; font-size: 12px" v-show="aPageImgUrl == null || aPageImgUrl == ''">请选择封面</span>-->
+                        </div>
+                        <div class="form-group">
+                            <form id="a_coverDetailForm">
+                                <label>分类详情广告</label>
+                                <div style="height: 100px;">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div style="float: left; height: 100px" class="coverDiv" id="a_coverDetailDiv">
+                                        <img style="width: 100px" :src="aDetailImgUrl">
+                                    </div>
+                                    <div style="float: left; margin-top: 40px; margin-left: 20px">
+                                        <button type="button" class="btn btn-info" style="margin-right: 15px"
+                                                onclick="addDetailCover()">上传照片
+                                        </button>
+                                        <br/>
+                                        是否显示 ：
+                                        否<input type="radio" value="0" name="aDetailisShow" checked="checked">
+                                        是<input type="radio" value="1" name="aDetailisShow">
+                                        <input type="file" style="display: none;" id="a_coverDetailFile" name="file">
+                                    </div>
+                                </div>
+                            </form>
+                            <!--<span style="color: #B94A48; font-size: 12px" v-show="aDetailImgUrl == null || aDetailImgUrl == ''">请选择封面</span>-->
+                        </div>
+                    </div>
+                <!--</form>-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="a_cancelUpdate">
+                        关闭
+                    </button>
+                    <button type="button" class="btn btn-primary" id="a_confirmUpdate">
+                        确认
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
+         aria-hidden="false" data-keyboard="false">
+        <div class="modal-dialog" style="width: 550px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="updateModalLabel">
+                        修改
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="updateTypeForm" class="required-validate" role="form">
+                        <div class="form-group">
+                            <label>序号</label>
+                            <input type="text" class="form-control" id="u_sort" name="sort" :value="type.sort"
+                                   placeholder="请输入序号">
+                        </div>
+                        <div class="form-group">
+                            <label>分类名称</label>
+                            <input type="text" class="form-control" id="u_name" name="name" :value="type.name"
+                                   placeholder="请输入分类名称">
+                        </div>
+                    </form>
+                    <div class="form-group">
+                        <form id="coverPageForm">
+                            <label>分类页面广告</label>
+                            <div style="height: 100px;">
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <div style="float: left; height: 100px" class="coverDiv" id="coverPageDiv">
+                                    <img style="width: 100px" :src="uPageImgUrl">
+                                </div>
+                                <div style="float: left; margin-top: 50px; margin-left: 10px">
+                                    <button type="button" class="btn btn-info" style="margin-right: 15px"
+                                            onclick="uploadPageCover()">上传照片
+                                    </button>
+                                    <br/>
+                                    是否显示 ：
+                                    否<input type="radio" value="0" name="uPageisShow">
+                                    是<input type="radio" value="1" name="uPageisShow">
+                                    <input type="file" style="display: none;" id="coverPageFile" name="file">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-group">
+                        <form id="coverDetailForm">
+                            <label>分类详情广告</label>
+                            <div style="height: 100px;">
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <div style="float: left; height: 100px" class="coverDiv" id="coverDetailDiv">
+                                    <img style="width: 100px" :src="uDetailImgUrl">
+                                </div>
+                                <div style="float: left; margin-top: 50px; margin-left: 10px">
+                                    <button type="button" class="btn btn-info" style="margin-right: 15px"
+                                            onclick="uploadDetailCover()">上传照片
+                                    </button>
+                                    <br/>
+                                    是否显示 ：
+                                    否<input type="radio" value="0" name="uDetailisShow">
+                                    是<input type="radio" value="1" name="uDetailisShow">
+                                    <input type="file" style="display: none;" id="coverDetailFile" name="file">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="cancelUpdate">
+                        关闭
+                    </button>
+                    <button type="button" class="btn btn-primary" id="confirmUpdate">
+                        确认
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="successModalLabel">
+                        提示框
+                    </h4>
+                </div>
+                <div class="modal-body" id="successMsg">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">关闭
+                    </button>
+                    <!--<button type="button" class="btn btn-primary" id="continueBtn">-->
+                        <!--确认-->
+                    <!--</button>-->
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="confirmModalLabel">
+                        提示框
+                    </h4>
+                </div>
+                <div class="modal-body" id="confirmMsg">
+                    确认要删除该品牌分类吗？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-primary" id="confirmBtn">
+                        确认
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="calls">
+        <div class="breadcrumbs" id="breadcrumbs">
+            <script type="text/javascript">
+                try {
+                    ace.settings.check('breadcrumbs', 'fixed')
+                } catch (e) {
+                }
+            </script>
+            <ul class="breadcrumb">
+                <li>
+                    <i class="icon-home home-icon"></i>
+                    <a href="#">首页</a>
+                </li>
+                <li class="active">品牌分类管理</li>
+            </ul><!-- .breadcrumb -->
+        </div>
+
+        <div class="page-content">
+
+            <div class="panel-body" style="padding-bottom:0px;">
+                <div class="panel panel-default">
+                    <div class="panel-heading">查询条件</div>
+                    <div class="panel-body">
+                        <form id="formSearch" class="form-horizontal">
+                            <div class="form-group" style="margin-top:15px">
+                                <label class="control-label col-sm-1" for="search_menuTitle">品牌分类名称</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="search_menuTitle">
+                                </div>
+                                <div class="col-sm-4" style="text-align:left;">
+                                    <button type="button" style="margin-left:50px" id="btn_query"
+                                            class="btn btn-primary" onclick="search()">查询
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="toolbar" class="btn-group">
+                    <button id="btn_add" type="button" class="btn btn-default" onclick="add()">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+                    </button>
+                </div>
+                <table id="tb_body"></table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    var vm = new Vue({
+        el: '#bodyList',
+        data: {
+            currentId: '',
+            aPageImgUrl: null,
+            aDetailImgUrl: null,
+            uPageImgUrl: null,
+            uDetailImgUrl: null,
+            type: {'sort':'','name':''}
+        },
+        mounted: function () {
+
+        },
+        methods: {}
+    })
+</script>
+</html>
+
+
+
+

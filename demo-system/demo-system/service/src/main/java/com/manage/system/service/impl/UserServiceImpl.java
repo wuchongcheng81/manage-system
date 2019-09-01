@@ -53,11 +53,6 @@ public class UserServiceImpl extends AbstractService<User, String, UserMapper> i
     }
 
     @Override
-    public List<User> queryListByPage(User entity) {
-        return null;
-    }
-
-    @Override
     @Transactional(readOnly = true)
     public int queryTotal(User user) {
         QueryWrapper<User> wrapper = getWrapper(user);
