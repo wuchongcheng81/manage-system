@@ -58,7 +58,7 @@ public class MD5Util {
 
     public static String getPasswordMD5(String password) {
         //加密方式
-        String algorithmName="MD5";
+        String algorithmName = "MD5";
         //加密的字符串
         //盐值，用于和密码混合起来用
         //加密的次数,可以进行多次的加密操作

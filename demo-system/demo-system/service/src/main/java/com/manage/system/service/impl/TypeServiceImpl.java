@@ -4,20 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.manage.system.base.AbstractService;
-import com.manage.system.bean.Photo;
 import com.manage.system.bean.Type;
 import com.manage.system.dao.TypeMapper;
 import com.manage.system.service.PhotoService;
 import com.manage.system.service.TypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Slf4j
 @Component
@@ -45,10 +41,10 @@ public class TypeServiceImpl extends AbstractService<Type, Integer, TypeMapper> 
     private QueryWrapper getWrapper(Type entity) {
         QueryWrapper<Type> wrapper = new QueryWrapper<>();
         wrapper.eq("is_del", 0);
-        if(entity.getId() != null) {
+        if (entity.getId() != null) {
             wrapper.eq("id", entity.getId());
         }
-        if(StringUtils.isNotBlank(entity.getName())) {
+        if (StringUtils.isNotBlank(entity.getName())) {
             wrapper.like("name", entity.getName());
         }
         wrapper.orderByAsc("sort");

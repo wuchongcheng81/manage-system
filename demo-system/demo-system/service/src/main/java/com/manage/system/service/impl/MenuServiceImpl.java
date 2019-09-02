@@ -5,13 +5,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.manage.system.base.AbstractService;
 import com.manage.system.bean.Menu;
-import com.manage.system.bean.Photo;
 import com.manage.system.dao.MenuMapper;
 import com.manage.system.service.MenuService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -77,17 +77,17 @@ public class MenuServiceImpl extends AbstractService<Menu, Integer, MenuMapper> 
         List<Menu> menus = new ArrayList<>();
 
         List<Menu> menuEntities = mapper.findByUserId(userId);
-        menuEntities.forEach(m-> {
-            if(m.getLevel() == 0) {
+        menuEntities.forEach(m -> {
+            if (m.getLevel() == 0) {
                 menus.add(m);
             }
         });
         menuEntities.removeAll(menus);
 
-        menus.forEach(m-> {
+        menus.forEach(m -> {
             List<Menu> childs = new ArrayList<>();
-            menuEntities.forEach(c-> {
-                if(c.getParentId() == m.getId()) {
+            menuEntities.forEach(c -> {
+                if (c.getParentId() == m.getId()) {
                     childs.add(c);
                 }
             });
@@ -99,11 +99,11 @@ public class MenuServiceImpl extends AbstractService<Menu, Integer, MenuMapper> 
 
     private QueryWrapper getWrapper(Menu menu) {
         QueryWrapper<Menu> wrapper = new QueryWrapper<>();
-        if(menu.getLevel() != null)
+        if (menu.getLevel() != null)
             wrapper.eq("level", menu.getLevel());
-        if(menu.getParentId() != null)
+        if (menu.getParentId() != null)
             wrapper.eq("parent_id", menu.getParentId());
-        if(StringUtils.isNotBlank(menu.getName()))
+        if (StringUtils.isNotBlank(menu.getName()))
             wrapper.like("name", menu.getName());
         wrapper.orderByAsc("sort");
         return wrapper;

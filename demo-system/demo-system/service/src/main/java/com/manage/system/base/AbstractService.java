@@ -19,7 +19,7 @@ import java.util.*;
  * @email vipzhsh@163.com
  * @description
  */
-public abstract class AbstractService<T, ID extends Serializable, M extends BaseMapper<T>>  implements BaseService<T, ID>{
+public abstract class AbstractService<T, ID extends Serializable, M extends BaseMapper<T>> implements BaseService<T, ID> {
 
     protected M mapper;
 

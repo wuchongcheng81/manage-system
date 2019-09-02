@@ -2,7 +2,6 @@ package com.manage.system.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.manage.system.base.AbstractService;
-import com.manage.system.bean.Photo;
 import com.manage.system.bean.RoleMenu;
 import com.manage.system.dao.RoleMenuMapper;
 import com.manage.system.service.RoleMenuService;

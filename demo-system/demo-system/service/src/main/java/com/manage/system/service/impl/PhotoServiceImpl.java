@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.manage.system.base.AbstractService;
 import com.manage.system.bean.Photo;
-import com.manage.system.bean.User;
 import com.manage.system.dao.PhotoMapper;
 import com.manage.system.service.PhotoService;
 import com.manage.system.util.FileUtil;
@@ -15,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author wucc
@@ -30,7 +28,7 @@ public class PhotoServiceImpl extends AbstractService<Photo, Integer, PhotoMappe
     public Photo save(MultipartFile file, String filePath, String pattern, String relatedId, String host, int isShow) {
 
         String imgUrl = FileUtil.uploadFileReturnFileName(file, filePath);
-        if(StringUtils.isNotBlank(imgUrl)) {
+        if (StringUtils.isNotBlank(imgUrl)) {
             Photo photo = new Photo();
             photo.setId(uuid());
             photo.setImgUrl(host + pattern + "/" + imgUrl);
@@ -46,7 +44,7 @@ public class PhotoServiceImpl extends AbstractService<Photo, Integer, PhotoMappe
     @Override
     public Photo update(String id, MultipartFile file, String filePath, String pattern, String relatedId, String host, Integer isShow) {
         Photo photo = new Photo();
-        if(!file.isEmpty()) {
+        if (!file.isEmpty()) {
             String imgUrl = FileUtil.uploadFileReturnFileName(file, filePath);
             photo.setImgUrl(host + pattern + "/" + imgUrl);
         }

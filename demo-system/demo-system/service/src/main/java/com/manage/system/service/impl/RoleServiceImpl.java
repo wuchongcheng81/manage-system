@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.manage.system.base.AbstractService;
-import com.manage.system.bean.Menu;
 import com.manage.system.bean.Role;
 import com.manage.system.dao.RoleMapper;
 import com.manage.system.service.RoleService;
@@ -55,7 +54,7 @@ public class RoleServiceImpl extends AbstractService<Role, Long, RoleMapper> imp
 
     private QueryWrapper getWrapper(Role entity) {
         QueryWrapper<Role> wrapper = new QueryWrapper<>();
-        if(StringUtils.isNotBlank(entity.getName()))
+        if (StringUtils.isNotBlank(entity.getName()))
             wrapper.like("name", entity.getName());
         return wrapper;
     }

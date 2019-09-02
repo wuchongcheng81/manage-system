@@ -35,7 +35,7 @@ public class UserServiceImpl extends AbstractService<User, String, UserMapper> i
     @Override
     public int update(User user) {
         user.setUpdateTime(new Date());
-        if(StringUtils.isNotBlank(user.getPassword())) {
+        if (StringUtils.isNotBlank(user.getPassword())) {
             user.setPassword(MD5Util.getPasswordMD5(user.getPassword()));
         }
         return mapper.updateById(user);
@@ -111,15 +111,15 @@ public class UserServiceImpl extends AbstractService<User, String, UserMapper> i
     private QueryWrapper getWrapper(User user) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.ne("status", 0);
-        if(user.getStatus() != null)
+        if (user.getStatus() != null)
             wrapper.eq("status", user.getStatus());
-        if(StringUtils.isNotBlank(user.getUserName()))
+        if (StringUtils.isNotBlank(user.getUserName()))
             wrapper.like("user_name", user.getUserName());
-        if(StringUtils.isNotBlank(user.getEmail()))
+        if (StringUtils.isNotBlank(user.getEmail()))
             wrapper.like("email", user.getEmail());
-        if(StringUtils.isNotBlank(user.getPhone()))
+        if (StringUtils.isNotBlank(user.getPhone()))
             wrapper.like("phone", user.getPhone());
-        if(StringUtils.isNotBlank(user.getId()) && StringUtils.isNotBlank(user.getRoleCode()) && "admin".equals(user.getRoleCode()))
+        if (StringUtils.isNotBlank(user.getId()) && StringUtils.isNotBlank(user.getRoleCode()) && "admin".equals(user.getRoleCode()))
             wrapper.ne("id", user.getId());
         wrapper.orderByDesc("create_time");
         return wrapper;
