@@ -33,7 +33,7 @@ $(function () {
         $.post('/advertisement/update',
             {
                 id: vm.currentId,
-                imgUrl: vm.uPageImgUrl,
+                imgUrl: vm.imgUrl,
                 link: $('#u_link').val(),
                 imgIsShow: $("input[name='uIsShow']:checked").val(),
             }, function(data) {

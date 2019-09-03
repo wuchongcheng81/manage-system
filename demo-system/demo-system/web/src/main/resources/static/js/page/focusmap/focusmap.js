@@ -1,4 +1,6 @@
+var code = getUrlParam('code');
 $(function () {
+    console.log(code);
     //1.初始化Table
     var oTable = new TableInit();
     oTable.Init();
@@ -96,7 +98,7 @@ var TableInit = function () {
                     cellStyle: {'css': {'text-align': 'center', 'width': '20%'}},
                     formatter: function (value, row, index) {
                         if (value != null && value != '') {
-                            var img = '<img src="' + value + '" width="100px">';
+                            var img = '<img src="' + value + '" width="70px">';
                             return img;
                         }
                         return '';
@@ -124,8 +126,8 @@ var TableInit = function () {
 
     //得到查询的参数
     oTableInit.queryParams = function (params) {
-
         var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+            'positionCode':code,
             'pageNumber': this.pageNumber,  //页面大小
             'pageSize': this.pageSize       //页码
         };

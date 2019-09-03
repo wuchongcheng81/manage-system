@@ -6,10 +6,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.manage.system.base.AbstractService;
 import com.manage.system.bean.FocusMap;
 import com.manage.system.dao.FocusMapMapper;
+import com.manage.system.dto.FocusMapGroupDTO;
 import com.manage.system.service.FocusMapService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @author wucc
@@ -33,7 +37,15 @@ public class FocusMapServiceImpl extends AbstractService<FocusMap, Integer, Focu
         if (entity.getId() != null) {
             wrapper.eq("id", entity.getId());
         }
+        if(StringUtils.isNotBlank(entity.getPositionCode())) {
+            wrapper.eq("position_code", entity.getPositionCode());
+        }
         wrapper.orderByAsc("sort");
         return wrapper;
+    }
+
+    @Override
+    public List<FocusMapGroupDTO> findListByGroup() {
+        return mapper.findListByGroup();
     }
 }
