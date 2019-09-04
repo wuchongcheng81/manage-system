@@ -95,6 +95,5 @@ var ButtonInit = function () {
 };
 
 function manageModal(code) {
-    console.log(code);
     parent.window.addTab(2, '焦点图详情', 'focusmap/focusmapList.html?code=' + code);
 }

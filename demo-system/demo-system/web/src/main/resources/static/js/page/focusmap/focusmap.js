@@ -1,6 +1,5 @@
 var code = getUrlParam('code');
 $(function () {
-    console.log(code);
     //1.初始化Table
     var oTable = new TableInit();
     oTable.Init();
@@ -8,6 +7,8 @@ $(function () {
     //2.初始化Button的点击事件
     var oButtonInit = new ButtonInit();
     oButtonInit.Init();
+
+    validateAddForm();
 
     $('#coverFile').on('change', function () {
         var formData = new FormData($('#coverForm')[0]);
@@ -27,8 +28,48 @@ $(function () {
         });
     })
 
+    $("#confirmBtn").on("click", function () {
+        if(vm.currentId != null) {
+            $.post('/focusMap/delete', {id : vm.currentId}, function(data) {
+                if(data != null && data.state == 11) {
+                    $('#confirmModal').modal('hide');
+                    $('#successMsg').text('删除焦点图成功！');
+                    $('#successModal').modal('show');
+                    $('#tb_body').bootstrapTable('refresh');
+                }
+            })
+        }
+    })
+
     $('#cancelUpdate').on("click", function () {
         $('#updateModal').modal('hide');
+    })
+
+    $('#aCancelUpdate').on("click", function () {
+        $('#addModal').modal('hide');
+    })
+
+    $('#aConfirmUpdate').on("click", function () {
+        $("#addForm").bootstrapValidator('validate');
+        if ($("#addForm").data('bootstrapValidator').isValid()) {
+            $.post('/focusMap/save', {
+                link: $('#a_link').val(),
+                imgUrl: vm.imgUrl,
+                imgIsShow: $("input[name='aIsShow']:checked").val(),
+                sort: $('#a_sort').val(),
+                positionCode: code
+            },function(data) {
+                if(data.state == 11) {
+                    $('#addModal').modal('hide');
+                    $('#successMsg').text('新增焦点图成功！');
+                    $('#successModal').modal('show');
+                    $('#tb_body').bootstrapTable('refresh');
+                }else{
+                    $('#successMsg').text('新增焦点图失败！');
+                    $('#successModal').modal('show');
+                }
+            })
+        }
     })
 
     $('#confirmUpdate').on("click", function () {
@@ -41,11 +82,11 @@ $(function () {
             }, function(data) {
                 if(data.state == 11) {
                     $('#updateModal').modal('hide');
-                    $('#successMsg').text('修改广告成功！');
+                    $('#successMsg').text('修改焦点图成功！');
                     $('#successModal').modal('show');
                     $('#tb_body').bootstrapTable('refresh');
                 }else {
-                    $('#successMsg').text('修改广告失败！');
+                    $('#successMsg').text('修改焦点图失败！');
                     $('#successModal').modal('show');
                 }
             });
@@ -116,8 +157,8 @@ var TableInit = function () {
                     cellStyle: {'css': {'text-align': 'center', 'width': '220px'}},
                     formatter: function (value, row, index) {
                         var standard = '<button type="button" style="margin-right: 15px" class="btn btn-success" onclick="updateModal(\'' + value + '\')">修改</button>';
-                        // var order = '<button type="button" class="btn btn-danger" onclick="deleteFunction(\'' + value + '\')">删除</button>';
-                        return standard;
+                        var order = '<button type="button" class="btn btn-danger" onclick="deleteFunction(\'' + value + '\')">删除</button>';
+                        return standard + order;
                     }
                 }
             ]
@@ -147,15 +188,22 @@ var ButtonInit = function () {
     return oInit;
 };
 
+function deleteFunction(id) {
+    vm.currentId = id;
+    $('#confirmModal').modal('show');
+}
+
 function updateModal(id) {
     vm.currentId = id;
     $.get('/focusMap/get', {id: id}, function (result) {
         if(result != null && result.state == 11) {
-            var advertise = result.data;
-            vm.advertise = advertise;
-            if(advertise.imgUrl != null)
-                vm.imgUrl = advertise.imgUrl;
-            if(advertise.imgIsShow == 1) {
+            var focusMap = result.data;
+            vm.focusMap = focusMap;
+            if(focusMap.imgUrl != null) {
+                $('#coverDiv').removeClass('coverDiv');
+                vm.imgUrl = focusMap.imgUrl;
+            }
+            if(focusMap.imgIsShow == 1) {
                 $('input:radio[name="uIsShow"]').eq(1).attr('checked',true);
             }else {
                 $('input:radio[name="uIsShow"]').eq(0).attr('checked',true);
@@ -168,4 +216,45 @@ function updateModal(id) {
 function uploadCover() {
     $('#coverFile').val('');
     $('#coverFile').click();
+}
+
+function add() {
+    vm.imgUrl = null;
+    $('#addModal').modal('show');
+}
+
+function validateAddForm() {
+    $('#addForm').bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            sort: {
+                validators: {
+                    notEmpty: {
+                        message: '序号不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[+]{0,1}(\d+)$/,
+                        message: '请输入正确的序号'
+                    }
+                }
+            },
+            link: {
+                validators: {
+                    stringLength: {
+                        min: 0,
+                        max: 50,
+                        message: '品牌分类名称不得超过50'
+                    }
+                }
+            }
+        }
+    }).on('success.form.bv', function (e) {//验证通过后会执行这个函数。
+        // Prevent submit form
+        e.preventDefault();
+    });
 }

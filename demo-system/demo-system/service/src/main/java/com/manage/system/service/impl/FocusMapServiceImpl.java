@@ -7,6 +7,7 @@ import com.manage.system.base.AbstractService;
 import com.manage.system.bean.FocusMap;
 import com.manage.system.dao.FocusMapMapper;
 import com.manage.system.dto.FocusMapGroupDTO;
+import com.manage.system.enums.FocusMapEnum;
 import com.manage.system.service.FocusMapService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -47,5 +48,19 @@ public class FocusMapServiceImpl extends AbstractService<FocusMap, Integer, Focu
     @Override
     public List<FocusMapGroupDTO> findListByGroup() {
         return mapper.findListByGroup();
+    }
+
+    @Override
+    public int save(FocusMap entity) {
+        entity.setPosition(FocusMapEnum.getDescription(entity.getPositionCode()));
+        return super.save(entity);
+    }
+
+    @Override
+    public int delete(Integer id) {
+        FocusMap focusMap = new FocusMap();
+        focusMap.setId(id);
+        focusMap.setIsDel(1);
+        return mapper.updateById(focusMap);
     }
 }

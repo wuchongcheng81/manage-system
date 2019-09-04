@@ -39,8 +39,8 @@ public class UploadController {
                                 @RequestParam(required = false) Integer isShow) {
 //        Photo photo = photoService.save(file, filePath, imgPattern, relatedId, host, isShow != null ? isShow : 0);
 //        return new ResultData<>(true, photo);
-        String imgUrl = FileUtil.uploadFileReturnFileUrl(host, imgPattern, file, filePath);
-        return new ResultData(true, imgUrl);
-//        return uploadServiceFeign.uploadImg(file, relatedId, isShow);
+//        String imgUrl = FileUtil.uploadFileReturnFileUrl(host, imgPattern, file, filePath);
+//        return new ResultData(true, imgUrl);
+        return uploadServiceFeign.uploadImg(file, relatedId, isShow);
     }
 }
