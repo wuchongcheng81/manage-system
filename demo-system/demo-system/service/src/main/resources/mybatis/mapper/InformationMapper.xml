@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manage.system.dao.InformationMapper">
+
+    <select id="findListByPage" resultType="com.manage.system.bean.Information">
+        SELECT
+            i.*
+        FROM
+            t_information i
+            INNER JOIN t_brand b ON b.id = i.brand_id
+            <where>
+                <if test="title != null and title != ''">
+                    and i.title LIKE CONCAT('%',#{title},'%')
+                </if>
+                <if test="name != null and name != ''">
+                    and b.name LIKE CONCAT('%',#{name},'%')
+                </if>
+                <if test="column != null and column != ''">
+                    and i.COLUMN = #{column}
+                </if>
+                <if test="typeId != null and typeId != ''">
+                    and i.type_id = #{typeId}
+                </if>
+            </where>
+            LIMIT #{pageNum}, #{pageSize}
+    </select>
+
+    <select id="queryTotal">
+        SELECT
+            count(i.id)
+        FROM
+        t_information i
+        INNER JOIN t_brand b ON b.id = i.brand_id
+        <where>
+            <if test="title != null and title != ''">
+                and i.title LIKE CONCAT('%',#{title},'%')
+            </if>
+            <if test="name != null and name != ''">
+                and b.name LIKE CONCAT('%',#{name},'%')
+            </if>
+            <if test="column != null and column != ''">
+                and i.COLUMN = #{column}
+            </if>
+            <if test="typeId != null and typeId != ''">
+                and i.type_id = #{typeId}
+            </if>
+        </where>
+    </select>
+</mapper>

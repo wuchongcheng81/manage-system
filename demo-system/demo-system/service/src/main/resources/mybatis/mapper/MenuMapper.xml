@@ -15,4 +15,43 @@
             m.level,
             m.sort
     </select>
+
+    <select id="queryListByPage" resultType="com.manage.system.bean.Menu">
+        select
+        T.*
+        from
+        t_menu T
+        <where>
+            <if test="level != null">
+                AND T.level = #{level}
+            </if>
+            <if test="parentId != null">
+                AND T.parent_id = #{parentId}
+            </if>
+            <if test="name != null and name != ''">
+                AND T.name LIKE CONCAT('%',#{name},'%')
+            </if>
+        </where>
+        order by
+        T.sort asc
+        LIMIT #{pageNumber},#{pageSize}
+    </select>
+
+    <select id="queryTotal" resultType="int">
+        select
+        count(T.id)
+        from
+        t_menu T
+        <where>
+            <if test="level != null">
+                AND T.level = #{level}
+            </if>
+            <if test="parentId != null">
+                AND T.parent_id = #{parentId}
+            </if>
+            <if test="name != null and name != ''">
+                AND T.name LIKE CONCAT('%',#{name},'%')
+            </if>
+        </where>
+    </select>
 </mapper>

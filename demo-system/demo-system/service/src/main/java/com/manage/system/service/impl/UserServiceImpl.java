@@ -55,16 +55,13 @@ public class UserServiceImpl extends AbstractService<User, String, UserMapper> i
     @Override
     @Transactional(readOnly = true)
     public int queryTotal(User user) {
-        QueryWrapper<User> wrapper = getWrapper(user);
-        return mapper.selectCount(wrapper);
+        return mapper.queryTotal(user);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<User> queryList(User user) {
-        QueryWrapper<User> wrapper = getWrapper(user);
-        IPage<User> result = mapper.selectPage(new Page<>(user.getPageNumber(), user.getPageSize()), wrapper);
-        return result.getRecords();
+        return mapper.queryList(user);
     }
 
     @Override

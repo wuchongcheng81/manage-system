@@ -28,6 +28,24 @@ $(function () {
         });
     })
 
+    $('#aCoverFile').on('change', function () {
+        var formData = new FormData($('#coverForm')[0]);
+        $.ajax({
+            url: '/upload/image',
+            type: 'POST',
+            dataType: 'json',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                if(result != null && result.data != null) {
+                    vm.aImgUrl = result.data;
+                    $('#aCoverDiv').removeClass('coverDiv');
+                }
+            }
+        });
+    })
+
     $("#confirmBtn").on("click", function () {
         if(vm.currentId != null) {
             $.post('/focusMap/delete', {id : vm.currentId}, function(data) {

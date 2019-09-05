@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manage.system.dao.RoleMapper">
+
+    <select id="queryListByPage" resultType="com.manage.system.bean.Role">
+        select
+        T.*
+        from
+        t_role T
+        <where>
+            <if test="name != null and name != ''">
+                AND T.name LIKE CONCAT('%',#{name},'%')
+            </if>
+        </where>
+        LIMIT #{pageNumber},#{pageSize}
+    </select>
+
+    <select id="queryTotal" resultType="int">
+        select
+        count(T.id)
+        from
+        t_role T
+        <where>
+            <if test="name != null and name != ''">
+                AND T.name LIKE CONCAT('%',#{name},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

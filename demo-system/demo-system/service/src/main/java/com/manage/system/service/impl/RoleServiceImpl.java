@@ -36,8 +36,7 @@ public class RoleServiceImpl extends AbstractService<Role, Long, RoleMapper> imp
 
     @Override
     public int queryTotal(Role entity) {
-        QueryWrapper<Role> wrapper = getWrapper(entity);
-        return mapper.selectCount(wrapper);
+        return mapper.queryTotal(entity);
     }
 
     @Override
@@ -47,9 +46,7 @@ public class RoleServiceImpl extends AbstractService<Role, Long, RoleMapper> imp
 
     @Override
     public List<Role> queryListByPage(Role entity) {
-        QueryWrapper<Role> wrapper = getWrapper(entity);
-        IPage<Role> result = mapper.selectPage(new Page<>(entity.getPageNumber(), entity.getPageSize()), wrapper);
-        return result.getRecords();
+        return mapper.queryListByPage(entity);
     }
 
     private QueryWrapper getWrapper(Role entity) {

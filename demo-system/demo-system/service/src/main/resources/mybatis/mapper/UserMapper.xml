@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manage.system.dao.UserMapper">
+
+    <select id="queryList" resultType="com.manage.system.bean.User">
+        select
+            *
+        from
+        t_user T
+        where T.status != 0
+        <if test="userName != null and userName != ''">
+            and T.user_name LIKE CONCAT('%',#{userName},'%')
+        </if>
+        <if test="email != null and email != ''">
+            and T.email LIKE CONCAT('%',#{email},'%')
+        </if>
+        <if test="phone != null and phone != ''">
+            and T.phone LIKE CONCAT('%',#{phone},'%')
+        </if>
+        <if test="roleCode != null and roleCode == 'admin'">
+            and T.id != #{id}
+        </if>
+        ORDER BY T.create_time desc
+        LIMIT #{pageNumber},#{pageSize}
+    </select>
+
+    <select id="queryTotal" resultType="int">
+        select
+        count(T.id)
+        from
+        t_user T
+        where T.status != 0
+        <if test="userName != null and userName != ''">
+            and T.user_name LIKE CONCAT('%',#{userName},'%')
+        </if>
+        <if test="email != null and email != ''">
+            and T.email LIKE CONCAT('%',#{email},'%')
+        </if>
+        <if test="phone != null and phone != ''">
+            and T.phone LIKE CONCAT('%',#{phone},'%')
+        </if>
+        <if test="roleCode != null and roleCode == 'admin'">
+            and T.id != #{id}
+        </if>
+    </select>
+</mapper>

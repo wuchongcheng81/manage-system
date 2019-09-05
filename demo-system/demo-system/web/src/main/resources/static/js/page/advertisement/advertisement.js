@@ -151,8 +151,10 @@ function updateModal(id) {
         if(result != null && result.state == 11) {
             var advertise = result.data;
             vm.advertise = advertise;
-            if(advertise.imgUrl != null)
+            if(advertise.imgUrl != null) {
+                $('#coverDiv').removeClass('coverDiv');
                 vm.imgUrl = advertise.imgUrl;
+            }
             if(advertise.imgIsShow == 1) {
                 $('input:radio[name="uIsShow"]').eq(1).attr('checked',true);
             }else {

@@ -32,19 +32,6 @@ public class FocusMapServiceImpl extends AbstractService<FocusMap, Integer, Focu
         return result;
     }
 
-    private QueryWrapper getWrapper(FocusMap entity) {
-        QueryWrapper<FocusMap> wrapper = new QueryWrapper<>();
-        wrapper.eq("is_del", 0);
-        if (entity.getId() != null) {
-            wrapper.eq("id", entity.getId());
-        }
-        if(StringUtils.isNotBlank(entity.getPositionCode())) {
-            wrapper.eq("position_code", entity.getPositionCode());
-        }
-        wrapper.orderByAsc("sort");
-        return wrapper;
-    }
-
     @Override
     public List<FocusMapGroupDTO> findListByGroup() {
         return mapper.findListByGroup();
@@ -62,5 +49,18 @@ public class FocusMapServiceImpl extends AbstractService<FocusMap, Integer, Focu
         focusMap.setId(id);
         focusMap.setIsDel(1);
         return mapper.updateById(focusMap);
+    }
+
+    private QueryWrapper getWrapper(FocusMap entity) {
+        QueryWrapper<FocusMap> wrapper = new QueryWrapper<>();
+        wrapper.eq("is_del", 0);
+        if (entity.getId() != null) {
+            wrapper.eq("id", entity.getId());
+        }
+        if(StringUtils.isNotBlank(entity.getPositionCode())) {
+            wrapper.eq("position_code", entity.getPositionCode());
+        }
+        wrapper.orderByAsc("sort");
+        return wrapper;
     }
 }

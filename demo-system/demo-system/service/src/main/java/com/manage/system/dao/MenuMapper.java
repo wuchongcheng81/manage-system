@@ -8,4 +8,8 @@ import java.util.List;
 
 public interface MenuMapper extends BaseMapper<Menu> {
     List<Menu> findByUserId(@Param("userId") String userId);
+
+    int queryTotal(Menu entity);
+
+    List<Menu> queryListByPage(Menu entity);
 }

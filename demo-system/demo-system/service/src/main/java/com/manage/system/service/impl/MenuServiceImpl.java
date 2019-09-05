@@ -37,8 +37,7 @@ public class MenuServiceImpl extends AbstractService<Menu, Integer, MenuMapper> 
 
     @Override
     public int queryTotal(Menu entity) {
-        QueryWrapper<Menu> wrapper = getWrapper(entity);
-        return mapper.selectCount(wrapper);
+        return mapper.queryTotal(entity);
     }
 
     @Override
@@ -67,9 +66,7 @@ public class MenuServiceImpl extends AbstractService<Menu, Integer, MenuMapper> 
 
     @Override
     public List<Menu> queryListByPage(Menu entity) {
-        QueryWrapper<Menu> wrapper = getWrapper(entity);
-        IPage<Menu> result = mapper.selectPage(new Page<>(entity.getPageNumber(), entity.getPageSize()), wrapper);
-        return result.getRecords();
+        return mapper.queryListByPage(entity);
     }
 
     @Override

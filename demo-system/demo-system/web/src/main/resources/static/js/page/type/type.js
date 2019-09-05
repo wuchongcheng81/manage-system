@@ -281,10 +281,14 @@ function updateModal(id) {
         if(result != null && result.state == 11) {
             var type = result.data;
             vm.type = type;
-            if(type.pageImgUrl != null)
+            if(type.pageImgUrl != null) {
+                $('#coverPageDiv').removeClass('coverDiv');
                 vm.uPageImgUrl = type.pageImgUrl;
-            if(type.detailImgUrl != null)
+            }
+            if(type.detailImgUrl != null) {
+                $('#coverDetailDiv').removeClass('coverDiv');
                 vm.uDetailImgUrl = type.detailImgUrl;
+            }
             if(type.pageImgIsShow == 1) {
                 $('input:radio[name="uPageisShow"]').eq(1).attr('checked',true);
             }else {
