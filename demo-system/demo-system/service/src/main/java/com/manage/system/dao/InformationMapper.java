@@ -14,4 +14,5 @@ import java.util.List;
 public interface InformationMapper extends BaseMapper<Information> {
     int queryTotal(InformationDTO information);
     List<Information>  findListByPage(InformationDTO information);
+    Information findById(@Param("id") Integer id);
 }

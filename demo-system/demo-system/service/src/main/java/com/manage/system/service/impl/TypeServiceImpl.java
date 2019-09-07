@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -49,5 +50,10 @@ public class TypeServiceImpl extends AbstractService<Type, Integer, TypeMapper> 
         }
         wrapper.orderByAsc("sort");
         return wrapper;
+    }
+
+    @Override
+    public List<Type> findAll() {
+        return mapper.selectList(null);
     }
 }

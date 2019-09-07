@@ -1,13 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.manage.system.dao.InformationMapper">
+    <resultMap id="BaseResultMap" type="com.manage.system.bean.Information">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="cover_url" property="coverUrl" jdbcType="VARCHAR"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="column_code" property="columnCode" jdbcType="VARCHAR"/>
+        <result column="type_id" property="typeId" jdbcType="INTEGER"/>
+        <result column="brand_id" property="brandId" jdbcType="INTEGER"/>
+        <result column="click_num" property="clickNum" jdbcType="INTEGER"/>
+        <result column="is_del" property="isDel" jdbcType="INTEGER"/>
+        <result column="is_publish" property="isPublish" jdbcType="INTEGER"/>
+        <result column="guide_content" property="guideContent" jdbcType="VARCHAR"/>
+        <result column="content" property="content" typeHandler="com.manage.system.handler.ConvertBlobTypeHandler"/>
+        <result column="create_time" property="createTime" jdbcType="OTHER"/>
+        <result column="publish_time" property="publishTime" jdbcType="OTHER"/>
+        <result column="typeName" property="typeName" jdbcType="VARCHAR"/>
+    </resultMap>
 
-    <select id="findListByPage" resultType="com.manage.system.bean.Information">
+    <select id="findById" resultMap="BaseResultMap">
+        select * from t_information where id = #{id}
+    </select>
+
+    <select id="findListByPage" resultMap="BaseResultMap">
         SELECT
-            i.*
+            i.*,t.name as typeName
         FROM
             t_information i
-            INNER JOIN t_brand b ON b.id = i.brand_id
+            LEFT JOIN t_brand b ON b.id = i.brand_id
+            INNER JOIN t_type t on t.id = i.type_id
             <where>
                 <if test="title != null and title != ''">
                     and i.title LIKE CONCAT('%',#{title},'%')
@@ -22,15 +43,15 @@
                     and i.type_id = #{typeId}
                 </if>
             </where>
-            LIMIT #{pageNum}, #{pageSize}
+            LIMIT #{pageNumber}, #{pageSize}
     </select>
 
-    <select id="queryTotal">
+    <select id="queryTotal" resultType="int">
         SELECT
             count(i.id)
         FROM
         t_information i
-        INNER JOIN t_brand b ON b.id = i.brand_id
+        LEFT JOIN t_brand b ON b.id = i.brand_id
         <where>
             <if test="title != null and title != ''">
                 and i.title LIKE CONCAT('%',#{title},'%')
@@ -46,4 +67,128 @@
             </if>
         </where>
     </select>
+
+<!--    <insert id="insertSelective" parameterType="com.manage.system.bean.Information" useGeneratedKeys="true" keyProperty="id">-->
+<!--        insert into t_information-->
+<!--        <trim prefix="(" suffix=")" suffixOverrides=",">-->
+<!--            <if test="coverUrl !=null and coverUrl != ''">-->
+<!--                cover_url,-->
+<!--            </if>-->
+<!--            <if test="title !=null and title != ''">-->
+<!--                title,-->
+<!--            </if>-->
+<!--            <if test="columnCode !=null and columnCode != ''">-->
+<!--                column_code,-->
+<!--            </if>-->
+<!--            <if test="typeId !=null">-->
+<!--                type_id,-->
+<!--            </if>-->
+<!--            <if test="brandId !=null">-->
+<!--                brand_id,-->
+<!--            </if>-->
+<!--            <if test="clickNum !=null">-->
+<!--                click_num,-->
+<!--            </if>-->
+<!--            <if test="isPublish !=null and isPublish != ''">-->
+<!--                is_publish,-->
+<!--            </if>-->
+<!--            <if test="content !=null and content != ''">-->
+<!--                content,-->
+<!--            </if>-->
+<!--            <if test="guideContent !=null and guideContent != ''">-->
+<!--                guide_content,-->
+<!--            </if>-->
+<!--            <if test="isDel !=null">-->
+<!--                is_del,-->
+<!--            </if>-->
+<!--            <if test="createTime !=null">-->
+<!--                create_time,-->
+<!--            </if>-->
+<!--            <if test="publishTime !=null">-->
+<!--                publish_time,-->
+<!--            </if>-->
+<!--        </trim>-->
+
+<!--        <trim prefix="values (" suffix=")" suffixOverrides=",">-->
+<!--            <if test="coverUrl !=null and coverUrl != ''">-->
+<!--                #{coverUrl},-->
+<!--            </if>-->
+<!--            <if test="title !=null and title != ''">-->
+<!--                #{title},-->
+<!--            </if>-->
+<!--            <if test="columnCode !=null and columnCode != ''">-->
+<!--                #{columnCode},-->
+<!--            </if>-->
+<!--            <if test="typeId !=null">-->
+<!--                #{typeId},-->
+<!--            </if>-->
+<!--            <if test="brandId !=null">-->
+<!--                #{brandId},-->
+<!--            </if>-->
+<!--            <if test="clickNum !=null">-->
+<!--                #{clickNum},-->
+<!--            </if>-->
+<!--            <if test="isPublish !=null and isPublish != ''">-->
+<!--                #{isPublish},-->
+<!--            </if>-->
+<!--            <if test="content !=null and content != ''">-->
+<!--                #{content},-->
+<!--            </if>-->
+<!--            <if test="guideContent !=null and guideContent != ''">-->
+<!--                #{guideContent},-->
+<!--            </if>-->
+<!--            <if test="isDel !=null">-->
+<!--                #{isDel},-->
+<!--            </if>-->
+<!--            <if test="createTime !=null">-->
+<!--                #{createTime},-->
+<!--            </if>-->
+<!--            <if test="publishTime !=null">-->
+<!--                #{publishTime},-->
+<!--            </if>-->
+<!--        </trim>-->
+<!--    </insert>-->
+
+<!--    <update id="updateByPrimaryKeySelective" parameterType="com.manage.system.bean.Information">-->
+<!--        update t_information-->
+<!--        <set>-->
+<!--            <if test="coverUrl !=null and coverUrl != ''">-->
+<!--                cover_url = #{coverUrl},-->
+<!--            </if>-->
+<!--            <if test="title !=null and title != ''">-->
+<!--                title = #{title},-->
+<!--            </if>-->
+<!--            <if test="columnCode !=null and columnCode != ''">-->
+<!--                column_code = #{columnCode},-->
+<!--            </if>-->
+<!--            <if test="typeId !=null">-->
+<!--                type_id = #{typeId},-->
+<!--            </if>-->
+<!--            <if test="brandId !=null">-->
+<!--                brand_id = #{brandId},-->
+<!--            </if>-->
+<!--            <if test="clickNum !=null">-->
+<!--                click_num = #{clickNum},-->
+<!--            </if>-->
+<!--            <if test="isPublish !=null and isPublish != ''">-->
+<!--                is_publish = #{isPublish},-->
+<!--            </if>-->
+<!--            <if test="content !=null and content != ''">-->
+<!--                content = #{content},-->
+<!--            </if>-->
+<!--            <if test="guideContent !=null and guideContent != ''">-->
+<!--                guide_content = #{guideContent},-->
+<!--            </if>-->
+<!--            <if test="isDel !=null">-->
+<!--                is_del = #{isDel},-->
+<!--            </if>-->
+<!--            <if test="createTime !=null">-->
+<!--                create_time = #{createTime},-->
+<!--            </if>-->
+<!--            <if test="publishTime !=null">-->
+<!--                publish_time = #{publishTime},-->
+<!--            </if>-->
+<!--        </set>-->
+<!--        where id = #{id}-->
+<!--    </update>-->
 </mapper>

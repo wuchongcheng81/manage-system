@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,5 +49,28 @@ public class InformationServiceImpl extends AbstractService<Information, Integer
     @Override
     public int queryTotal(InformationDTO informationDTO) {
         return mapper.queryTotal(informationDTO);
+    }
+
+    @Override
+    public Information findById(Integer id) {
+        return mapper.findById(id);
+    }
+
+    @Override
+    public int save(Information entity) {
+        if(entity.getIsPublish() == 1) {
+            entity.setPublishTime(new Date());
+        }
+        entity.setCreateTime(new Date());
+        return super.save(entity);
+    }
+
+    @Override
+    public int update(Information entity) {
+        Information i = findById(entity.getId());
+        if((i.getIsPublish() == null || i.getIsPublish() != 1) && entity.getIsPublish() == 1) {
+            entity.setPublishTime(new Date());
+        }
+        return super.update(entity);
     }
 }

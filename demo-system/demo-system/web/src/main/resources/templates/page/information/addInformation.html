@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <th:block th:insert="header :: common_header"/>
+    <link rel="stylesheet" th:href="@{/css/summernote.css}"/>
+    <script th:src="@{/js/summernote.js}"></script>
+    <script th:src="@{/js/summernote-zh-CN.js}"></script>
+    <script th:src="@{/js/page/information/addInformation.js(v=1)}"></script>
+    <style type="text/css">
+        .form-control {
+            width: 70%;
+        }
+        .coverDiv {
+            border: 1px solid #C1C1C1;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+
+<body style="background:#fff; min-width: 900px">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    提示框
+                </h4>
+            </div>
+            <div class="modal-body">
+                是否要保存资讯信息？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">取消
+                </button>
+                <button type="button" class="btn btn-primary" id="continueBtn">
+                    确认
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+     aria-hidden="false" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="successModalLabel">
+                    提示框
+                </h4>
+            </div>
+            <div class="modal-body">
+                新增资讯成功！
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="closeSuccessBtn">
+                    确认
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="calls" id="addInformation">
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try {
+                ace.settings.check('breadcrumbs', 'fixed')
+            } catch (e) {
+            }
+        </script>
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home home-icon"></i>
+                <a href="#">首页</a>
+            </li>
+            <li class="active">资讯管理</li>
+            <li class="active">新增资讯</li>
+        </ul><!-- .breadcrumb -->
+    </div>
+
+    <div class="page-content">
+
+        <div class="panel-body" style="padding-bottom:0px;">
+            <form id="coverForm">
+                <div class="form-group">
+                    <label>封面图</label>
+                    <div style="height: 100px;">
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <div style="float: left; height: 100px" class="coverDiv" id="coverDiv">
+                            <img style="width: 100px" :src="cover">
+                        </div>
+                        <div style="float: left; margin-top: 50px; margin-left: 10px">
+                            <button type="button" class="btn btn-info" style="margin-right: 15px"
+                                    onclick="uploadCover()">上传封面
+                            </button>
+                            <input type="file" style="display: none;" id="coverFile" name="file">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <form role="form" class="required-validate" id="addForm" method="post" action="/information/save"
+                  enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>立即发布</label>
+                    <input type="checkbox" class="form-control" id="isPublish" checked="checked" style="width: 32px">
+                </div>
+                <div class="form-group">
+                    <label>标题</label>
+                    <input type="text" class="form-control" id="title" name="title"
+                           placeholder="请输入标题">
+                </div>
+                <div class="form-group">
+                    <label>所属栏目</label>
+                    <select class="form-control" id="columnCode" name="columnCode">
+                        <option value="headline">头条</option>
+                        <option value="evaluate">评测</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>所属品牌分类</label>
+                    <select class="form-control" id="typeId" name="typeId">
+                        <option v-for="(t, index) in typeList" :value="t.id">{{t.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>点击量</label>
+                    <input type="text" class="form-control" id="clickNum" name="clickNum"
+                           placeholder="请输入点击量">
+                </div>
+                <div class="form-group">
+                    <label>资讯导读</label>
+                    <textarea id="guideContent" name="guideContent" class="form-control" rows="5" placeholder="请输入资讯导读"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>资讯内容</label>
+                </div>
+                <div id="summernote"></div>
+
+                <button type="submit" class="btn btn-default" id="validaterBtn" style="margin-bottom: 5%">保存</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    var vm = new Vue({
+        el: '#addInformation',
+        data: {
+            cover: null,
+            typeList: []
+        },
+        beforeMount: function () {
+
+        },
+        mounted: function () {
+
+        },
+        created: function () {
+            $.get('/type/findAll', function (result) {
+                if(result != null && result.data != null )
+                    vm.typeList = result.data;
+            });
+        },
+        methods: {}
+    })
+
+</script>
+</body>
+</html>
