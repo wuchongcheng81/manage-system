@@ -1,3 +1,4 @@
+var getSelectRows
 $(function () {
     //1.初始化Table
     var oTable = new TableInit();
@@ -13,7 +14,7 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#tb_body').bootstrapTable({
-            url: '/information/findListByPage',                 //请求后台的URL（*）
+            url: '/brand/findPage',                 //请求后台的URL（*）
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             method: 'post',                      //请求方式（*）
             toolbar: '#toolbar',                //工具按钮用哪个容器
@@ -43,43 +44,53 @@ var TableInit = function () {
                     checkbox: true
                 },
                 {
-                    field: 'title',
-                    title: '标题'
+                    field: 'logo',
+                    title: '图片',
+                    cellStyle: {'css': {'text-align': 'center', 'width': '20%'}},
+                    formatter: function (value, row, index) {
+                        if (value != null && value != '') {
+                            var img = '<img src="' + value + '" width="70px">';
+                            return img;
+                        }
+                        return '';
+                    }
                 },{
-                    field: 'clickNum',
-                    title: '点击量'
+                    field: 'name',
+                    title: '品牌名称'
                 },{
-                    field: 'publishTimeStr',
-                    title: '发布时间'
+                    field: 'brandPopular',
+                    title: '当前热度'
                 },{
-                    field: 'isPublish',
+                    field: 'status',
                     title: '状态',
                     formatter: function (value, row, index) {
                         if(value == 1) {
-                            return '已发布';
+                            return '已审核';
                         }
-                        return '未发布';
+                        return '审核中';
                     }
                 },{
-                    field: 'columnCode',
-                    title: '类别',
-                    formatter: function (value, row, index) {
-                        if(value == 'evaluate') {
-                            return '评测';
-                        }
-                        return '头条篇';
-                    }
+                    field: 'companyName',
+                    title: '所属公司'
                 },{
                     field: 'typeName',
-                    title: '所属品牌分类'
+                    title: '品牌标签'
+                },{
+                    field: 'createTimeStr',
+                    title: '创建时间'
                 },{
                     field: 'id',
                     title: '操作',
                     cellStyle: {'css': {'text-align': 'center', 'width': '220px'}},
                     formatter: function (value, row, index) {
-                        var standard = '<button type="button" style="margin-right: 15px" class="btn btn-success" onclick="edit(\'' + value + '\')">编辑</button>';
-                        // var order = '<button type="button" class="btn btn-danger" onclick="deleteFunction(\'' + value + '\')">删除</button>';
-                        return standard;
+                        var standard = '<button type="button" style="margin-right: 15px" class="btn btn-primary" onclick="edit(\'' + value + '\')">编辑</button>';
+                        var order;
+                        if(row.status == 0) {
+                            order = '<button type="button" class="btn btn-success" onclick="updateStatus(\'' + value + '\',1)">通过审核</button>';
+                        } else {
+                            order = '<button type="button" class="btn btn-warning" onclick="updateStatus(\'' + value + '\',0)">置未审核</button>';
+                        }
+                        return standard + order;
                     }
                 }
             ]
@@ -89,7 +100,7 @@ var TableInit = function () {
     oTableInit.queryParams = function (params) {
 
         var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-            'pageNumber': this.pageSize * (this.pageNumber - 1),   //页面大小
+            'pageNumber': this.pageNumber,   //页面大小
             'pageSize': this.pageSize,  //页码
         };
         return temp;
@@ -107,6 +118,28 @@ var ButtonInit = function () {
     return oInit;
 };
 
+function updateStatus(id, status) {
+    vm.currentId = id;
+    vm.status = status;
+    if(status == 1) {
+        $('#modalDiv').html('确认通过审核该品牌吗？');
+    }else {
+        $('#modalDiv').html('确认将该品牌置未审核吗？');
+    }
+    $('#myModal').modal('show');
+}
+
+function confirmUpdate() {
+    $.post('/brand/update', {id: vm.currentId, status: vm.status}, function(result) {
+        if(result != null && result.state == 11) {
+            $('#tb_body').bootstrapTable('refresh');
+            $('#myModal').modal('hide');
+            $('#modalSuccessDiv').html('修改成功！');
+            $('#mySuccessModal').modal('show');
+        }
+    });
+}
+
 function deleteFunction() {
     getSelectRows = $('#tb_body').bootstrapTable('getSelections', function (rows) {
         return rows;
@@ -121,7 +154,7 @@ function confirmDelete() {
     getSelectRows.forEach(function (data) {
         ids += data.id + ',';
     })
-    $.post('/information/deleteByIds', {ids: ids}, function(result) {
+    $.post('/brand/deleteByIds', {ids: ids}, function(result) {
         if(result != null && result.state == 11) {
             $('#tb_body').bootstrapTable('refresh');
             $('#myDModal').modal('hide');
@@ -131,10 +164,11 @@ function confirmDelete() {
     })
 }
 
+
 function add() {
-    parent.window.addTab(10, '新增资讯', 'information/addInformation.html');
+    parent.window.addTab(14, '新增品牌', 'brand/addBrand.html');
 }
 
 function edit(id) {
-    parent.window.addTab(11, '编辑资讯', 'information/editInformation.html?id=' + id);
+    parent.window.addTab(11, '编辑资讯', 'brand/editBrand.html?id=' + id);
 }

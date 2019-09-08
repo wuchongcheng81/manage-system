@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <th:block th:insert="header :: common_header"/>
+    <link rel="stylesheet" th:href="@{/css/summernote.css}"/>
+    <script th:src="@{/js/page/website/editWebsite.js(v=1)}"></script>
+    <style type="text/css">
+        .form-control {
+            width: 70%;
+        }
+        .coverDiv {
+            border: 1px solid #C1C1C1;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+
+<body style="background:#fff; min-width: 900px">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    提示框
+                </h4>
+            </div>
+            <div class="modal-body">
+                是否要修改网站信息配置？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">取消
+                </button>
+                <button type="button" class="btn btn-primary" id="continueBtn">
+                    确认
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+     aria-hidden="false" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="successModalLabel">
+                    提示框
+                </h4>
+            </div>
+            <div class="modal-body">
+                修改网站信息配置成功！
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="closeSuccessBtn">
+                    确认
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="calls" id="editWebsite">
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try {
+                ace.settings.check('breadcrumbs', 'fixed')
+            } catch (e) {
+            }
+        </script>
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home home-icon"></i>
+                <a href="#">首页</a>
+            </li>
+            <li class="active">网站信息配置</li>
+        </ul><!-- .breadcrumb -->
+    </div>
+
+
+
+    <div class="page-content">
+
+        <form id="coverForm">
+            <input type="file" style="display: none;" id="coverFile" name="file">
+        </form>
+        <form id="coverWForm">
+            <input type="file" style="display: none;" id="coverWFile" name="file">
+        </form>
+
+        <div class="panel-body" style="padding-bottom:0px;">
+
+            <table>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label>网站LOGO</label>
+                            <div style="height: 100px;">
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <div style="float: left; height: 100px" class="coverDiv" id="coverDiv">
+                                    <img style="width: 100px" :src="cover">
+                                </div>
+                                <div style="float: left; margin-top: 50px; margin-left: 10px">
+                                    <button type="button" class="btn btn-info" style="margin-right: 15px"
+                                            onclick="uploadCover()">上传图片
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <label>微信公众号二维码：</label>
+                            <div style="height: 100px;">
+                                <div style="float: left; height: 100px" class="coverDiv" id="coverWDiv">
+                                    <img style="width: 100px" :src="coverW">
+                                </div>
+                                <div style="float: left; margin-top: 50px; margin-left: 10px">
+                                    <button type="button" class="btn btn-info" style="margin-right: 15px"
+                                            onclick="uploadWCover()">上传图片
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <form role="form" class="required-validate" id="editForm" method="post" action="/website/update"
+                  enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>网站名称</label>
+                    <input type="text" class="form-control" id="name" name="name" :value="website.name"
+                           placeholder="请输入网站名称">
+                </div>
+                <div class="form-group">
+                    <label>网站关键字</label>
+                    <input type="text" class="form-control" id="keyWord" name="keyWord" :value="website.keyWord"
+                           placeholder="请输入网站关键字">
+                </div>
+                <div class="form-group">
+                    <label>网站描述</label>
+                    <input type="text" class="form-control" id="description" name="description" :value="website.description"
+                           placeholder="请输入网站描述">
+                </div>
+                <div class="form-group">
+                    <label>网站域名</label><label style="font-size: 12px">（不需要加http）</label>
+                    <input type="text" class="form-control" id="domainName" name="domainName" :value="website.domainName"
+                           placeholder="请输入form-group">
+                </div>
+
+
+                <div class="form-group">
+                    <label>广告合作</label>
+                    <input type="text" class="form-control" id="adCooperate" name="adCooperate" :value="website.adCooperate"
+                           placeholder="请输入广告合作">
+                </div>
+                <div class="form-group">
+                    <label>版权信息</label>
+                    <input type="text" class="form-control" id="copyright" name="copyright" :value="website.copyright"
+                           placeholder="请输入版权信息">
+                </div>
+                <div class="form-group">
+                    <label>在线客服字样</label>
+                    <input type="text" class="form-control" id="olService" name="olService" :value="website.olService"
+                           placeholder="请输入在线客服字样">
+                </div>
+                <div class="form-group">
+                    <label>咨询加盟字样</label>
+                    <input type="text" class="form-control" id="inforJoin" name="inforJoin" :value="website.inforJoin"
+                           placeholder="请输入咨询加盟字样">
+                </div>
+                <div class="form-group">
+                    <label>搜索框提示语</label>
+                    <input type="text" class="form-control" id="searchTip" name="searchTip" :value="website.searchTip"
+                           placeholder="请输入搜索框提示语">
+                </div>
+                <div class="form-group">
+                    <label>热门搜索品牌</label>
+                    <input type="text" class="form-control" id="popularType" name="popularType" :value="website.popularType"
+                           placeholder="请输入热门搜索品牌">
+                </div>
+
+                <button type="submit" class="btn btn-default" id="validaterBtn" style="margin-bottom: 5%">保存</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    var vm = new Vue({
+        el: '#editWebsite',
+        data: {
+            currentId: '',
+            cover: null,
+            coverW: null,
+            website : {}
+        },
+        beforeMount: function () {
+
+        },
+        mounted: function () {
+
+        },
+        created: function () {
+        },
+        methods: {}
+    })
+
+</script>
+</body>
+</html>

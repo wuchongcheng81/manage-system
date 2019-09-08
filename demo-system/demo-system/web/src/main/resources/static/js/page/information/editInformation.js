@@ -3,7 +3,7 @@ $(function () {
     $('#summernote').summernote(
         {
             placeholder: '请输入文本内容',
-            focus: true,
+            focus: false,
             lang: 'zh-CN',
             height: 300,
             width: '70%',
@@ -19,6 +19,15 @@ $(function () {
     $.get('/information/get', {id : id}, function (result) {
         if(result != null && result.data != null ) {
             vm.information = result.data;
+            console.log(result.data);
+            if(vm.information.typeId != null) {
+                vm.getBrand(vm.information.typeId);
+                if(result.data.brandId != null) {
+                    vm.brandId = result.data.brandId;
+                }
+            }
+
+
             vm.cover = result.data.coverUrl;
             $('#coverDiv').removeClass('coverDiv');
             if(result.data.isPublish == 1) {

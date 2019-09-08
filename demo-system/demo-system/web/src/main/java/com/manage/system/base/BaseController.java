@@ -51,10 +51,9 @@ public abstract class BaseController<MAPPER extends BaseService<T, ID>, T, ID ex
     }
 
     @PostMapping(value = "/deleteByIds")
-    public ResultData<T> deleteByIds(ID ids) {
-        String idsStr = ids.toString();
-        idsStr = idsStr.replace("\"", "");
-        int result = mapper.deleteByIds(idsStr.split(","));
+    public ResultData<T> deleteByIds(String ids) {
+        ids = ids.replace("\"", "");
+        int result = mapper.deleteByIds(ids.split(","));
         if(result > 0)
             return new ResultData<>(true);
         return new ResultData<>(false);

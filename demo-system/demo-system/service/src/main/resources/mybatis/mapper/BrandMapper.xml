@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manage.system.dao.BrandMapper">
+    <resultMap id="BaseResultMap" type="com.manage.system.bean.Brand">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="is_del" property="isDel" jdbcType="INTEGER"/>
+        <result column="logo" property="logo" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
+        <result column="type_id" property="typeId" jdbcType="INTEGER"/>
+        <result column="establish_year" property="establishYear" jdbcType="INTEGER"/>
+        <result column="origin_place" property="originPlace" jdbcType="VARCHAR"/>
+        <result column="brand_popular" property="brandPopular" jdbcType="INTEGER"/>
+        <result column="join_condition" property="joinCondition" jdbcType="VARCHAR"/>
+
+        <result column="label_auth" property="labelAuth" jdbcType="INTEGER"/>
+        <result column="label_honest" property="labelHonest" jdbcType="INTEGER"/>
+        <result column="label_vip" property="labelVip" jdbcType="INTEGER"/>
+        <result column="label_quality" property="labelQuality" jdbcType="INTEGER"/>
+
+        <result column="description" property="description" typeHandler="com.manage.system.handler.ConvertBlobTypeHandler"/>
+
+        <result column="logo_a" property="logoA" jdbcType="VARCHAR"/>
+        <result column="logo_b" property="logoB" jdbcType="VARCHAR"/>
+        <result column="logo_c" property="logoC" jdbcType="VARCHAR"/>
+        <result column="logo_viewpoint" property="logoViewpoint" jdbcType="VARCHAR"/>
+
+        <result column="is_invest" property="isInvest" jdbcType="INTEGER"/>
+
+        <result column="invest_type" property="investType" jdbcType="VARCHAR"/>
+        <result column="invest_area" property="investArea" jdbcType="VARCHAR"/>
+
+        <result column="invest_policy" property="investPolicy" typeHandler="com.manage.system.handler.ConvertBlobTypeHandler"/>
+
+        <result column="create_time" property="createTime" jdbcType="OTHER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="is_publish" property="isPublish" jdbcType="INTEGER"/>
+
+        <result column="rec_index" property="recIndex" jdbcType="INTEGER"/>
+        <result column="rec_type_index" property="recTypeIndex" jdbcType="INTEGER"/>
+        <result column="rec_type_rank" property="recTypeRank" jdbcType="INTEGER"/>
+        <result column="rec_type_infor" property="recTypeInfor" jdbcType="INTEGER"/>
+        <result column="rec_infor_head" property="recInforHead" jdbcType="INTEGER"/>
+        <result column="rec_infor_eval" property="recInforEval" jdbcType="INTEGER"/>
+        <result column="rec_infor_detail" property="recInforDetail" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="findById" resultMap="BaseResultMap">
+        select * from t_brand where id = #{id}
+    </select>
+</mapper>

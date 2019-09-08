@@ -19,7 +19,7 @@ public class ViewController {
         return mav;
     }
 
-    @RequestMapping(value = "/view//{dir}/{templateName}")
+    @RequestMapping(value = "/view/{dir}/{templateName}")
     public ModelAndView view(@PathVariable String dir, @PathVariable String templateName) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName(dir + "/" + templateName);

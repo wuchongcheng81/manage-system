@@ -8,4 +8,5 @@ import com.manage.system.bean.Brand;
  * @date 2019/9/6 13:15
  */
 public interface BrandMapper extends BaseMapper<Brand> {
+    Brand findById(int id);
 }

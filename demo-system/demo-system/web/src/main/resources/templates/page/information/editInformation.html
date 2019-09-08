@@ -127,8 +127,14 @@
                 </div>
                 <div class="form-group">
                     <label>所属品牌分类</label>
-                    <select class="form-control" id="typeId" name="typeId" :value="information.typeId">
+                    <select class="form-control" id="typeId" name="typeId" v-model="information.typeId" @change="getBrand(information.typeId)">
                         <option v-for="(t, index) in typeList" :value="t.id">{{t.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>所属品牌</label>
+                    <select class="form-control" id="brandId" name="brandId" v-model="brandId">
+                        <option v-for="(t, index) in brandList" :value="t.id">{{t.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -156,7 +162,9 @@
         data: {
             cover: null,
             typeList: [],
-            information : {}
+            information : {},
+            brandList:[],
+            brandId: null
         },
         beforeMount: function () {
 
@@ -166,11 +174,29 @@
         },
         created: function () {
             $.get('/type/findAll', function (result) {
-                if(result != null && result.data != null )
-                    vm.typeList = result.data;
+                vm.typeList.push({id:'',name:''});
+                if(result != null && result.data != null ) {
+                    result.data.forEach(function (i) {
+                        vm.typeList.push(i);
+                    })
+                }
             });
         },
-        methods: {}
+        methods: {
+            getBrand: function(typeId) {
+                vm.brandList = [];
+                vm.brandId = '';
+                $.get('/brand/findListByType', {typeId: typeId}, function (result) {
+                    if(result != null && result.data != null ) {
+                        vm.brandList.push({id:'',name:''});
+                        result.data.forEach(function (i) {
+                            vm.brandList.push(i);
+                        })
+                    }
+
+                })
+            }
+        }
     })
 
 </script>

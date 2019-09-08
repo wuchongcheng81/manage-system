@@ -2,6 +2,7 @@ package com.manage.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.manage.system.base.AbstractService;
 import com.manage.system.bean.Information;
 import com.manage.system.dao.InformationMapper;
@@ -26,7 +27,9 @@ public class InformationServiceImpl extends AbstractService<Information, Integer
     @Override
     @Transactional(readOnly = true)
     public IPage<Information> findPage(Information entity) {
-        return null;
+        QueryWrapper<Information> wrapper = getWrapper(entity);
+        IPage<Information> result = mapper.selectPage(new Page<>(entity.getPageNumber(), entity.getPageSize()), wrapper);
+        return result;
     }
 
     private QueryWrapper getWrapper(Information entity) {

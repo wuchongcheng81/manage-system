@@ -5,7 +5,7 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <th:block th:insert="header :: common_header"/>
-    <script th:src="@{/js/page/information/information.js(v=1)}"></script>
+    <script th:src="@{/js/page/brand/brand.js(v=1)}"></script>
 </head>
 <style type="text/css">
     .coverDiv {
@@ -32,6 +32,31 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"
                             data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        提示框
+                    </h4>
+                </div>
+                <div class="modal-body" id="modalDiv">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">取消
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="confirmUpdate()">
+                        确认
                     </button>
                 </div>
             </div><!-- /.modal-content -->
@@ -78,7 +103,7 @@
                     <i class="icon-home home-icon"></i>
                     <a href="#">首页</a>
                 </li>
-                <li class="active">资讯管理</li>
+                <li class="active">品牌管理</li>
             </ul><!-- .breadcrumb -->
         </div>
 
@@ -104,8 +129,7 @@
         el: '#bodyList',
         data: {
             currentId: '',
-            imgUrl: null,
-            advertise:{}
+            status: null
         },
         mounted: function () {
 

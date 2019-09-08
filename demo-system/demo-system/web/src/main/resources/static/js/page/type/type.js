@@ -97,7 +97,7 @@ $(function () {
             contentType: false,
             processData: false,
             success: function (result) {
-                if(result != null && result.data != null) {
+                if(result != null && result.data != null && result.data != '') {
                     vm.uPageImgUrl = result.data;
                     $('#coverPageDiv').removeClass('coverDiv');
                 }
@@ -115,7 +115,7 @@ $(function () {
             contentType: false,
             processData: false,
             success: function (result) {
-                if(result != null && result.data != null) {
+                if(result != null && result.data != null && result.data != '') {
                     vm.uDetailImgUrl = result.data;
                     $('#coverDetailDiv').removeClass('coverDiv');
                 }
@@ -195,7 +195,7 @@ var TableInit = function () {
             showRefresh: true,                  //是否显示刷新按钮
             minimumCountColumns: 2,             //最少允许的列数
             clickToSelect: true,                //是否启用点击选中行
-            height: 550,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            height: 650,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
             uniqueId: "id",                     //每一行的唯一标识，一般为主键列
             showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
             cardView: false,                    //是否显示详细视图
@@ -281,11 +281,11 @@ function updateModal(id) {
         if(result != null && result.state == 11) {
             var type = result.data;
             vm.type = type;
-            if(type.pageImgUrl != null) {
+            if(type.pageImgUrl != null && type.pageImgUrl != '') {
                 $('#coverPageDiv').removeClass('coverDiv');
                 vm.uPageImgUrl = type.pageImgUrl;
             }
-            if(type.detailImgUrl != null) {
+            if(type.detailImgUrl != null && type.detailImgUrl != '') {
                 $('#coverDetailDiv').removeClass('coverDiv');
                 vm.uDetailImgUrl = type.detailImgUrl;
             }

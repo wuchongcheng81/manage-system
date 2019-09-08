@@ -9,6 +9,7 @@
             count( 1 ) as `num`
         FROM
             `t_focus_map`
+        where is_del = 0
         GROUP BY
             position_code;
     </select>

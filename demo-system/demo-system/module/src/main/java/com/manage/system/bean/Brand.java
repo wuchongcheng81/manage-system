@@ -1,9 +1,13 @@
 package com.manage.system.bean;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.manage.system.base.BaseModel;
 import lombok.Data;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -13,6 +17,7 @@ import java.util.Date;
 @Data
 @TableName("t_brand")
 public class Brand extends BaseModel {
+    @TableId(type = IdType.AUTO)
     private Integer id;
     private Integer isDel;
     private String logo;
@@ -21,7 +26,7 @@ public class Brand extends BaseModel {
     private Integer typeId;
     private Integer establishYear;
     private String originPlace;
-    private String brandPopular;
+    private Integer brandPopular;
     private String joinCondition;
     private Integer labelAuth;
     private Integer labelHonest;
@@ -31,10 +36,31 @@ public class Brand extends BaseModel {
     private String logoA;
     private String logoB;
     private String logoC;
-    private String logoD;
+    private String logoViewpoint;
     private Integer isInvest;
-    private String investCondition;
     private String investArea;
     private String investPolicy;
     private Date createTime;
+    private Integer status;
+    private String investType;
+
+    private String recIndex;
+    private String recTypeIndex;
+    private String recTypeRank;
+    private String recTypeInfor;
+    private String recInforHead;
+    private String recInforEval;
+    private String recInforDetail;
+    private String isPublish;
+
+    @TableField(exist = false)
+    private String createTimeStr;
+
+    public static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public String getCreateTimeStr() {
+        if(createTime !=null) {
+            return sdf.format(createTime);
+        }
+        return "";
+    }
 }

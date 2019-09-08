@@ -2,7 +2,7 @@ $(function () {
     $('#summernote').summernote(
         {
             placeholder: '请输入文本内容',
-            focus: true,
+            focus: false,
             lang: 'zh-CN',
             height: 300,
             width: '70%',

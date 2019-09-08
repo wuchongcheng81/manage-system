@@ -12,6 +12,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * @author wucc
  * @date 2019/9/6 13:16
@@ -36,7 +39,27 @@ public class BrandServiceImpl extends AbstractService<Brand, Integer, BrandMappe
         if(StringUtils.isNotBlank(entity.getName())) {
             wrapper.like("name", entity.getName());
         }
+        if(entity.getTypeId() != null) {
+            wrapper.eq("type_id", entity.getTypeId());
+        }
         wrapper.orderByAsc("create_time");
         return wrapper;
+    }
+
+    @Override
+    public int save(Brand entity) {
+        entity.setCreateTime(new Date());
+        return super.save(entity);
+    }
+
+    @Override
+    public Brand findById(Integer id) {
+        return mapper.findById(id);
+    }
+
+    @Override
+    public List<Brand> findList(Brand entity) {
+        QueryWrapper<Brand> wrapper = getWrapper(entity);
+        return mapper.selectList(wrapper);
     }
 }

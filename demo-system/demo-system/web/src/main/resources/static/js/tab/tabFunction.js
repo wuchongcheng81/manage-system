@@ -1,7 +1,7 @@
 var tabView = new YAHOO.widget.TabView();
 var tabHeight;
 //最多打开tab个数
-var tabNum = 8;
+var tabNum = 20;
 init = function()
 {
     tabView.appendTo('yuicontainer');
