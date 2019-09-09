@@ -16,6 +16,7 @@
         <module>service</module>
         <module>module</module>
         <module>common</module>
+        <module>front-end</module>
     </modules>
     <packaging>pom</packaging>
 
