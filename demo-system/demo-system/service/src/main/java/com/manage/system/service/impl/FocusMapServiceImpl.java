@@ -38,6 +38,12 @@ public class FocusMapServiceImpl extends AbstractService<FocusMap, Integer, Focu
     }
 
     @Override
+    public List<FocusMap> findList(FocusMap entity) {
+        QueryWrapper<FocusMap> wrapper = getWrapper(entity);
+        return mapper.selectList(wrapper);
+    }
+
+    @Override
     public int save(FocusMap entity) {
         entity.setPosition(FocusMapEnum.getDescription(entity.getPositionCode()));
         return super.save(entity);

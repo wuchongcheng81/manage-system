@@ -7,11 +7,13 @@ import com.manage.system.base.AbstractService;
 import com.manage.system.bean.Information;
 import com.manage.system.dao.InformationMapper;
 import com.manage.system.dto.InformationDTO;
+import com.manage.system.dto.InformationFrontDTO;
 import com.manage.system.service.InformationService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -32,18 +34,6 @@ public class InformationServiceImpl extends AbstractService<Information, Integer
         return result;
     }
 
-    private QueryWrapper getWrapper(Information entity) {
-        QueryWrapper<Information> wrapper = new QueryWrapper<>();
-        wrapper.eq("is_del", 0);
-        if (entity.getId() != null)
-            wrapper.eq("id", entity.getId());
-        if(StringUtils.isNotBlank(entity.getTitle()))
-            wrapper.eq("title", entity.getTitle());
-        if(entity.getTypeId() != null)
-            wrapper.eq("type_id", entity.getTypeId());
-        return wrapper;
-    }
-
     @Override
     public List<Information> findListByPage(InformationDTO informationDTO) {
         return mapper.findListByPage(informationDTO);
@@ -52,6 +42,11 @@ public class InformationServiceImpl extends AbstractService<Information, Integer
     @Override
     public int queryTotal(InformationDTO informationDTO) {
         return mapper.queryTotal(informationDTO);
+    }
+
+    @Override
+    public List<InformationFrontDTO> findListByColumnCode(String columnCode) {
+        return mapper.findListByColumnCode(columnCode);
     }
 
     @Override
@@ -75,5 +70,19 @@ public class InformationServiceImpl extends AbstractService<Information, Integer
             entity.setPublishTime(new Date());
         }
         return super.update(entity);
+    }
+
+    private QueryWrapper getWrapper(Information entity) {
+        QueryWrapper<Information> wrapper = new QueryWrapper<>();
+        wrapper.eq("is_del", 0);
+        if (entity.getId() != null)
+            wrapper.eq("id", entity.getId());
+        if(StringUtils.isNotBlank(entity.getTitle()))
+            wrapper.eq("title", entity.getTitle());
+        if(entity.getTypeId() != null)
+            wrapper.eq("type_id", entity.getTypeId());
+        if(StringUtils.isNotBlank(entity.getColumnCode()))
+            wrapper.eq("column_code", entity.getColumnCode());
+        return wrapper;
     }
 }

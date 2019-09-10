@@ -15,6 +15,7 @@ public class Advertisement extends BaseModel {
     private Integer isDel;
     //广告图位置
     private String position;
+    private String positionCode;
     //广告图链接
     private String link;
     //广告图url
@@ -23,4 +24,11 @@ public class Advertisement extends BaseModel {
     private String imgIsShow;
 
     private Integer sort;
+
+    public Advertisement() {
+    }
+
+    public Advertisement(String positionCode) {
+        this.positionCode = positionCode;
+    }
 }

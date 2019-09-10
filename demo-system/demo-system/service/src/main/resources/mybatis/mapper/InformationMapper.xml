@@ -68,127 +68,17 @@
         </where>
     </select>
 
-<!--    <insert id="insertSelective" parameterType="com.manage.system.bean.Information" useGeneratedKeys="true" keyProperty="id">-->
-<!--        insert into t_information-->
-<!--        <trim prefix="(" suffix=")" suffixOverrides=",">-->
-<!--            <if test="coverUrl !=null and coverUrl != ''">-->
-<!--                cover_url,-->
-<!--            </if>-->
-<!--            <if test="title !=null and title != ''">-->
-<!--                title,-->
-<!--            </if>-->
-<!--            <if test="columnCode !=null and columnCode != ''">-->
-<!--                column_code,-->
-<!--            </if>-->
-<!--            <if test="typeId !=null">-->
-<!--                type_id,-->
-<!--            </if>-->
-<!--            <if test="brandId !=null">-->
-<!--                brand_id,-->
-<!--            </if>-->
-<!--            <if test="clickNum !=null">-->
-<!--                click_num,-->
-<!--            </if>-->
-<!--            <if test="isPublish !=null and isPublish != ''">-->
-<!--                is_publish,-->
-<!--            </if>-->
-<!--            <if test="content !=null and content != ''">-->
-<!--                content,-->
-<!--            </if>-->
-<!--            <if test="guideContent !=null and guideContent != ''">-->
-<!--                guide_content,-->
-<!--            </if>-->
-<!--            <if test="isDel !=null">-->
-<!--                is_del,-->
-<!--            </if>-->
-<!--            <if test="createTime !=null">-->
-<!--                create_time,-->
-<!--            </if>-->
-<!--            <if test="publishTime !=null">-->
-<!--                publish_time,-->
-<!--            </if>-->
-<!--        </trim>-->
-
-<!--        <trim prefix="values (" suffix=")" suffixOverrides=",">-->
-<!--            <if test="coverUrl !=null and coverUrl != ''">-->
-<!--                #{coverUrl},-->
-<!--            </if>-->
-<!--            <if test="title !=null and title != ''">-->
-<!--                #{title},-->
-<!--            </if>-->
-<!--            <if test="columnCode !=null and columnCode != ''">-->
-<!--                #{columnCode},-->
-<!--            </if>-->
-<!--            <if test="typeId !=null">-->
-<!--                #{typeId},-->
-<!--            </if>-->
-<!--            <if test="brandId !=null">-->
-<!--                #{brandId},-->
-<!--            </if>-->
-<!--            <if test="clickNum !=null">-->
-<!--                #{clickNum},-->
-<!--            </if>-->
-<!--            <if test="isPublish !=null and isPublish != ''">-->
-<!--                #{isPublish},-->
-<!--            </if>-->
-<!--            <if test="content !=null and content != ''">-->
-<!--                #{content},-->
-<!--            </if>-->
-<!--            <if test="guideContent !=null and guideContent != ''">-->
-<!--                #{guideContent},-->
-<!--            </if>-->
-<!--            <if test="isDel !=null">-->
-<!--                #{isDel},-->
-<!--            </if>-->
-<!--            <if test="createTime !=null">-->
-<!--                #{createTime},-->
-<!--            </if>-->
-<!--            <if test="publishTime !=null">-->
-<!--                #{publishTime},-->
-<!--            </if>-->
-<!--        </trim>-->
-<!--    </insert>-->
-
-<!--    <update id="updateByPrimaryKeySelective" parameterType="com.manage.system.bean.Information">-->
-<!--        update t_information-->
-<!--        <set>-->
-<!--            <if test="coverUrl !=null and coverUrl != ''">-->
-<!--                cover_url = #{coverUrl},-->
-<!--            </if>-->
-<!--            <if test="title !=null and title != ''">-->
-<!--                title = #{title},-->
-<!--            </if>-->
-<!--            <if test="columnCode !=null and columnCode != ''">-->
-<!--                column_code = #{columnCode},-->
-<!--            </if>-->
-<!--            <if test="typeId !=null">-->
-<!--                type_id = #{typeId},-->
-<!--            </if>-->
-<!--            <if test="brandId !=null">-->
-<!--                brand_id = #{brandId},-->
-<!--            </if>-->
-<!--            <if test="clickNum !=null">-->
-<!--                click_num = #{clickNum},-->
-<!--            </if>-->
-<!--            <if test="isPublish !=null and isPublish != ''">-->
-<!--                is_publish = #{isPublish},-->
-<!--            </if>-->
-<!--            <if test="content !=null and content != ''">-->
-<!--                content = #{content},-->
-<!--            </if>-->
-<!--            <if test="guideContent !=null and guideContent != ''">-->
-<!--                guide_content = #{guideContent},-->
-<!--            </if>-->
-<!--            <if test="isDel !=null">-->
-<!--                is_del = #{isDel},-->
-<!--            </if>-->
-<!--            <if test="createTime !=null">-->
-<!--                create_time = #{createTime},-->
-<!--            </if>-->
-<!--            <if test="publishTime !=null">-->
-<!--                publish_time = #{publishTime},-->
-<!--            </if>-->
-<!--        </set>-->
-<!--        where id = #{id}-->
-<!--    </update>-->
+    <select id="findListByColumnCode" resultType="com.manage.system.dto.InformationFrontDTO">
+        SELECT
+            b.company_name AS companyName,
+            i.*
+        FROM
+            `t_information` i
+            INNER JOIN t_brand b ON b.id = i.brand_id
+            <if test="columnCode != null and columnCode != ''">
+                where i.column_code = #{columnCode}
+            </if>
+            order by i.create_time desc
+            limit 0, 5
+    </select>
 </mapper>

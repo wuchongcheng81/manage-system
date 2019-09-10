@@ -12,4 +12,5 @@ import java.util.List;
  */
 public interface FocusMapService extends BaseService<FocusMap, Integer> {
     List<FocusMapGroupDTO> findListByGroup();
+    List<FocusMap> findList(FocusMap entity);
 }

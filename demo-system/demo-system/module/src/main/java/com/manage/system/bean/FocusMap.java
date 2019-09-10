@@ -22,4 +22,11 @@ public class FocusMap extends BaseModel {
     private Integer imgIsShow;
     private Integer sort;
     private String positionCode;
+
+    public FocusMap() {
+    }
+
+    public FocusMap(String positionCode) {
+        this.positionCode = positionCode;
+    }
 }

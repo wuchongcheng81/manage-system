@@ -48,4 +48,67 @@
     <select id="findById" resultMap="BaseResultMap">
         select * from t_brand where id = #{id}
     </select>
+
+    <select id="findPopularList" resultType="com.manage.system.dto.BrandDTO">
+        SELECT
+            *
+        FROM
+            t_brand
+        WHERE
+            brand_popular IN ( SELECT max( brand_popular ) FROM t_brand GROUP BY type_id )
+            AND brand_popular != 0;
+    </select>
+
+    <select id="findWeekPopular" resultType="com.manage.system.dto.BrandDTO">
+        SELECT
+            count( r.id ) as increaseNum,
+            b.*
+        FROM
+            t_brand b
+            INNER JOIN t_brand_popular_record r ON r.brand_id = b.id
+            AND YEARWEEK( DATE_FORMAT( r.create_time, '%Y-%m-%d' ) ) = YEARWEEK( NOW( ) )
+        WHERE
+            b.brand_popular > 0
+        GROUP BY
+            b.id having count(r.id) > 0
+            order by count(r.id) desc
+            limit 0,5;
+    </select>
+
+    <select id="findMonthPopular" resultType="com.manage.system.dto.BrandDTO">
+        SELECT
+        count( r.id ) as increaseNum,
+            b.*
+        FROM
+            t_brand b
+            inner JOIN t_brand_popular_record r ON r.brand_id = b.id
+            AND DATE_FORMAT(r.create_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')
+        GROUP BY
+            b.id having count(r.id) > 0
+            order by count(r.id) desc
+            limit 0,5;
+    </select>
+
+    <select id="findAllPopular" resultType="com.manage.system.dto.BrandDTO">
+        SELECT
+            *
+        FROM
+            t_brand
+        WHERE
+            brand_popular > 0
+        ORDER BY
+            brand_popular DESC
+            LIMIT 0,
+            5;
+    </select>
+
+    <select id="findRandom" resultType="com.manage.system.dto.BrandDTO">
+        SELECT
+            *
+        FROM
+            t_brand
+        WHERE
+            id >= ( ( SELECT MAX( id ) FROM t_brand ) - ( SELECT MIN( id ) FROM t_brand ) ) * RAND( ) + ( SELECT MIN( id ) FROM t_brand )
+            LIMIT 6;
+    </select>
 </mapper>
