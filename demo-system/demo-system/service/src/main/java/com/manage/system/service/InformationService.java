@@ -14,5 +14,5 @@ import java.util.List;
 public interface InformationService extends BaseService<Information, Integer> {
     List<Information> findListByPage(InformationDTO informationDTO);
     int queryTotal(InformationDTO informationDTO);
-    List<InformationFrontDTO> findListByColumnCode(String columnCode);
+    List<InformationFrontDTO> findListByColumnCode(String columnCode, Integer pageNumber, Integer pageSize);
 }

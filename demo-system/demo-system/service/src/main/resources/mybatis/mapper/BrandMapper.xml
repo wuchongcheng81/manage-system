@@ -56,7 +56,7 @@
             t_brand
         WHERE
             brand_popular IN ( SELECT max( brand_popular ) FROM t_brand GROUP BY type_id )
-            AND brand_popular != 0;
+            AND brand_popular != 0
     </select>
 
     <select id="findWeekPopular" resultType="com.manage.system.dto.BrandDTO">
@@ -72,7 +72,7 @@
         GROUP BY
             b.id having count(r.id) > 0
             order by count(r.id) desc
-            limit 0,5;
+            LIMIT #{pageNumber},#{pageSize}
     </select>
 
     <select id="findMonthPopular" resultType="com.manage.system.dto.BrandDTO">
@@ -86,7 +86,7 @@
         GROUP BY
             b.id having count(r.id) > 0
             order by count(r.id) desc
-            limit 0,5;
+            LIMIT #{pageNumber},#{pageSize}
     </select>
 
     <select id="findAllPopular" resultType="com.manage.system.dto.BrandDTO">
@@ -98,8 +98,7 @@
             brand_popular > 0
         ORDER BY
             brand_popular DESC
-            LIMIT 0,
-            5;
+            LIMIT  #{pageNumber},#{pageSize}
     </select>
 
     <select id="findRandom" resultType="com.manage.system.dto.BrandDTO">

@@ -42,19 +42,77 @@ public class IndexController {
     public ResultData home() {
         List<FocusMap> focusMapList = focusMapService.findList(new FocusMap(FocusMapEnum.INDEX.getCode()));
         List<Advertisement> advertisementList = advertisementService.findList(new Advertisement(AdvertiseEnum.INDEX.getCode()));
-        List<BrandDTO> headPolularBrandList = brandService.findPopularList();
-        List<BrandDTO> hotWeekPolularBrandList = brandService.findWeekPopular();
-        List<InformationFrontDTO> headlineInformationList = informationService.findListByColumnCode(InformationEnum.HEADLINE.getCode());
+        List<BrandDTO> headPopularBrandList = brandService.findPopularList();
+        List<BrandDTO> hotWeekPopularBrandList = brandService.findWeekPopular(0, 5);
+        List<InformationFrontDTO> informationList = informationService.findListByColumnCode(InformationEnum.HEADLINE.getCode(), 0, 5);
         List<BrandDTO> brandRandom = brandService.findRandom();
 
         IndexDTO indexDTO = new IndexDTO();
         indexDTO.setFocusMapList(focusMapList);
         indexDTO.setAdvertisementList(advertisementList);
-        indexDTO.setHeadPolularBrandList(headPolularBrandList);
-        indexDTO.setHotPolularBrandList(hotWeekPolularBrandList);
-        indexDTO.setInformationList(headlineInformationList);
-        indexDTO.setBrandRandom(brandRandom);
+        indexDTO.setHeadBrandList(headPopularBrandList);
+        indexDTO.setHotBrandList(hotWeekPopularBrandList);
+        indexDTO.setInformationList(informationList);
+        indexDTO.setBrandRecommend(brandRandom);
 
         return new ResultData(true, indexDTO);
+    }
+
+    /**
+     * 品牌推荐
+     * @return
+     */
+    @RequestMapping(value = "/getBrandRecommend")
+    public ResultData getBrandRecommend() {
+        List<BrandDTO> brandRandom = brandService.findRandom();
+        return new ResultData(true, brandRandom);
+    }
+
+    /**
+     * 查询品牌热榜
+     * @param type
+     * @param pageNumber
+     * @param pageSize
+     * @return
+     */
+    @RequestMapping(value = "/getHotBrandList")
+    public ResultData getHotBrandList(String type, Integer pageNumber, Integer pageSize) {
+        List<BrandDTO> list;
+        switch (type) {
+            case "week":
+                list = brandService.findWeekPopular(pageNumber, pageSize);
+                break;
+            case "month":
+                list = brandService.findMonthPopular(pageNumber, pageSize);
+                break;
+            default:
+                list = brandService.findAllPopular(pageNumber, pageSize);
+                break;
+        }
+        return new ResultData(true, list);
+    }
+
+    /**
+     * 查询品牌资讯
+     * @param type
+     * @param pageNumber
+     * @param pageSize
+     * @return
+     */
+    @RequestMapping(value = "/getInformationList")
+    public ResultData getInformationList(String type, Integer pageNumber, Integer pageSize) {
+        List<InformationFrontDTO> list;
+        switch (type) {
+            case "headline":
+                list = informationService.findListByColumnCode(InformationEnum.HEADLINE.getCode(), pageNumber, pageSize);
+                break;
+            case "evaluate":
+                list = informationService.findListByColumnCode(InformationEnum.EVALUATE.getCode(), pageNumber, pageSize);
+                break;
+            default:
+                list = informationService.findListByColumnCode(null, pageNumber, pageSize);
+                break;
+        }
+        return new ResultData(true, list);
     }
 }

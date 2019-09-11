@@ -13,8 +13,8 @@ import java.util.List;
 public interface BrandService extends BaseService<Brand, Integer> {
     List<Brand> findList(Brand entity);
     List<BrandDTO> findPopularList();
-    List<BrandDTO> findWeekPopular();
-    List<BrandDTO> findMonthPopular();
-    List<BrandDTO> findAllPopular();
+    List<BrandDTO> findWeekPopular(Integer pageNumber, Integer pageSize);
+    List<BrandDTO> findMonthPopular(Integer pageNumber, Integer pageSize);
+    List<BrandDTO> findAllPopular(Integer pageNumber, Integer pageSize);
     List<BrandDTO> findRandom();
 }

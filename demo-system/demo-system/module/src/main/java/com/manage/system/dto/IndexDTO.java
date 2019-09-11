@@ -14,8 +14,8 @@ import java.util.List;
 public class IndexDTO {
     private List<FocusMap> focusMapList;
     private List<Advertisement> advertisementList;
-    private List<BrandDTO> headPolularBrandList;
-    private List<BrandDTO> hotPolularBrandList;
+    private List<BrandDTO> headBrandList;
+    private List<BrandDTO> hotBrandList;
     private List<InformationFrontDTO> informationList;
-    private List<BrandDTO> brandRandom;
+    private List<BrandDTO> brandRecommend;
 }

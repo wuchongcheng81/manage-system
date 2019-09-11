@@ -79,6 +79,6 @@
                 where i.column_code = #{columnCode}
             </if>
             order by i.create_time desc
-            limit 0, 5
+            limit #{pageNumber}, #{pageSize}
     </select>
 </mapper>

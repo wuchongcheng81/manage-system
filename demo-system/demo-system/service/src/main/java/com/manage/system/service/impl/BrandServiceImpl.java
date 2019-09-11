@@ -70,18 +70,30 @@ public class BrandServiceImpl extends AbstractService<Brand, Integer, BrandMappe
     }
 
     @Override
-    public List<BrandDTO> findWeekPopular() {
-        return mapper.findWeekPopular();
+    public List<BrandDTO> findWeekPopular(Integer pageNumber, Integer pageSize) {
+        if(pageNumber == null)
+            pageNumber = 0;
+        if(pageSize == null)
+            pageSize = 5;
+        return mapper.findWeekPopular(pageNumber, pageSize);
     }
 
     @Override
-    public List<BrandDTO> findMonthPopular() {
-        return mapper.findMonthPopular();
+    public List<BrandDTO> findMonthPopular(Integer pageNumber, Integer pageSize) {
+        if(pageNumber == null)
+            pageNumber = 0;
+        if(pageSize == null)
+            pageSize = 5;
+        return mapper.findMonthPopular(pageNumber, pageSize);
     }
 
     @Override
-    public List<BrandDTO> findAllPopular() {
-        return mapper.findAllPopular();
+    public List<BrandDTO> findAllPopular(Integer pageNumber, Integer pageSize) {
+        if(pageNumber == null)
+            pageNumber = 0;
+        if(pageSize == null)
+            pageSize = 5;
+        return mapper.findAllPopular(pageNumber, pageSize);
     }
 
     @Override
