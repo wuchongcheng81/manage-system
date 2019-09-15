@@ -26,6 +26,12 @@ public class AdvertisementServiceImpl extends AbstractService<Advertisement, Int
         return result;
     }
 
+    @Override
+    public List<Advertisement> findList(Advertisement entity) {
+        QueryWrapper<Advertisement> wrapper = getWrapper(entity);
+        return mapper.selectList(wrapper);
+    }
+
     private QueryWrapper getWrapper(Advertisement entity) {
         QueryWrapper<Advertisement> wrapper = new QueryWrapper<>();
         wrapper.eq("is_del", 0);
@@ -35,11 +41,5 @@ public class AdvertisementServiceImpl extends AbstractService<Advertisement, Int
             wrapper.eq("position_code", entity.getPositionCode());
         wrapper.orderByAsc("sort");
         return wrapper;
-    }
-
-    @Override
-    public List<Advertisement> findList(Advertisement entity) {
-        QueryWrapper<Advertisement> wrapper = getWrapper(entity);
-        return mapper.selectList(wrapper);
     }
 }

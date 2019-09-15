@@ -45,12 +45,12 @@ public class InformationServiceImpl extends AbstractService<Information, Integer
     }
 
     @Override
-    public List<InformationFrontDTO> findListByColumnCode(String columnCode, Integer pageNumber, Integer pageSize) {
+    public List<InformationFrontDTO> findListByColumnCode(String columnCode, Integer typeId, Integer pageNumber, Integer pageSize) {
         if(pageNumber == null)
             pageNumber = 0;
         if(pageSize == null)
             pageSize = 5;
-        return mapper.findListByColumnCode(columnCode, pageNumber, pageSize);
+        return mapper.findListByColumnCode(columnCode, typeId, pageNumber, pageSize);
     }
 
     @Override
@@ -87,6 +87,7 @@ public class InformationServiceImpl extends AbstractService<Information, Integer
             wrapper.eq("type_id", entity.getTypeId());
         if(StringUtils.isNotBlank(entity.getColumnCode()))
             wrapper.eq("column_code", entity.getColumnCode());
+        wrapper.orderByDesc("");
         return wrapper;
     }
 }

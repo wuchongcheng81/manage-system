@@ -1,0 +1,17 @@
+package com.manage.system.dto;
+
+import lombok.Data;
+
+import java.util.List;
+
+/**
+ * @author wcc
+ * @date 2019/9/14 22:27
+ */
+@Data
+public class TypeDTO {
+    private Integer id;
+    private String name;
+
+    private List<BrandDTO> brandList;
+}

@@ -25,5 +25,4 @@ public class Type extends BaseModel {
     private String pageImgUrl;
     //详情广告图片
     private String detailImgUrl;
-
 }

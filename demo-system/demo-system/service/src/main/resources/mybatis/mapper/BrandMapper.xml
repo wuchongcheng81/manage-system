@@ -49,14 +49,40 @@
         select * from t_brand where id = #{id}
     </select>
 
-    <select id="findPopularList" resultType="com.manage.system.dto.BrandDTO">
+    <select id="findAll" resultType="com.manage.system.dto.BrandDTO">
+        select * from t_brand
+        <where>
+            <if test="typeId != null">
+                and type_id = #{typeId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findPageByTypeId" resultType="com.manage.system.dto.BrandDTO">
         SELECT
             *
         FROM
             t_brand
+        <where>
+            <if test="typeId != null">
+                and type_id = #{typeId}
+            </if>
+        </where>
+        ORDER BY
+            brand_popular DESC
+            LIMIT #{pageNumber}, #{pageSize};
+    </select>
+
+    <select id="findPopularList" resultType="com.manage.system.dto.BrandDTO">
+        SELECT
+            t.NAME AS typeName,
+            b.*
+        FROM
+            t_brand b
+            INNER JOIN t_type t ON t.id = b.type_id
         WHERE
-            brand_popular IN ( SELECT max( brand_popular ) FROM t_brand GROUP BY type_id )
-            AND brand_popular != 0
+            b.brand_popular IN ( SELECT max( a.brand_popular ) FROM t_brand a GROUP BY a.type_id )
+            AND b.brand_popular != 0
     </select>
 
     <select id="findWeekPopular" resultType="com.manage.system.dto.BrandDTO">

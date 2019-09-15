@@ -75,9 +75,14 @@
         FROM
             `t_information` i
             INNER JOIN t_brand b ON b.id = i.brand_id
-            <if test="columnCode != null and columnCode != ''">
-                where i.column_code = #{columnCode}
-            </if>
+            <where>
+                <if test="columnCode != null and columnCode != ''">
+                    and i.column_code = #{columnCode}
+                </if>
+                <if test="typeId != null">
+                    and i.type_id = #{typeId}
+                </if>
+            </where>
             order by i.create_time desc
             limit #{pageNumber}, #{pageSize}
     </select>

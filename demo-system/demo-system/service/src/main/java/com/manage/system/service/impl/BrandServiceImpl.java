@@ -31,22 +31,6 @@ public class BrandServiceImpl extends AbstractService<Brand, Integer, BrandMappe
         return result;
     }
 
-    private QueryWrapper getWrapper(Brand entity) {
-        QueryWrapper<Brand> wrapper = new QueryWrapper<>();
-        wrapper.eq("is_del", 0);
-        if (entity.getId() != null) {
-            wrapper.eq("id", entity.getId());
-        }
-        if(StringUtils.isNotBlank(entity.getName())) {
-            wrapper.like("name", entity.getName());
-        }
-        if(entity.getTypeId() != null) {
-            wrapper.eq("type_id", entity.getTypeId());
-        }
-        wrapper.orderByAsc("create_time");
-        return wrapper;
-    }
-
     @Override
     public int save(Brand entity) {
         entity.setCreateTime(new Date());
@@ -99,5 +83,35 @@ public class BrandServiceImpl extends AbstractService<Brand, Integer, BrandMappe
     @Override
     public List<BrandDTO> findRandom() {
         return mapper.findRandom();
+    }
+
+    @Override
+    public List<BrandDTO> findPageByTypeId(Integer pageNumber, Integer pageSize, Integer typeId) {
+        if(pageNumber == null)
+            pageNumber = 0;
+        if(pageSize == null)
+            pageSize = 5;
+        return mapper.findPageByTypeId(pageNumber, pageSize, typeId);
+    }
+
+    @Override
+    public List<BrandDTO> findAll(Integer typeId) {
+        return mapper.findAll(typeId);
+    }
+
+    private QueryWrapper getWrapper(Brand entity) {
+        QueryWrapper<Brand> wrapper = new QueryWrapper<>();
+        wrapper.eq("is_del", 0);
+        if (entity.getId() != null) {
+            wrapper.eq("id", entity.getId());
+        }
+        if(StringUtils.isNotBlank(entity.getName())) {
+            wrapper.like("name", entity.getName());
+        }
+        if(entity.getTypeId() != null) {
+            wrapper.eq("type_id", entity.getTypeId());
+        }
+        wrapper.orderByAsc("create_time");
+        return wrapper;
     }
 }

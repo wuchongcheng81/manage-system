@@ -42,15 +42,15 @@ public class IndexController {
     public ResultData home() {
         List<FocusMap> focusMapList = focusMapService.findList(new FocusMap(FocusMapEnum.INDEX.getCode()));
         List<Advertisement> advertisementList = advertisementService.findList(new Advertisement(AdvertiseEnum.INDEX.getCode()));
-        List<BrandDTO> headPopularBrandList = brandService.findPopularList();
+        List<BrandDTO> headBrandList = brandService.findPopularList();
         List<BrandDTO> hotWeekPopularBrandList = brandService.findWeekPopular(0, 5);
-        List<InformationFrontDTO> informationList = informationService.findListByColumnCode(InformationEnum.HEADLINE.getCode(), 0, 5);
+        List<InformationFrontDTO> informationList = informationService.findListByColumnCode(InformationEnum.HEADLINE.getCode(), null, 0, 5);
         List<BrandDTO> brandRandom = brandService.findRandom();
 
         IndexDTO indexDTO = new IndexDTO();
         indexDTO.setFocusMapList(focusMapList);
         indexDTO.setAdvertisementList(advertisementList);
-        indexDTO.setHeadBrandList(headPopularBrandList);
+        indexDTO.setHeadBrandList(headBrandList);
         indexDTO.setHotBrandList(hotWeekPopularBrandList);
         indexDTO.setInformationList(informationList);
         indexDTO.setBrandRecommend(brandRandom);
@@ -104,13 +104,13 @@ public class IndexController {
         List<InformationFrontDTO> list;
         switch (type) {
             case "headline":
-                list = informationService.findListByColumnCode(InformationEnum.HEADLINE.getCode(), pageNumber, pageSize);
+                list = informationService.findListByColumnCode(InformationEnum.HEADLINE.getCode(), null, pageNumber, pageSize);
                 break;
             case "evaluate":
-                list = informationService.findListByColumnCode(InformationEnum.EVALUATE.getCode(), pageNumber, pageSize);
+                list = informationService.findListByColumnCode(InformationEnum.EVALUATE.getCode(), null, pageNumber, pageSize);
                 break;
             default:
-                list = informationService.findListByColumnCode(null, pageNumber, pageSize);
+                list = informationService.findListByColumnCode(null, null, pageNumber, pageSize);
                 break;
         }
         return new ResultData(true, list);

@@ -12,4 +12,10 @@ public class BrandDTO {
     private String logo;
     private String name;
     private Integer increaseNum;
+    private String typeName;
+    private String companyName;
+    private Integer labelAuth;
+    private Integer labelHonest;
+    private Integer labelVip;
+    private Integer labelQuality;
 }

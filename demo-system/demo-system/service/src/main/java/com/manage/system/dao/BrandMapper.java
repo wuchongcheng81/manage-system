@@ -18,4 +18,6 @@ public interface BrandMapper extends BaseMapper<Brand> {
     List<BrandDTO> findMonthPopular(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize);
     List<BrandDTO> findAllPopular(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize);
     List<BrandDTO> findRandom();
+    List<BrandDTO> findPageByTypeId(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize, @Param("typeId") Integer typeId);
+    List<BrandDTO> findAll(@Param("typeId") Integer typeId);
 }

@@ -17,4 +17,6 @@ public interface BrandService extends BaseService<Brand, Integer> {
     List<BrandDTO> findMonthPopular(Integer pageNumber, Integer pageSize);
     List<BrandDTO> findAllPopular(Integer pageNumber, Integer pageSize);
     List<BrandDTO> findRandom();
+    List<BrandDTO> findPageByTypeId(Integer pageNumber, Integer pageSize, Integer typeId);
+    List<BrandDTO> findAll(Integer typeId);
 }
