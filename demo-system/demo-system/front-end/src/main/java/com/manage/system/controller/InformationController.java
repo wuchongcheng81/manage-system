@@ -30,8 +30,8 @@ public class InformationController {
      * @return
      */
     @RequestMapping(value = "/findList")
-    public ResultData findList(String code, Integer typeId, Integer pageNumber, Integer pageSize) {
-        List<InformationFrontDTO> list = informationService.findListByColumnCode(code, typeId, pageNumber, pageSize);
+    public ResultData findList(String code, Integer typeId, Integer brandId, Integer pageNumber, Integer pageSize) {
+        List<InformationFrontDTO> list = informationService.findListByColumnCode(code, typeId, brandId, pageNumber, pageSize);
         return new ResultData(true, list);
     }
 }

@@ -17,5 +17,6 @@ public interface InformationMapper extends BaseMapper<Information> {
     List<Information>  findListByPage(InformationDTO information);
     Information findById(@Param("id") Integer id);
     List<InformationFrontDTO> findListByColumnCode(@Param("columnCode") String columnCode, @Param("typeId") Integer typeId,
+                                                   @Param("brandId") Integer brandId,
                                                    @Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize);
 }

@@ -44,7 +44,7 @@ public class IndexController {
         List<Advertisement> advertisementList = advertisementService.findList(new Advertisement(AdvertiseEnum.INDEX.getCode()));
         List<BrandDTO> headBrandList = brandService.findPopularList();
         List<BrandDTO> hotWeekPopularBrandList = brandService.findWeekPopular(0, 5);
-        List<InformationFrontDTO> informationList = informationService.findListByColumnCode(InformationEnum.HEADLINE.getCode(), null, 0, 5);
+        List<InformationFrontDTO> informationList = informationService.findListByColumnCode(InformationEnum.HEADLINE.getCode(), null, null, 0, 5);
         List<BrandDTO> brandRandom = brandService.findRandom();
 
         IndexDTO indexDTO = new IndexDTO();
@@ -104,13 +104,13 @@ public class IndexController {
         List<InformationFrontDTO> list;
         switch (type) {
             case "headline":
-                list = informationService.findListByColumnCode(InformationEnum.HEADLINE.getCode(), null, pageNumber, pageSize);
+                list = informationService.findListByColumnCode(InformationEnum.HEADLINE.getCode(), null, null, pageNumber, pageSize);
                 break;
             case "evaluate":
-                list = informationService.findListByColumnCode(InformationEnum.EVALUATE.getCode(), null, pageNumber, pageSize);
+                list = informationService.findListByColumnCode(InformationEnum.EVALUATE.getCode(), null, null, pageNumber, pageSize);
                 break;
             default:
-                list = informationService.findListByColumnCode(null, null, pageNumber, pageSize);
+                list = informationService.findListByColumnCode(null, null, null, pageNumber, pageSize);
                 break;
         }
         return new ResultData(true, list);

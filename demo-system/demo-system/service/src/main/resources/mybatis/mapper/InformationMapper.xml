@@ -82,6 +82,9 @@
                 <if test="typeId != null">
                     and i.type_id = #{typeId}
                 </if>
+                <if test="brandId != null">
+                    and i.brand_id = #{brandId}
+                </if>
             </where>
             order by i.create_time desc
             limit #{pageNumber}, #{pageSize}

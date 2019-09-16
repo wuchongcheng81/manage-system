@@ -29,4 +29,5 @@ public class Consult extends BaseModel {
     private String remark;
     private Date createTime;
     private Date updateTime;
+    private String requestIp;
 }

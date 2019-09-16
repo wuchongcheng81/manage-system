@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author wucc
@@ -41,6 +42,15 @@ public class ConsultServiceImpl extends AbstractService<Consult, Integer, Consul
         return super.update(entity);
     }
 
+    @Override
+    public List<Consult> findByIpAndType(String ip, String type) {
+        Consult consult = new Consult();
+        consult.setRequestIp(ip);
+        consult.setType(type);
+        QueryWrapper<Consult> wrapper = getWrapper(consult);
+        return mapper.selectList(wrapper);
+    }
+
     private QueryWrapper getWrapper(Consult entity) {
         QueryWrapper<Consult> wrapper = new QueryWrapper<>();
         if (entity.getId() != null) {
@@ -52,7 +62,11 @@ public class ConsultServiceImpl extends AbstractService<Consult, Integer, Consul
         if(StringUtils.isNotBlank(entity.getType())) {
             wrapper.eq("type", entity.getType());
         }
+        if(StringUtils.isNotBlank(entity.getRequestIp())) {
+            wrapper.eq("request_ip", entity.getRequestIp());
+        }
         wrapper.orderByDesc("create_time");
         return wrapper;
     }
+
 }

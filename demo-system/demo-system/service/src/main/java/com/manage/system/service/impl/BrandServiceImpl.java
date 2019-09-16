@@ -99,6 +99,11 @@ public class BrandServiceImpl extends AbstractService<Brand, Integer, BrandMappe
         return mapper.findAll(typeId);
     }
 
+    @Override
+    public int countByTypeId(int typeId) {
+        return mapper.countByTypeId(typeId);
+    }
+
     private QueryWrapper getWrapper(Brand entity) {
         QueryWrapper<Brand> wrapper = new QueryWrapper<>();
         wrapper.eq("is_del", 0);

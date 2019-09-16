@@ -45,6 +45,11 @@
         <result column="rec_infor_detail" property="recInforDetail" jdbcType="INTEGER"/>
     </resultMap>
 
+
+    <select id="countByTypeId" resultType="int">
+        select count(1) from t_brand where type_id = #{typeId}
+    </select>
+
     <select id="findById" resultMap="BaseResultMap">
         select * from t_brand where id = #{id}
     </select>
