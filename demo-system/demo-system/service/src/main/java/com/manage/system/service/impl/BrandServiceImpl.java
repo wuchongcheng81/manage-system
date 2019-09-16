@@ -50,7 +50,7 @@ public class BrandServiceImpl extends AbstractService<Brand, Integer, BrandMappe
 
     @Override
     public List<BrandDTO> findPopularList() {
-        return mapper.findPopularList();
+        return mapper.findPopularList(1);
     }
 
     @Override
@@ -59,7 +59,8 @@ public class BrandServiceImpl extends AbstractService<Brand, Integer, BrandMappe
             pageNumber = 0;
         if(pageSize == null)
             pageSize = 5;
-        return mapper.findWeekPopular(pageNumber, pageSize);
+        pageNumber = setPageNumber(pageNumber, pageSize);
+        return mapper.findWeekPopular(pageNumber, pageSize, 1);
     }
 
     @Override
@@ -68,7 +69,7 @@ public class BrandServiceImpl extends AbstractService<Brand, Integer, BrandMappe
             pageNumber = 0;
         if(pageSize == null)
             pageSize = 5;
-        return mapper.findMonthPopular(pageNumber, pageSize);
+        return mapper.findMonthPopular(pageNumber, pageSize, 1);
     }
 
     @Override
@@ -77,12 +78,13 @@ public class BrandServiceImpl extends AbstractService<Brand, Integer, BrandMappe
             pageNumber = 0;
         if(pageSize == null)
             pageSize = 5;
-        return mapper.findAllPopular(pageNumber, pageSize);
+        pageNumber = setPageNumber(pageNumber, pageSize);
+        return mapper.findAllPopular(pageNumber, pageSize, 1);
     }
 
     @Override
     public List<BrandDTO> findRandom() {
-        return mapper.findRandom();
+        return mapper.findRandom(1);
     }
 
     @Override
@@ -91,12 +93,28 @@ public class BrandServiceImpl extends AbstractService<Brand, Integer, BrandMappe
             pageNumber = 0;
         if(pageSize == null)
             pageSize = 5;
-        return mapper.findPageByTypeId(pageNumber, pageSize, typeId);
+        pageNumber = setPageNumber(pageNumber, pageSize);
+        return mapper.findPageByTypeId(pageNumber, pageSize, typeId, 1);
     }
 
     @Override
     public List<BrandDTO> findAll(Integer typeId) {
-        return mapper.findAll(typeId);
+        return mapper.findAll(typeId, 1);
+    }
+
+    @Override
+    public Brand getByIdWithType(int id) {
+        return mapper.getByIdWithType(id, 1);
+    }
+
+    @Override
+    public List<BrandDTO> findByKeyWord(String keyWord, Integer pageNumber, Integer pageSize) {
+        if(pageNumber == null)
+            pageNumber = 0;
+        if(pageSize == null)
+            pageSize = 10;
+        pageNumber = setPageNumber(pageNumber, pageSize);
+        return mapper.findByKeyWord(keyWord, 1, pageNumber, pageSize);
     }
 
     @Override

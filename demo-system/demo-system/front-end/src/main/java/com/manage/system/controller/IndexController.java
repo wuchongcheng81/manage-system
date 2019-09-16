@@ -115,4 +115,10 @@ public class IndexController {
         }
         return new ResultData(true, list);
     }
+
+    @RequestMapping(value = "/search")
+    public ResultData search(String keyWord, Integer pageNumber, Integer pageSize) {
+        List<BrandDTO> list = brandService.findByKeyWord(keyWord, pageNumber, pageSize);
+        return new ResultData(true, list);
+    }
 }

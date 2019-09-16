@@ -21,4 +21,7 @@ public interface BrandService extends BaseService<Brand, Integer> {
     List<BrandDTO> findAll(Integer typeId);
 
     int countByTypeId(int typeId);
+    Brand getByIdWithType(int id);
+
+    List<BrandDTO> findByKeyWord(String keyWord, Integer pageNumber, Integer pageSize);
 }

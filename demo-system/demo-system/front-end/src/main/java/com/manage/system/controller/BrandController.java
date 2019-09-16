@@ -45,10 +45,14 @@ public class BrandController {
 
     @RequestMapping(value = "/findById")
     public ResultData findById(@RequestParam int id) {
-        Brand brand = brandService.findById(id);
+        Brand brand = brandService.getByIdWithType(id);
         BrandDetailDTO brandDetailDTO = new BrandDetailDTO();
-        BeanUtils.copyProperties(brand, brandDetailDTO);
-        return new ResultData(true, brandDetailDTO);
+        if(brand != null) {
+            BeanUtils.copyProperties(brand, brandDetailDTO);
+            return new ResultData(true, brandDetailDTO);
+        }else {
+            return new ResultData(false);
+        }
     }
 
 }

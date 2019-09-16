@@ -56,6 +56,9 @@ public class Brand extends BaseModel {
     @TableField(exist = false)
     private String createTimeStr;
 
+    @TableField(exist = false)
+    private String typeName;
+
     public static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public String getCreateTimeStr() {
         if(createTime !=null) {
