@@ -43,10 +43,18 @@
         <result column="rec_infor_head" property="recInforHead" jdbcType="INTEGER"/>
         <result column="rec_infor_eval" property="recInforEval" jdbcType="INTEGER"/>
         <result column="rec_infor_detail" property="recInforDetail" jdbcType="INTEGER"/>
+
+        <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
     </resultMap>
 
     <select id="findById" resultMap="BaseResultMap">
         select * from t_brand where id = #{id}
+    </select>
+
+    <select id="getByIdWithType" resultMap="BaseResultMap">
+        select b.*, t.name as type_name from t_brand b
+        inner join t_type t on t.id = b.type_id
+        where is_publish = #{isPublish} and b.id = #{id}
     </select>
 
     <select id="findAll" resultType="com.manage.system.dto.BrandDTO">
@@ -64,6 +72,9 @@
         FROM
             t_brand
         <where>
+            <if test="isPublish != null">
+                and is_publish = #{isPublish}
+            </if>
             <if test="typeId != null">
                 and type_id = #{typeId}
             </if>
@@ -81,8 +92,10 @@
             t_brand b
             INNER JOIN t_type t ON t.id = b.type_id
         WHERE
+            b.is_publish = #{isPublish}
+        and
             b.brand_popular IN ( SELECT max( a.brand_popular ) FROM t_brand a GROUP BY a.type_id )
-            AND b.brand_popular != 0
+        AND b.brand_popular != 0
     </select>
 
     <select id="findWeekPopular" resultType="com.manage.system.dto.BrandDTO">
@@ -94,6 +107,8 @@
             INNER JOIN t_brand_popular_record r ON r.brand_id = b.id
             AND YEARWEEK( DATE_FORMAT( r.create_time, '%Y-%m-%d' ) ) = YEARWEEK( NOW( ) )
         WHERE
+            b.is_publish = #{isPublish}
+        and
             b.brand_popular > 0
         GROUP BY
             b.id having count(r.id) > 0
@@ -109,6 +124,8 @@
             t_brand b
             inner JOIN t_brand_popular_record r ON r.brand_id = b.id
             AND DATE_FORMAT(r.create_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')
+        WHERE
+            b.is_publish = #{isPublish}
         GROUP BY
             b.id having count(r.id) > 0
             order by count(r.id) desc
@@ -121,7 +138,11 @@
         FROM
             t_brand
         WHERE
+          is_publish = #{isPublish}
+        and
             brand_popular > 0
+        and
+            is_publish = #{isPublish}
         ORDER BY
             brand_popular DESC
             LIMIT  #{pageNumber},#{pageSize}
@@ -133,6 +154,8 @@
         FROM
             t_brand
         WHERE
+            is_publish = #{isPublish}
+        and
             id >= ( ( SELECT MAX( id ) FROM t_brand ) - ( SELECT MIN( id ) FROM t_brand ) ) * RAND( ) + ( SELECT MIN( id ) FROM t_brand )
             LIMIT 6;
     </select>

@@ -95,4 +95,8 @@ public abstract class AbstractService<T, ID extends Serializable, M extends Base
     public T findById(ID id) {
         return this.mapper.selectById(id);
     }
+
+    public int setPageNumber(int pageNumber, int pageSize) {
+        return pageNumber * pageSize;
+    }
 }

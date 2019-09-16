@@ -50,6 +50,7 @@ public class InformationServiceImpl extends AbstractService<Information, Integer
             pageNumber = 0;
         if(pageSize == null)
             pageSize = 5;
+        pageNumber = setPageNumber(pageNumber, pageSize);
         return mapper.findListByColumnCode(columnCode, typeId, pageNumber, pageSize);
     }
 

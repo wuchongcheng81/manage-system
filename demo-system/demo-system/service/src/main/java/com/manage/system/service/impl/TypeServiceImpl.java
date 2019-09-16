@@ -39,6 +39,11 @@ public class TypeServiceImpl extends AbstractService<Type, Integer, TypeMapper> 
         return mapper.updateById(type);
     }
 
+    @Override
+    public List<Type> findAll() {
+        return mapper.selectList(null);
+    }
+
     private QueryWrapper getWrapper(Type entity) {
         QueryWrapper<Type> wrapper = new QueryWrapper<>();
         wrapper.eq("is_del", 0);
@@ -50,10 +55,5 @@ public class TypeServiceImpl extends AbstractService<Type, Integer, TypeMapper> 
         }
         wrapper.orderByAsc("sort");
         return wrapper;
-    }
-
-    @Override
-    public List<Type> findAll() {
-        return mapper.selectList(null);
     }
 }

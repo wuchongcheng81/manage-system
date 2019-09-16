@@ -50,6 +50,4 @@ public class BrandDetailDTO {
 
     /**大咖观点*/
     private String logoViewpoint;
-
-
 }

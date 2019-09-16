@@ -13,11 +13,13 @@ import java.util.List;
  */
 public interface BrandMapper extends BaseMapper<Brand> {
     Brand findById(int id);
-    List<BrandDTO> findPopularList();
-    List<BrandDTO> findWeekPopular(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize);
-    List<BrandDTO> findMonthPopular(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize);
-    List<BrandDTO> findAllPopular(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize);
-    List<BrandDTO> findRandom();
-    List<BrandDTO> findPageByTypeId(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize, @Param("typeId") Integer typeId);
-    List<BrandDTO> findAll(@Param("typeId") Integer typeId);
+    List<BrandDTO> findPopularList(@Param("isPublish") Integer isPublish);
+    List<BrandDTO> findWeekPopular(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize, @Param("isPublish") Integer isPublish);
+    List<BrandDTO> findMonthPopular(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize, @Param("isPublish") Integer isPublish);
+    List<BrandDTO> findAllPopular(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize, @Param("isPublish") Integer isPublish);
+    List<BrandDTO> findRandom(@Param("isPublish") Integer isPublish);
+    List<BrandDTO> findPageByTypeId(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize, @Param("typeId") Integer typeId, @Param("isPublish") Integer isPublish);
+    List<BrandDTO> findAll(@Param("typeId") Integer typeId, @Param("isPublish") Integer isPublish);
+
+    Brand getByIdWithType(@Param("id") int id, @Param("isPublish") Integer isPublish);
 }
