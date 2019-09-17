@@ -53,17 +53,20 @@ public class TypeServiceImpl extends AbstractService<Type, Integer, TypeMapper> 
 
     @Override
     public List<Type> findAll() {
-        return mapper.selectList(null);
+        QueryWrapper wrapper = getWrapper(null);
+        return mapper.selectList(wrapper);
     }
 
     private QueryWrapper getWrapper(Type entity) {
         QueryWrapper<Type> wrapper = new QueryWrapper<>();
         wrapper.eq("is_del", 0);
-        if (entity.getId() != null) {
-            wrapper.eq("id", entity.getId());
-        }
-        if (StringUtils.isNotBlank(entity.getName())) {
-            wrapper.like("name", entity.getName());
+        if(entity != null) {
+            if (entity.getId() != null) {
+                wrapper.eq("id", entity.getId());
+            }
+            if (StringUtils.isNotBlank(entity.getName())) {
+                wrapper.like("name", entity.getName());
+            }
         }
         wrapper.orderByAsc("sort");
         return wrapper;

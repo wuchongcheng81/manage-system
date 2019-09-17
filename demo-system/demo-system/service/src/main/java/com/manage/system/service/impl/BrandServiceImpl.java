@@ -73,13 +73,13 @@ public class BrandServiceImpl extends AbstractService<Brand, Integer, BrandMappe
     }
 
     @Override
-    public List<BrandDTO> findAllPopular(Integer pageNumber, Integer pageSize) {
+    public List<BrandDTO> findAllPopular(Integer pageNumber, Integer pageSize, Integer typeId) {
         if(pageNumber == null)
             pageNumber = 0;
         if(pageSize == null)
             pageSize = 5;
         pageNumber = setPageNumber(pageNumber, pageSize);
-        return mapper.findAllPopular(pageNumber, pageSize, 1);
+        return mapper.findAllPopular(pageNumber, pageSize, 1, typeId);
     }
 
     @Override
@@ -115,6 +115,11 @@ public class BrandServiceImpl extends AbstractService<Brand, Integer, BrandMappe
             pageSize = 10;
         pageNumber = setPageNumber(pageNumber, pageSize);
         return mapper.findByKeyWord(keyWord, 1, pageNumber, pageSize);
+    }
+
+    @Override
+    public void addPopularById(int id) {
+        mapper.addPopularById(id);
     }
 
     @Override

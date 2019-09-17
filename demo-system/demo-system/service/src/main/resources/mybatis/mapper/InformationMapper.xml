@@ -70,11 +70,14 @@
 
     <select id="findListByColumnCode" resultType="com.manage.system.dto.InformationFrontDTO">
         SELECT
+            b.name as brandName,
             b.company_name AS companyName,
+            t.name as typeName,
             i.*
         FROM
             `t_information` i
             INNER JOIN t_brand b ON b.id = i.brand_id
+            INNER JOIN t_type t ON t.id = i.type_id
             <where>
                 <if test="columnCode != null and columnCode != ''">
                     and i.column_code = #{columnCode}

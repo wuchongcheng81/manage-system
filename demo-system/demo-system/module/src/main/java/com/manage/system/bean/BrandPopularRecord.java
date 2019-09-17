@@ -15,8 +15,22 @@ import java.util.Date;
 @Data
 @TableName("t_brand_popular_record")
 public class BrandPopularRecord {
+
+    public static final String VISIT_TYPE = "visit";
+    public static final String MANUAL_TYPE = "manual";
+
     @TableId(type = IdType.AUTO)
     private Integer id;
     private Integer brandId;
     private Date createTime;
+    private String requestIp;
+    private String type;
+
+    public BrandPopularRecord(String requestIp, String type) {
+        this.requestIp = requestIp;
+        this.type = type;
+    }
+
+    public BrandPopularRecord() {
+    }
 }

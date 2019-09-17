@@ -15,6 +15,7 @@ import com.manage.system.service.AdvertisementService;
 import com.manage.system.service.BrandService;
 import com.manage.system.service.FocusMapService;
 import com.manage.system.service.InformationService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +41,7 @@ public class IndexController {
 
     @RequestMapping(value = "/home")
     public ResultData home() {
-        List<FocusMap> focusMapList = focusMapService.findList(new FocusMap(FocusMapEnum.INDEX.getCode()));
+        List<FocusMap> focusMapList = focusMapService.findList(new FocusMap(1, FocusMapEnum.INDEX.getCode()));
         List<Advertisement> advertisementList = advertisementService.findList(new Advertisement(AdvertiseEnum.INDEX.getCode()));
         List<BrandDTO> headBrandList = brandService.findPopularList();
         List<BrandDTO> hotWeekPopularBrandList = brandService.findWeekPopular(0, 5);
@@ -76,7 +77,9 @@ public class IndexController {
      * @return
      */
     @RequestMapping(value = "/getHotBrandList")
-    public ResultData getHotBrandList(String type, Integer pageNumber, Integer pageSize) {
+    public ResultData getHotBrandList(String type, Integer typeId, Integer pageNumber, Integer pageSize) {
+        if(StringUtils.isBlank(type))
+            type = "";
         List<BrandDTO> list;
         switch (type) {
             case "week":
@@ -86,7 +89,7 @@ public class IndexController {
                 list = brandService.findMonthPopular(pageNumber, pageSize);
                 break;
             default:
-                list = brandService.findAllPopular(pageNumber, pageSize);
+                list = brandService.findAllPopular(pageNumber, pageSize, typeId);
                 break;
         }
         return new ResultData(true, list);
@@ -101,6 +104,8 @@ public class IndexController {
      */
     @RequestMapping(value = "/getInformationList")
     public ResultData getInformationList(String type, Integer pageNumber, Integer pageSize) {
+        if(StringUtils.isBlank(type))
+            type = "";
         List<InformationFrontDTO> list;
         switch (type) {
             case "headline":

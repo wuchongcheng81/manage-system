@@ -26,7 +26,8 @@ public class FocusMap extends BaseModel {
     public FocusMap() {
     }
 
-    public FocusMap(String positionCode) {
+    public FocusMap(Integer imgIsShow, String positionCode) {
+        this.imgIsShow = imgIsShow;
         this.positionCode = positionCode;
     }
 }
