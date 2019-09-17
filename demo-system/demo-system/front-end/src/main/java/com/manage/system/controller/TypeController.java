@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -65,5 +66,10 @@ public class TypeController {
     @RequestMapping(value = "/findAll")
     public ResultData findAll() {
         return new ResultData<>(true, typeService.findAll());
+    }
+
+    @RequestMapping(value = "/findById")
+    public ResultData findById(@RequestParam int typeId) {
+        return new ResultData(true, typeService.findById(typeId));
     }
 }

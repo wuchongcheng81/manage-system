@@ -14,4 +14,6 @@ public class InformationFrontDTO {
     private String guideContent;
     private String companyName;
     private String createTime;
+    private String typeName;
+    private String brandName;
 }

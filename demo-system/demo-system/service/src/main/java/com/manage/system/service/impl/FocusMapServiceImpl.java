@@ -66,6 +66,9 @@ public class FocusMapServiceImpl extends AbstractService<FocusMap, Integer, Focu
         if(StringUtils.isNotBlank(entity.getPositionCode())) {
             wrapper.eq("position_code", entity.getPositionCode());
         }
+        if(entity.getImgIsShow() != null) {
+            wrapper.eq("img_is_show", entity.getImgIsShow());
+        }
         wrapper.orderByAsc("sort");
         return wrapper;
     }

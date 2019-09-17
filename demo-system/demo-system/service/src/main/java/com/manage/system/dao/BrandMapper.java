@@ -16,7 +16,7 @@ public interface BrandMapper extends BaseMapper<Brand> {
     List<BrandDTO> findPopularList(@Param("isPublish") Integer isPublish);
     List<BrandDTO> findWeekPopular(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize, @Param("isPublish") Integer isPublish);
     List<BrandDTO> findMonthPopular(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize, @Param("isPublish") Integer isPublish);
-    List<BrandDTO> findAllPopular(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize, @Param("isPublish") Integer isPublish);
+    List<BrandDTO> findAllPopular(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize, @Param("isPublish") Integer isPublish, @Param("typeId") Integer typeId);
     List<BrandDTO> findRandom(@Param("isPublish") Integer isPublish);
     List<BrandDTO> findPageByTypeId(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize, @Param("typeId") Integer typeId, @Param("isPublish") Integer isPublish);
     List<BrandDTO> findAll(@Param("typeId") Integer typeId, @Param("isPublish") Integer isPublish);
@@ -26,4 +26,6 @@ public interface BrandMapper extends BaseMapper<Brand> {
     int countByTypeId(@Param("typeId") int typeId);
 
     List<BrandDTO> findByKeyWord(@Param("keyWord") String keyWord, @Param("isPublish") Integer isPublish, @Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize);
+
+    void addPopularById(@Param("id") int id);
 }
