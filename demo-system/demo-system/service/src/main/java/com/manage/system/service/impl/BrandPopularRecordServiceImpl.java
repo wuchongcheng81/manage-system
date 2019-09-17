@@ -47,6 +47,9 @@ public class BrandPopularRecordServiceImpl extends AbstractService<BrandPopularR
         if(StringUtils.isNotBlank(entity.getType())) {
             wrapper.eq("type", entity.getType());
         }
+        if(entity.getBrandId() != null) {
+            wrapper.eq("brand_id", entity.getBrandId());
+        }
         return wrapper;
     }
 }

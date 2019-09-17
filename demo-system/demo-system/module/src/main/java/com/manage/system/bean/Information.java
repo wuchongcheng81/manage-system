@@ -36,6 +36,9 @@ public class Information extends BaseModel {
     private String typeName;
 
     @TableField(exist = false)
+    private String brandName;
+
+    @TableField(exist = false)
     private String publishTimeStr;
 
     public static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

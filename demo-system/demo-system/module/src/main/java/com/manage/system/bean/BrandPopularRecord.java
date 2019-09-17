@@ -26,9 +26,10 @@ public class BrandPopularRecord {
     private String requestIp;
     private String type;
 
-    public BrandPopularRecord(String requestIp, String type) {
+    public BrandPopularRecord(String requestIp, String type, Integer brandId) {
         this.requestIp = requestIp;
         this.type = type;
+        this.brandId = brandId;
     }
 
     public BrandPopularRecord() {

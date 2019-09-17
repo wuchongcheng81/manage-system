@@ -155,7 +155,7 @@
 
     <select id="findAllPopular" resultType="com.manage.system.dto.BrandDTO">
         SELECT
-            *
+            *, brand_popular as increaseNum
         FROM
             t_brand
         WHERE

@@ -19,7 +19,15 @@
     </resultMap>
 
     <select id="findById" resultMap="BaseResultMap">
-        select * from t_information where id = #{id}
+        SELECT
+            t.NAME AS typeName,
+            b.NAME AS brandName,
+            i.*
+        FROM
+            `t_information` i
+            INNER JOIN t_type t ON t.id = i.type_id
+            LEFT JOIN t_brand b ON b.id = i.brand_id
+	where i.id = #{id}
     </select>
 
     <select id="findListByPage" resultMap="BaseResultMap">

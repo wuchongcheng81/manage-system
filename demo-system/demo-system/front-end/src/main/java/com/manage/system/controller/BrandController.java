@@ -71,7 +71,7 @@ public class BrandController {
 
         String ip = HttpUtil.getIpAddr(request);
 
-        List<BrandPopularRecord> list = brandPopularRecordService.findList(new BrandPopularRecord(ip, type));
+        List<BrandPopularRecord> list = brandPopularRecordService.findList(new BrandPopularRecord(ip, type, brandId));
         if(BrandPopularRecord.MANUAL_TYPE.equals(type)) {
             if(!CollectionUtils.isEmpty(list) && list.size() >= 1)
                 return new ResultData(false, "今天已提交过了哦");

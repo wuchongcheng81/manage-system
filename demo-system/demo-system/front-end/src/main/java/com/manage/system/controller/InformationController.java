@@ -6,6 +6,7 @@ import com.manage.system.response.ResultData;
 import com.manage.system.service.InformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -34,4 +35,11 @@ public class InformationController {
         List<InformationFrontDTO> list = informationService.findListByColumnCode(code, typeId, brandId, pageNumber, pageSize);
         return new ResultData(true, list);
     }
+
+    @RequestMapping(value = "/findById")
+    public ResultData findById(@RequestParam int informationId) {
+        return new ResultData(true, informationService.findById(informationId));
+    }
+
+
 }
