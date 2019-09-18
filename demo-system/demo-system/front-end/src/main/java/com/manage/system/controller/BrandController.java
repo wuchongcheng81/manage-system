@@ -71,7 +71,7 @@ public class BrandController {
 
         String ip = HttpUtil.getIpAddr(request);
 
-        List<BrandPopularRecord> list = brandPopularRecordService.findList(new BrandPopularRecord(ip, type, brandId));
+        List<BrandPopularRecord> list = brandPopularRecordService.findTodayList(brandId, ip, type);
         if(BrandPopularRecord.MANUAL_TYPE.equals(type)) {
             if(!CollectionUtils.isEmpty(list) && list.size() >= 1)
                 return new ResultData(false, "今天已提交过了哦");
@@ -90,6 +90,12 @@ public class BrandController {
         brandService.addPopularById(brandId);
 
         return new ResultData(true);
+    }
+
+    @RequestMapping(value = "/findPopular")
+    public ResultData findPopular(Integer searchCount, Integer typeId) {
+
+        return null;
     }
 
 }

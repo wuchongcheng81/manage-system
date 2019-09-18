@@ -31,6 +31,7 @@ public class Information extends BaseModel {
     private String guideContent;
     private Date createTime;
     private Date publishTime;
+    private Integer recDay;
 
     @TableField(exist = false)
     private String typeName;

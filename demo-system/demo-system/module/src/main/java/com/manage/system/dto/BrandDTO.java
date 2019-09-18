@@ -18,4 +18,6 @@ public class BrandDTO {
     private Integer labelHonest;
     private Integer labelVip;
     private Integer labelQuality;
+    private Integer getCount;
+
 }

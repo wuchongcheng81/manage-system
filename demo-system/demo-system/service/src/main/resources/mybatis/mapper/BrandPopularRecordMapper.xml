@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manage.system.dao.BrandPopularRecordMapper">
+
+    <select id="findTodayList" resultType="com.manage.system.bean.BrandPopularRecord">
+        SELECT
+            *
+        FROM
+            t_brand_popular_record
+        WHERE
+            brand_id = #{brandId}
+            AND request_ip = #{requestIp}
+            AND type = #{type}
+            and to_days( create_time ) = to_days( now( ) )
+    </select>
+
+</mapper>

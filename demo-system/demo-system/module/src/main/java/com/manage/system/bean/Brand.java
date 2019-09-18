@@ -44,14 +44,14 @@ public class Brand extends BaseModel {
     private Integer status;
     private String investType;
 
-    private String recIndex;
-    private String recTypeIndex;
-    private String recTypeRank;
-    private String recTypeInfor;
-    private String recInforHead;
-    private String recInforEval;
-    private String recInforDetail;
-    private String isPublish;
+    private Integer recIndex;
+    private Integer recTypeIndex;
+    private Integer recTypeRank;
+    private Integer recTypeInfor;
+    private Integer recInforHead;
+    private Integer recInforEval;
+    private Integer recInforDetail;
+    private Integer isPublish;
 
     @TableField(exist = false)
     private String createTimeStr;

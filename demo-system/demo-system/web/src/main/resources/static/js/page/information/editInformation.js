@@ -30,9 +30,11 @@ $(function () {
 
             vm.cover = result.data.coverUrl;
             $('#coverDiv').removeClass('coverDiv');
-            if(result.data.isPublish == 1) {
+            if(result.data.isPublish == 1)
                 $("#isPublish").attr("checked",true);
-            }
+            if(result.data.recDay == 1)
+                $("#recDay").attr("checked",true);
+
             $('#summernote').summernote('code', result.data.content);
         }
     });
@@ -48,14 +50,17 @@ $(function () {
             $("#continueBtn").on("click", function () {
                 $('#myModal').modal('hide');
                 var isPublishFlag = 0;
-                if($('#isPublish').is(':checked')) {
+                var recDayFlag = 0;
+                if($('#isPublish').is(':checked'))
                     isPublishFlag = 1;
-                }
+                if($('#recDay').is(':checked'))
+                    recDayFlag = 1;
                 var entity = new FormData($('#editForm')[0]);
                 entity.append('id', id);
                 entity.append('content', $('#summernote').summernote('code'));
                 entity.append('coverUrl', vm.cover);
                 entity.append('isPublish', isPublishFlag);
+                entity.append('recDay', recDayFlag);
                 $.ajax({
                     url: '/information/update',
                     type: 'POST',

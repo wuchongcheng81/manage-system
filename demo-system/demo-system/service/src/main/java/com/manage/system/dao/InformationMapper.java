@@ -6,6 +6,7 @@ import com.manage.system.dto.InformationDTO;
 import com.manage.system.dto.InformationFrontDTO;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,4 +20,7 @@ public interface InformationMapper extends BaseMapper<Information> {
     List<InformationFrontDTO> findListByColumnCode(@Param("columnCode") String columnCode, @Param("typeId") Integer typeId,
                                                    @Param("brandId") Integer brandId,
                                                    @Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize);
+    void addClickNum(@Param("id") int id);
+    List<InformationFrontDTO> findLastWeek(@Param("startTime") Date startTime, @Param("typeId") Integer typeId,
+                                           @Param("brandId") Integer brandId, @Param("searchCount") Integer searchCount);
 }

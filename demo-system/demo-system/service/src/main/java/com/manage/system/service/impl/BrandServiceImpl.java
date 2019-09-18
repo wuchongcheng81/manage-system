@@ -7,6 +7,7 @@ import com.manage.system.base.AbstractService;
 import com.manage.system.bean.Brand;
 import com.manage.system.dao.BrandMapper;
 import com.manage.system.dto.BrandDTO;
+import com.manage.system.dto.BrandParamDTO;
 import com.manage.system.service.BrandService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -83,8 +84,14 @@ public class BrandServiceImpl extends AbstractService<Brand, Integer, BrandMappe
     }
 
     @Override
-    public List<BrandDTO> findRandom() {
-        return mapper.findRandom(1);
+    public List<BrandDTO> findRandom(BrandParamDTO param) {
+        if(param == null)
+            param = new BrandParamDTO();
+        if(param.getSearchCount() == null)
+            param.setSearchCount(6);
+
+        param.setIsPublish(1);
+        return mapper.findRandom(param);
     }
 
     @Override

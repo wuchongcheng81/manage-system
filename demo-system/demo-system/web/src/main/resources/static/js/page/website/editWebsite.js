@@ -154,7 +154,7 @@ function validateForm() {
                 validators: {
                     stringLength: {
                         min: 1,
-                        max: 30,
+                        max: 200,
                         message: '版权信息长度不得超过30'
                     }
                 }

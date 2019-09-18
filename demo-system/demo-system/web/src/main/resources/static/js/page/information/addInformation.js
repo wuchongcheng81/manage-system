@@ -25,13 +25,16 @@ $(function () {
             $("#continueBtn").on("click", function () {
                 $('#myModal').modal('hide');
                 var isPublishFlag = 0;
-                if($('#isPublish').is(':checked')) {
+                var recDayFlag = 0;
+                if($('#isPublish').is(':checked'))
                     isPublishFlag = 1;
-                }
+                if($('#recDay').is(':checked'))
+                    recDayFlag = 1;
                 var entity = new FormData($('#addForm')[0]);
                 entity.append('content', $('#summernote').summernote('code'));
                 entity.append('coverUrl', vm.cover);
                 entity.append('isPublish', isPublishFlag);
+                entity.append('recDay', recDayFlag);
                 $.ajax({
                     url: '/information/save',
                     type: 'POST',

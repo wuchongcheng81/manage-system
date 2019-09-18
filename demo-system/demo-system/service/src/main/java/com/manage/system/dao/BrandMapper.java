@@ -3,6 +3,7 @@ package com.manage.system.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.manage.system.bean.Brand;
 import com.manage.system.dto.BrandDTO;
+import com.manage.system.dto.BrandParamDTO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public interface BrandMapper extends BaseMapper<Brand> {
     List<BrandDTO> findWeekPopular(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize, @Param("isPublish") Integer isPublish);
     List<BrandDTO> findMonthPopular(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize, @Param("isPublish") Integer isPublish);
     List<BrandDTO> findAllPopular(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize, @Param("isPublish") Integer isPublish, @Param("typeId") Integer typeId);
-    List<BrandDTO> findRandom(@Param("isPublish") Integer isPublish);
+    List<BrandDTO> findRandom(BrandParamDTO param);
     List<BrandDTO> findPageByTypeId(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize, @Param("typeId") Integer typeId, @Param("isPublish") Integer isPublish);
     List<BrandDTO> findAll(@Param("typeId") Integer typeId, @Param("isPublish") Integer isPublish);
 
@@ -28,4 +29,5 @@ public interface BrandMapper extends BaseMapper<Brand> {
     List<BrandDTO> findByKeyWord(@Param("keyWord") String keyWord, @Param("isPublish") Integer isPublish, @Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize);
 
     void addPopularById(@Param("id") int id);
+
 }

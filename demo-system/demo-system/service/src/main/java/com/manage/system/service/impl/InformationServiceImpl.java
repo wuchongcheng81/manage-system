@@ -55,6 +55,19 @@ public class InformationServiceImpl extends AbstractService<Information, Integer
     }
 
     @Override
+    public void addClickNum(int id) {
+        mapper.addClickNum(id);
+    }
+
+    @Override
+    public List<InformationFrontDTO> findLastWeek(Date startTime, Integer typeId,
+                                                  Integer brandId, Integer searchCount) {
+        if(searchCount == null)
+            searchCount = 4;
+        return mapper.findLastWeek(startTime, typeId, brandId, searchCount);
+    }
+
+    @Override
     public Information findById(Integer id) {
         return mapper.findById(id);
     }

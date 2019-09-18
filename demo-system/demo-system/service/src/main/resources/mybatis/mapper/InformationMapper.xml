@@ -100,4 +100,24 @@
             order by i.create_time desc
             limit #{pageNumber}, #{pageSize}
     </select>
+
+    <update id="addClickNum">
+        update t_information set click_num = click_num+1 where id = #{id}
+    </update>
+
+    <select id="findLastWeek" resultType="com.manage.system.dto.InformationFrontDTO">
+        select * from  t_information
+        where rec_day = 1
+        and create_time &gt;= #{startTime}
+        and create_time &lt;= now()
+        <if test="typeId != null">
+            and type_id = #{typeId}
+        </if>
+        <if test="brandId != null">
+            and brand_id = #{brandId}
+        </if>
+        <if test="searchCount != null">
+            limit #{searchCount}
+        </if>
+    </select>
 </mapper>

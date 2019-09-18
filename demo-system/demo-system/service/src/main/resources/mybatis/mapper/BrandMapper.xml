@@ -153,6 +153,41 @@
             LIMIT #{pageNumber},#{pageSize}
     </select>
 
+    <select id="findRandom" resultType="com.manage.system.dto.BrandDTO">
+        SELECT
+            *
+        FROM
+            t_brand
+        WHERE
+            is_publish = #{isPublish}
+        <if test="recIndex != null">
+            and rec_index = #{recIndex}
+        </if>
+        <if test="recTypeIndex != null">
+            and rec_type_index = #{recTypeIndex}
+        </if>
+        <if test="recTypeRank != null">
+            and rec_type_rank = #{recTypeRank}
+        </if>
+        <if test="recTypeInfor != null">
+            and rec_type_infor = #{recTypeInfor}
+        </if>
+        <if test="recInforHead != null">
+            and rec_infor_head = #{recInforHead}
+        </if>
+        <if test="recInforEval != null">
+            and rec_infor_eval = #{recInforEval}
+        </if>
+        <if test="recInforDetail != null">
+            and rec_infor_detail = #{recInforDetail}
+        </if>
+        and
+            id >= ( ( SELECT MAX( id ) FROM t_brand ) - ( SELECT MIN( id ) FROM t_brand ) ) * RAND( ) + ( SELECT MIN( id ) FROM t_brand )
+        <if test="searchCount != null">
+            LIMIT #{searchCount}
+        </if>
+    </select>
+
     <select id="findAllPopular" resultType="com.manage.system.dto.BrandDTO">
         SELECT
             *, brand_popular as increaseNum
@@ -170,17 +205,7 @@
             LIMIT  #{pageNumber},#{pageSize}
     </select>
 
-    <select id="findRandom" resultType="com.manage.system.dto.BrandDTO">
-        SELECT
-            *
-        FROM
-            t_brand
-        WHERE
-            is_publish = #{isPublish}
-        and
-            id >= ( ( SELECT MAX( id ) FROM t_brand ) - ( SELECT MIN( id ) FROM t_brand ) ) * RAND( ) + ( SELECT MIN( id ) FROM t_brand )
-            LIMIT 6
-    </select>
+
 
     <update id="addPopularById">
         update t_brand set brand_popular = brand_popular+1 where id = #{id}
