@@ -116,8 +116,5 @@
         <if test="brandId != null">
             and brand_id = #{brandId}
         </if>
-        <if test="searchCount != null">
-            limit #{searchCount}
-        </if>
     </select>
 </mapper>

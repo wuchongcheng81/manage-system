@@ -22,5 +22,5 @@ public interface InformationMapper extends BaseMapper<Information> {
                                                    @Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize);
     void addClickNum(@Param("id") int id);
     List<InformationFrontDTO> findLastWeek(@Param("startTime") Date startTime, @Param("typeId") Integer typeId,
-                                           @Param("brandId") Integer brandId, @Param("searchCount") Integer searchCount);
+                                           @Param("brandId") Integer brandId);
 }

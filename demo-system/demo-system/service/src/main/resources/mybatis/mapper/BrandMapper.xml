@@ -181,11 +181,6 @@
         <if test="recInforDetail != null">
             and rec_infor_detail = #{recInforDetail}
         </if>
-        and
-            id >= ( ( SELECT MAX( id ) FROM t_brand ) - ( SELECT MIN( id ) FROM t_brand ) ) * RAND( ) + ( SELECT MIN( id ) FROM t_brand )
-        <if test="searchCount != null">
-            LIMIT #{searchCount}
-        </if>
     </select>
 
     <select id="findAllPopular" resultType="com.manage.system.dto.BrandDTO">

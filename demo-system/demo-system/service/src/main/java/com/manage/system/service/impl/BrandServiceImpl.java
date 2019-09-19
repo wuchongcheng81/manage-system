@@ -3,6 +3,7 @@ package com.manage.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Lists;
 import com.manage.system.base.AbstractService;
 import com.manage.system.bean.Brand;
 import com.manage.system.dao.BrandMapper;
@@ -13,7 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -89,9 +92,26 @@ public class BrandServiceImpl extends AbstractService<Brand, Integer, BrandMappe
             param = new BrandParamDTO();
         if(param.getSearchCount() == null)
             param.setSearchCount(6);
-
         param.setIsPublish(1);
-        return mapper.findRandom(param);
+        List<BrandDTO> list = mapper.findRandom(param);
+        List<BrandDTO> newList = Lists.newArrayList();
+        if(!CollectionUtils.isEmpty(list)) {
+            Collections.shuffle(list);
+            if(list.size() == 1 || param.getSearchCount() == 1) {
+                if(list.size() == 1) {
+                    return list;
+                }
+                newList.add(list.get(0));
+                return newList;
+            }
+            if(param.getSearchCount() >= list.size()) {
+                param.setSearchCount(list.size());
+            }
+            for (int i = 0; i < param.getSearchCount(); i++) {
+                newList.add(list.get(i));
+            }
+        }
+        return newList;
     }
 
     @Override

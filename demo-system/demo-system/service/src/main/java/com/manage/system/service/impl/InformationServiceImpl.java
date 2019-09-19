@@ -3,6 +3,7 @@ package com.manage.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Lists;
 import com.manage.system.base.AbstractService;
 import com.manage.system.bean.Information;
 import com.manage.system.dao.InformationMapper;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -64,7 +66,25 @@ public class InformationServiceImpl extends AbstractService<Information, Integer
                                                   Integer brandId, Integer searchCount) {
         if(searchCount == null)
             searchCount = 4;
-        return mapper.findLastWeek(startTime, typeId, brandId, searchCount);
+        List<InformationFrontDTO> list = mapper.findLastWeek(startTime, typeId, brandId);
+        List<InformationFrontDTO> newList = Lists.newArrayList();
+        if(!CollectionUtils.isEmpty(list)) {
+            Collections.shuffle(list);
+            if(list.size() == 1 || searchCount == 1) {
+                if(list.size() == 1) {
+                    return list;
+                }
+                newList.add(list.get(0));
+                return newList;
+            }
+            if(searchCount >= list.size()) {
+                searchCount = list.size();
+            }
+            for(int i = 0; i < searchCount; i++) {
+                newList.add(list.get(i));
+            }
+        }
+        return newList;
     }
 
     @Override
