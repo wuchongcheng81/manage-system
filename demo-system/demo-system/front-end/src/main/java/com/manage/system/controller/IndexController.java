@@ -61,11 +61,12 @@ public class IndexController {
      * @return
      */
     @RequestMapping(value = "/getBrandRecommend")
-    public ResultData getBrandRecommend(String type, Integer searchCount) {
+    public ResultData getBrandRecommend(String type, Integer searchCount, Integer typeId) {
         if(StringUtils.isBlank(type))
             type = "";
         BrandParamDTO param = new BrandParamDTO();
         param.setSearchCount(searchCount);
+        param.setTypeId(typeId);
         switch (type) {
             case "index" :
                 param.setRecIndex(1);

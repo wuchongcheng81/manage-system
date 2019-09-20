@@ -25,6 +25,11 @@ public class Type extends BaseModel {
     private String pageImgUrl;
     //详情广告图片
     private String detailImgUrl;
+    //链接颜色
+    private String linkColor;
+    //icon
+    private String icon;
+
 
     @TableField(exist = false)
     private int brandCount;

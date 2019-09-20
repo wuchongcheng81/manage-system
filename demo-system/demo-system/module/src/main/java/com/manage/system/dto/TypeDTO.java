@@ -12,6 +12,10 @@ import java.util.List;
 public class TypeDTO {
     private Integer id;
     private String name;
+    //链接颜色
+    private String linkColor;
+    //icon
+    private String icon;
 
     private List<BrandDTO> brandList;
 }

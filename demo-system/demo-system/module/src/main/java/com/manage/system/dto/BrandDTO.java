@@ -19,5 +19,6 @@ public class BrandDTO {
     private Integer labelVip;
     private Integer labelQuality;
     private Integer getCount;
-
+    private String officialWebsite;
+    private String onlineShopUrl;
 }

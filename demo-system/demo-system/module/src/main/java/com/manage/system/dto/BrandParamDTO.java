@@ -17,4 +17,5 @@ public class BrandParamDTO {
     private Integer recInforEval;
     private Integer recInforDetail;
     private Integer searchCount;
+    private Integer typeId;
 }

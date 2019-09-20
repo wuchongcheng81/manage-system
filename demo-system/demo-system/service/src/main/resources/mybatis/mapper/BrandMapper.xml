@@ -45,6 +45,8 @@
         <result column="rec_infor_detail" property="recInforDetail" jdbcType="INTEGER"/>
 
         <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+        <result column="official_website" property="officialWebsite" jdbcType="VARCHAR"/>
+        <result column="online_shop_url" property="onlineShopUrl" jdbcType="VARCHAR"/>
     </resultMap>
 
     <select id="findByKeyWord" resultType="com.manage.system.dto.BrandDTO">
@@ -160,6 +162,9 @@
             t_brand
         WHERE
             is_publish = #{isPublish}
+        <if test="typeId != null">
+            and type_id = #{typeId}
+        </if>
         <if test="recIndex != null">
             and rec_index = #{recIndex}
         </if>

@@ -16,6 +16,7 @@
         .coverDiv {
             border: 1px solid #C1C1C1;
             border-radius: 20px;
+            width: 100px;
         }
     </style>
 </head>
@@ -144,6 +145,16 @@
                     <label>加盟条件</label>
                     <input type="text" class="form-control" id="joinCondition" name="joinCondition" :value="brand.joinCondition"
                            placeholder="请输入加盟条件">
+                </div>
+                <div class="form-group">
+                    <label>官网地址</label>
+                    <input type="text" class="form-control" id="officialWebsite" name="officialWebsite" :value="brand.officialWebsite"
+                           placeholder="请输入官网地址">
+                </div>
+                <div class="form-group">
+                    <label>网店地址</label>
+                    <input type="text" class="form-control" id="onlineShopUrl" name="onlineShopUrl" :value="brand.onlineShopUrl"
+                           placeholder="请输入网店地址">
                 </div>
                 <div class="form-group">
                     <label>品牌标签</label>

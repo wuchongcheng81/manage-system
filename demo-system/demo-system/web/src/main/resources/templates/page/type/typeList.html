@@ -5,13 +5,14 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <th:block th:insert="header :: common_header"/>
-    <script th:src="@{/js/page/type/type.js(v=2)}"></script>
+    <script th:src="@{/js/page/type/type.js(v=3.8)}"></script>
     <script th:src="@{/js/bootstrap-table-editable.js}"></script>
 </head>
 <style type="text/css">
     .coverDiv {
         border: 1px solid #C1C1C1;
         border-radius: 20px;
+        width: 100px;
     }
 </style>
 <body style="background:#fff">
@@ -38,6 +39,24 @@
                                 <label>分类名称</label>
                                 <input type="text" class="form-control" id="a_name" name="name"
                                        placeholder="请输入分类名称">
+                            </div>
+                            <div class="form-group">
+                                <label>链接颜色</label>
+                                <select class="form-control" id="a_linkColor" name="linkColor">
+                                    <option value="">请选择链接颜色</option>
+                                    <option value="blue">蓝</option>
+                                    <option value="red">红</option>
+                                    <option value="yellow">黄</option>
+                                    <option value="green">绿</option>
+                                    <option value="pink">粉</option>
+                                    <option value="purple">紫</option>
+                                    <option value="orange">橘</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>ICON</label>
+                                <input type="text" class="form-control" id="a_icon" name="icon"
+                                       placeholder="请输入ICON">
                             </div>
                         </form>
                         <div class="form-group">
@@ -118,6 +137,23 @@
                             <label>分类名称</label>
                             <input type="text" class="form-control" id="u_name" name="name" :value="type.name"
                                    placeholder="请输入分类名称">
+                        </div>
+                        <div class="form-group">
+                            <label>链接颜色</label>
+                            <select class="form-control" id="u_linkColor" name="linkColor" :value="type.linkColor">
+                                <option value="blue">蓝</option>
+                                <option value="red">红</option>
+                                <option value="yellow">黄</option>
+                                <option value="green">绿</option>
+                                <option value="pink">粉</option>
+                                <option value="purple">紫</option>
+                                <option value="orange">橘</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>ICON</label>
+                            <input type="text" class="form-control" id="u_icon" name="icon" :value="type.icon"
+                                   placeholder="请输入ICON">
                         </div>
                     </form>
                     <div class="form-group">

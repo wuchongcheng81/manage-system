@@ -52,6 +52,8 @@ public class Brand extends BaseModel {
     private Integer recInforEval;
     private Integer recInforDetail;
     private Integer isPublish;
+    private String officialWebsite;
+    private String onlineShopUrl;
 
     @TableField(exist = false)
     private String createTimeStr;

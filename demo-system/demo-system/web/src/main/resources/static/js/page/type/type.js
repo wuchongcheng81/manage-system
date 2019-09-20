@@ -40,6 +40,8 @@ $(function () {
                 {
                     name: $('#a_name').val(),
                     sort: $('#a_sort').val(),
+                    icon: $('#a_icon').val(),
+                    linkColor: $('#a_linkColor').val(),
                     pageImgUrl: vm.aPageImgUrl,
                     detailImgUrl: vm.aDetailImgUrl,
                     pageImgIsShow: $("input[name='aPageisShow']:checked").val(),
@@ -68,6 +70,8 @@ $(function () {
                     id: vm.currentId,
                     name: $('#u_name').val(),
                     sort: $('#u_sort').val(),
+                    icon: $('#u_icon').val(),
+                    linkColor: $('#u_linkColor').val(),
                     pageImgUrl: vm.uPageImgUrl,
                     detailImgUrl: vm.uDetailImgUrl,
                     pageImgIsShow: $("input[name='uPageisShow']:checked").val(),
@@ -167,6 +171,9 @@ function search() {
 }
 
 function add() {
+    $("#addTypeForm").data('bootstrapValidator').destroy();
+    $('#addTypeForm').data('bootstrapValidator', null);
+    validateAddForm();
     $('#addModal').modal('show');
 }
 
@@ -276,6 +283,11 @@ function deleteFunction(id) {
 }
 
 function updateModal(id) {
+    $("#updateTypeForm").data('bootstrapValidator').destroy();
+    $('#updateTypeForm').data('bootstrapValidator', null);
+    validateUpdateForm();
+
+
     vm.currentId = id;
     $.get('/type/get', {id: id}, function (result) {
         if(result != null && result.state == 11) {
@@ -284,10 +296,16 @@ function updateModal(id) {
             if(type.pageImgUrl != null && type.pageImgUrl != '') {
                 $('#coverPageDiv').removeClass('coverDiv');
                 vm.uPageImgUrl = type.pageImgUrl;
+            }else {
+                $('#coverPageDiv').addClass('coverDiv');
+                vm.uPageImgUrl = null;
             }
             if(type.detailImgUrl != null && type.detailImgUrl != '') {
                 $('#coverDetailDiv').removeClass('coverDiv');
                 vm.uDetailImgUrl = type.detailImgUrl;
+            }else {
+                $('#coverDetailDiv').addClass('coverDiv');
+                vm.uDetailImgUrl = null;
             }
             if(type.pageImgIsShow == 1) {
                 $('input:radio[name="uPageisShow"]').eq(1).attr('checked',true);
@@ -352,6 +370,25 @@ function validateAddForm() {
                         message: '品牌分类名称不得超过50'
                     }
                 }
+            },
+            linkColor: {
+                validators: {
+                    notEmpty: {
+                        message: '链接颜色不能为空'
+                    }
+                }
+            },
+            icon: {
+                validators: {
+                    notEmpty: {
+                        message: 'icon不能为空'
+                    }
+                },
+                stringLength: {
+                    min: 1,
+                    max: 100,
+                    message: 'icon不得超过100'
+                }
             }
         }
     }).on('success.form.bv', function (e) {//验证通过后会执行这个函数。
@@ -390,6 +427,25 @@ function validateUpdateForm() {
                         max: 50,
                         message: '品牌分类名称不得超过50'
                     }
+                }
+            },
+            linkColor: {
+                validators: {
+                    notEmpty: {
+                        message: '链接颜色不能为空'
+                    }
+                }
+            },
+            icon: {
+                validators: {
+                    notEmpty: {
+                        message: 'icon不能为空'
+                    }
+                },
+                stringLength: {
+                    min: 1,
+                    max: 100,
+                    message: 'icon不得超过100'
                 }
             }
         }

@@ -57,4 +57,7 @@ public class BrandDetailDTO {
     private String logoB;
     /**广告位三*/
     private String logoC;
+
+    private String officialWebsite;
+    private String onlineShopUrl;
 }
