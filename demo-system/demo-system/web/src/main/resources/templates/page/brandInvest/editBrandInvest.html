@@ -5,10 +5,7 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <th:block th:insert="header :: common_header"/>
-    <link rel="stylesheet" th:href="@{/css/summernote.css}"/>
-    <script th:src="@{/js/summernote.js}"></script>
-    <script th:src="@{/js/summernote-zh-CN.js}"></script>
-    <script th:src="@{/js/page/brand/editBrand.js(v=1)}"></script>
+    <script th:src="@{/js/page/brandInvest/editBrandInvest.js(v=4)}"></script>
     <style type="text/css">
         .form-control {
             width: 70%;
@@ -34,7 +31,7 @@
                 </h4>
             </div>
             <div class="modal-body">
-                是否要修改品牌信息？
+                是否要保存品牌招商信息？
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default"
@@ -59,7 +56,7 @@
                 </h4>
             </div>
             <div class="modal-body">
-                修改品牌成功！
+                编辑品牌招商成功！
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="closeSuccessBtn">
@@ -70,7 +67,7 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div class="calls" id="editBrand">
+<div class="calls" id="editBrandInvest">
     <div class="breadcrumbs" id="breadcrumbs">
         <script type="text/javascript">
             try {
@@ -83,8 +80,8 @@
                 <i class="icon-home home-icon"></i>
                 <a href="#">首页</a>
             </li>
-            <li class="active">品牌管理</li>
-            <li class="active">编辑品牌</li>
+            <li class="active">品牌招商管理</li>
+            <li class="active">编辑品牌招商</li>
         </ul><!-- .breadcrumb -->
     </div>
 
@@ -93,7 +90,7 @@
         <div class="panel-body" style="padding-bottom:0px;">
             <form id="coverForm">
                 <div class="form-group">
-                    <label>品牌LOGO</label>
+                    <label>招商广告图</label>
                     <div style="height: 100px;">
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <div style="float: left; height: 100px" class="coverDiv" id="coverDiv">
@@ -108,240 +105,90 @@
                     </div>
                 </div>
             </form>
-            <form role="form" class="required-validate" id="editForm" method="post" action="/brand/update"
+            <form id="coverCForm">
+                <div class="form-group">
+                    <label>招商内容图</label>
+                    <div style="height: 100px;">
+                        <div style="float: left; height: 100px" class="coverDiv" id="coverCDiv">
+                            <img style="width: 100px" :src="coverC">
+                        </div>
+                        <div style="float: left; margin-top: 50px; margin-left: 10px">
+                            <button type="button" class="btn btn-info" style="margin-right: 15px"
+                                    onclick="uploadCCover()">上传文件
+                            </button>
+                            <input type="file" style="display: none;" id="coverCFile" name="file">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <form role="form" class="required-validate" id="updateForm" method="post" action="/brandInvest/update"
                   enctype="multipart/form-data">
                 <div class="form-group">
-                    <label>品牌名称</label>
-                    <input type="text" class="form-control" id="name" name="name" :value="brand.name"
-                           placeholder="请输入品牌名称">
+                    <label>标题</label>
+                    <input type="text" class="form-control" id="title" name="title" :value="brandInvest.title"
+                           placeholder="请输入标题">
                 </div>
                 <div class="form-group">
-                    <label>公司名称</label>
-                    <input type="text" class="form-control" id="companyName" name="companyName" :value="brand.companyName"
-                           placeholder="请输入公司名称">
+                    <label>品牌名字</label>
+                    <input type="text" class="form-control" id="brandName" name="brandName" :value="brandInvest.brandName"
+                           placeholder="请输入品牌名字">
                 </div>
                 <div class="form-group">
-                    <label>品牌类别</label>
-                    <select class="form-control" id="typeId" name="typeId" :value="brand.typeId">
-                        <option v-for="(t, index) in typeList" :value="t.id">{{t.name}}</option>
-                    </select>
+                    <label>类别</label>
+                    <input type="text" class="form-control" id="type" name="type" :value="brandInvest.type"
+                           placeholder="请输入类别">
                 </div>
                 <div class="form-group">
-                    <label>品牌创立年份</label>
-                    <input type="text" class="form-control" id="establishYear" name="establishYear" :value="brand.establishYear"
-                           placeholder="请输入品牌创立年份">
+                    <label>招商类别</label>
+                    <input type="text" class="form-control" id="investType" name="investType" :value="brandInvest.investType"
+                           placeholder="请输入招商类别">
                 </div>
-                <div class="form-group">
-                    <label>发源地</label>
-                    <input type="text" class="form-control" id="originPlace" name="originPlace" :value="brand.originPlace"
-                           placeholder="请输入发源地">
-                </div>
-                <div class="form-group">
-                    <label>品牌热度</label>
-                    <input type="text" class="form-control" id="brandPopular" name="brandPopular" :value="brand.brandPopular"
-                           placeholder="请输入品牌热度">
-                </div>
-                <div class="form-group">
-                    <label>加盟条件</label>
-                    <input type="text" class="form-control" id="joinCondition" name="joinCondition" :value="brand.joinCondition"
-                           placeholder="请输入加盟条件">
-                </div>
-                <div class="form-group">
-                    <label>官网地址</label>
-                    <input type="text" class="form-control" id="officialWebsite" name="officialWebsite" :value="brand.officialWebsite"
-                           placeholder="请输入官网地址">
-                </div>
-                <div class="form-group">
-                    <label>网店地址</label>
-                    <input type="text" class="form-control" id="onlineShopUrl" name="onlineShopUrl" :value="brand.onlineShopUrl"
-                           placeholder="请输入网店地址">
-                </div>
-                <div class="form-group">
-                    <label>品牌标签</label>
-                    <br/>
-                    <input type="checkbox" id="labelAuth">认证
-                    &nbsp;&nbsp;
-                    <input type="checkbox" id="labelHonest">诚信
-                    &nbsp;&nbsp;
-                    <input type="checkbox" id="labelVip">VIP
-                    &nbsp;&nbsp;
-                    <input type="checkbox" id="labelQuality">优质
-                </div>
-
-                <div class="form-group">
-                    <label>品牌简介</label>
-                </div>
-                <div id="summernoteDescription"></div>
-
-                <table>
-                    <tr>
-                        <td>
-                            <div class="form-group">
-                                <label>广告图一</label>
-                                <div style="height: 100px;">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <div style="float: left; height: 100px" class="coverDiv" id="coverADiv">
-                                        <img style="width: 100px" :src="coverA">
-                                    </div>
-                                    <div style="float: left; margin-top: 50px; margin-left: 10px">
-                                        <button type="button" class="btn btn-info" style="margin-right: 15px"
-                                                onclick="uploadACover()">上传文件
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                <label>广告图二</label>
-                                <div style="height: 100px;">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <div style="float: left; height: 100px" class="coverDiv" id="coverBDiv">
-                                        <img style="width: 100px" :src="coverB">
-                                    </div>
-                                    <div style="float: left; margin-top: 50px; margin-left: 10px">
-                                        <button type="button" class="btn btn-info" style="margin-right: 15px"
-                                                onclick="uploadBCover()">上传文件
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="form-group">
-                                <label>广告图三</label>
-                                <div style="height: 100px;">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <div style="float: left; height: 100px" class="coverDiv" id="coverCDiv">
-                                        <img style="width: 100px" :src="coverC">
-                                    </div>
-                                    <div style="float: left; margin-top: 50px; margin-left: 10px">
-                                        <button type="button" class="btn btn-info" style="margin-right: 15px"
-                                                onclick="uploadCCover()">上传文件
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                <label>大咖观点</label>
-                                <div style="height: 100px;">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <div style="float: left; height: 100px" class="coverDiv" id="coverVDiv">
-                                        <img style="width: 100px" :src="coverV">
-                                    </div>
-                                    <div style="float: left; margin-top: 50px; margin-left: 10px">
-                                        <button type="button" class="btn btn-info" style="margin-right: 15px"
-                                                onclick="uploadVCover()">上传文件
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-
-                <div class="form-group">
-                    <label>是否招商</label>
-                    <input type="checkbox" id="isInvest">
-                </div>
-
-                <div class="form-group">
-                    <label>招商类型</label>
-                    <input type="text" class="form-control" id="investType" name="investType" :value="brand.investType"
-                           placeholder="请输入招商类型">
-                </div>
-
                 <div class="form-group">
                     <label>招商地区</label>
-                    <input type="text" class="form-control" id="investArea" name="investArea" :value="brand.investArea"
+                    <input type="text" class="form-control" id="investArea" name="investArea" :value="brandInvest.investArea"
                            placeholder="请输入招商地区">
                 </div>
-
                 <div class="form-group">
-                    <label>招商政策</label>
+                    <label>截止日期</label>
+                    <input type="text" class="form-control" id="expireDateinput"
+                           placeholder="请输入截止日期" :value="expireDateStr">
+                    <input type="hidden" id="expireDate" name="expireDateTimeStamp">
                 </div>
-                <div id="summernotePolicy"></div>
-
                 <div class="form-group">
-                    <label>是否立即发布</label>
-                    <input type="checkbox" id="isPublish">
+                    <label>是否置顶</label>
+                    <input type="checkbox" id="isTop" onclick="changeTop()">
                 </div>
-
+                <div class="form-group" id="topSortDiv">
+                    <label>置顶序号</label>
+                    <input type="text" class="form-control" id="topSort" name="topSort" :value="brandInvest.topSort"
+                           placeholder="请输入置顶序号">
+                </div>
                 <div class="form-group">
-                    <label>推荐</label>
-                    <table>
-                        <tr>
-                            <td>
-                                <input type="checkbox" id="recIndex">推荐至首页
-                            </td>
-                            <td>
-                                &nbsp;&nbsp;
-                                <input type="checkbox" id="recTypeIndex">推荐至总分类页
-                            </td>
-                            <td>
-                                &nbsp;&nbsp;
-                                <input type="checkbox" id="recTypeRank">推荐至品牌排行页
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" id="recTypeInfor">推荐至品牌资讯页
-                            </td>
-                            <td>
-                                &nbsp;&nbsp;
-                                <input type="checkbox" id="recInforHead">推荐至资讯头条页
-                            </td>
-                            <td>
-                                &nbsp;&nbsp;
-                                <input type="checkbox" id="recInforEval">推荐至资讯评测页
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" id="recInforDetail">推荐至资讯详情页
-                            </td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </table>
+                    <label>立即发布</label>
+                    <input type="checkbox" id="isPublish" >
+                </div>
+                <div class="form-group">
+                    <label>标识</label>
+                    &nbsp;&nbsp;<input type="radio" name="mark" value = '最新'>最新
+                    &nbsp;&nbsp;
+                    &nbsp;&nbsp;<input type="radio" name="mark" value = '热门'>热门
+                    &nbsp;&nbsp;
+                    &nbsp;&nbsp;<input type="radio" name="mark" value = '推荐'>推荐
                 </div>
 
                 <button type="submit" class="btn btn-default" id="validaterBtn" style="margin-bottom: 5%">保存</button>
-            </form>
-
-            <form id="logoAForm">
-                <input type="file" style="display: none;" id="coverAFile" name="file">
-            </form>
-
-            <form id="logoBForm">
-                <input type="file" style="display: none;" id="coverBFile" name="file">
-            </form>
-
-            <form id="logoCForm">
-                <input type="file" style="display: none;" id="coverCFile" name="file">
-            </form>
-
-            <form id="logoVForm">
-                <input type="file" style="display: none;" id="coverVFile" name="file">
             </form>
         </div>
     </div>
 </div>
 <script>
     var vm = new Vue({
-        el: '#editBrand',
+        el: '#editBrandInvest',
         data: {
-            cover: null,
-            coverA: null,
-            coverB: null,
-            coverC: null,
-            coverV: null,
-            typeList: [],
-            brand:{}
+            cover: '',
+            coverC: '',
+            expireDateStr: '',
+            brandInvest: {}
         },
         beforeMount: function () {
 
@@ -350,13 +197,18 @@
 
         },
         created: function () {
-            $.get('/type/findAll', function (result) {
-                if(result != null && result.data != null )
-                    vm.typeList = result.data;
-            });
+
         },
         methods: {}
     })
+
+    function changeTop() {
+        if($('#isTop').is(':checked')) {
+            $('#topSortDiv').show();
+        }else {
+            $('#topSortDiv').hide();
+        }
+    }
 
 </script>
 </body>

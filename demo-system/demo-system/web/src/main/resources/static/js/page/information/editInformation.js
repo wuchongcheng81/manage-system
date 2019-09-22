@@ -19,7 +19,6 @@ $(function () {
     $.get('/information/get', {id : id}, function (result) {
         if(result != null && result.data != null ) {
             vm.information = result.data;
-            console.log(result.data);
             if(vm.information.typeId != null) {
                 vm.getBrand(vm.information.typeId);
                 if(result.data.brandId != null) {
@@ -27,9 +26,11 @@ $(function () {
                 }
             }
 
+            if(result.data.coverUrl != null && result.data.coverUrl != '') {
+                vm.cover = result.data.coverUrl;
+                $('#coverDiv').removeClass('coverDiv');
+            }
 
-            vm.cover = result.data.coverUrl;
-            $('#coverDiv').removeClass('coverDiv');
             if(result.data.isPublish == 1)
                 $("#isPublish").attr("checked",true);
             if(result.data.recDay == 1)

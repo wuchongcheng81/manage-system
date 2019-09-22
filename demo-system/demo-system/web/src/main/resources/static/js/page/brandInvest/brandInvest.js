@@ -14,7 +14,7 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#tb_body').bootstrapTable({
-            url: '/brand/findPage',                 //请求后台的URL（*）
+            url: '/brandInvest/findPage',                 //请求后台的URL（*）
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             method: 'post',                      //请求方式（*）
             toolbar: '#toolbar',                //工具按钮用哪个容器
@@ -44,8 +44,16 @@ var TableInit = function () {
                     checkbox: true
                 },
                 {
-                    field: 'logo',
-                    title: '图片',
+                    field: 'title',
+                    title: '标题'
+                },
+                {
+                    field: 'brandName',
+                    title: '品牌名字'
+                },
+                {
+                    field: 'investLogo',
+                    title: '招商广告图',
                     cellStyle: {'css': {'text-align': 'center', 'width': '20%'}},
                     formatter: function (value, row, index) {
                         if (value != null && value != '') {
@@ -55,45 +63,22 @@ var TableInit = function () {
                         return '';
                     }
                 },{
-                    field: 'name',
-                    title: '品牌名称'
+                    field: 'type',
+                    title: '类别'
                 },{
-                    field: 'brandPopular',
-                    title: '当前热度'
+                    field: 'investType',
+                    title: '招商类型'
                 },{
-                    field: 'status',
+                    field: 'investArea',
+                    title: '招商地区'
+                },{
+                    field: 'isPublish',
                     title: '状态',
                     formatter: function (value, row, index) {
-                        if(value == 1) {
-                            return '已审核';
-                        }
-                        return '审核中';
+                        if(value == 1)
+                            return '已发布';
+                        return '未审核';
                     }
-                },{
-                    field: 'companyName',
-                    title: '所属公司'
-                },{
-                    field: 'typeName',
-                    title: '品牌标签',
-                    formatter: function (value, row, index) {
-                        var str = '';
-                        if(row.labelAuth == 1) {
-                            str += '认证、';
-                        }
-                        if(row.labelHonest == 1) {
-                            str += '诚信、';
-                        }
-                        if(row.labelVip == 1) {
-                            str += 'VIP、';
-                        }
-                        if(row.labelQuality == 1) {
-                            str += '优质、';
-                        }
-                        return str.substring(0, str.length-1)
-                    }
-                },{
-                    field: 'createTimeStr',
-                    title: '创建时间'
                 },{
                     field: 'id',
                     title: '操作',
@@ -101,7 +86,7 @@ var TableInit = function () {
                     formatter: function (value, row, index) {
                         var standard = '<button type="button" style="margin-right: 15px" class="btn btn-primary" onclick="edit(\'' + value + '\')">编辑</button>';
                         var order;
-                        if(row.status == 0) {
+                        if(row.isPublish == 0) {
                             order = '<button type="button" class="btn btn-success" onclick="updateStatus(\'' + value + '\',1)">通过审核</button>';
                         } else {
                             order = '<button type="button" class="btn btn-warning" onclick="updateStatus(\'' + value + '\',0)">置未审核</button>';
@@ -138,15 +123,15 @@ function updateStatus(id, status) {
     vm.currentId = id;
     vm.status = status;
     if(status == 1) {
-        $('#modalDiv').html('确认通过审核该品牌吗？');
+        $('#modalDiv').html('确认通过审核该品牌招商吗？');
     }else {
-        $('#modalDiv').html('确认将该品牌置未审核吗？');
+        $('#modalDiv').html('确认将该品牌招商置未审核吗？');
     }
     $('#myModal').modal('show');
 }
 
 function confirmUpdate() {
-    $.post('/brand/update', {id: vm.currentId, status: vm.status}, function(result) {
+    $.post('/brandInvest/update', {id: vm.currentId, isPublish: vm.status}, function(result) {
         if(result != null && result.state == 11) {
             $('#tb_body').bootstrapTable('refresh');
             $('#myModal').modal('hide');
@@ -170,7 +155,7 @@ function confirmDelete() {
     getSelectRows.forEach(function (data) {
         ids += data.id + ',';
     })
-    $.post('/brand/deleteByIds', {ids: ids}, function(result) {
+    $.post('/brandInvest/deleteByIds', {ids: ids}, function(result) {
         if(result != null && result.state == 11) {
             $('#tb_body').bootstrapTable('refresh');
             $('#myDModal').modal('hide');
@@ -182,9 +167,9 @@ function confirmDelete() {
 
 
 function add() {
-    parent.window.addTab(14, '新增品牌', 'brand/addBrand.html');
+    parent.window.addTab(64, '新增品牌招商', 'brandInvest/addBrandInvest.html');
 }
 
 function edit(id) {
-    parent.window.addTab(11, '编辑资讯', 'brand/editBrand.html?id=' + id);
+    parent.window.addTab(61, '编辑品牌招商', 'brandInvest/editBrandInvest.html?id=' + id);
 }

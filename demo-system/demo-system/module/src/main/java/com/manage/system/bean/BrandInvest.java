@@ -1,6 +1,7 @@
 package com.manage.system.bean;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.manage.system.base.BaseModel;
@@ -19,6 +20,7 @@ public class BrandInvest extends BaseModel {
     private Integer id;
 
     private String title;
+    private String brandName;
     private String investLogo;
     private String type;
     private String investType;
@@ -30,5 +32,9 @@ public class BrandInvest extends BaseModel {
     private String mark;
     private Date createTime;
     private Date expireDate;
+    private Date publishTime;
+
+    @TableField(exist = false)
+    private Long expireDateTimeStamp;
 
 }

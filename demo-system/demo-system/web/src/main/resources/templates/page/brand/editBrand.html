@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/summernote.css}"/>
     <script th:src="@{/js/summernote.js}"></script>
     <script th:src="@{/js/summernote-zh-CN.js}"></script>
-    <script th:src="@{/js/page/brand/editBrand.js(v=1)}"></script>
+    <script th:src="@{/js/page/brand/editBrand.js(v=4)}"></script>
     <style type="text/css">
         .form-control {
             width: 70%;
@@ -335,11 +335,11 @@
     var vm = new Vue({
         el: '#editBrand',
         data: {
-            cover: null,
-            coverA: null,
-            coverB: null,
-            coverC: null,
-            coverV: null,
+            cover: '',
+            coverA: '',
+            coverB: '',
+            coverC: '',
+            coverV: '',
             typeList: [],
             brand:{}
         },

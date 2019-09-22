@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manage.system.dao.BrandInvestMapper">
+
+    <select id="findList" resultType="com.manage.system.bean.BrandInvest">
+        SELECT
+            *
+        FROM
+            `t_brand_invest`
+        WHERE is_publish = 1
+        ORDER BY
+            is_top DESC,
+            top_sort DESC,
+            create_time DESC
+            LIMIT #{pageNumber}, #{pageSize}
+    </select>
+
+</mapper>

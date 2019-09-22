@@ -217,7 +217,7 @@ function updateModal(id) {
         if(result != null && result.state == 11) {
             var focusMap = result.data;
             vm.focusMap = focusMap;
-            if(focusMap.imgUrl != null) {
+            if(focusMap.imgUrl != null && focusMap.imgUrl != '') {
                 $('#coverDiv').removeClass('coverDiv');
                 vm.imgUrl = focusMap.imgUrl;
             }

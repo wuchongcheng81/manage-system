@@ -61,7 +61,7 @@ var TableInit = function () {
                     field: 'brandPopular',
                     title: '当前热度'
                 },{
-                    field: 'status',
+                    field: 'isPublish',
                     title: '状态',
                     formatter: function (value, row, index) {
                         if(value == 1) {
@@ -101,7 +101,7 @@ var TableInit = function () {
                     formatter: function (value, row, index) {
                         var standard = '<button type="button" style="margin-right: 15px" class="btn btn-primary" onclick="edit(\'' + value + '\')">编辑</button>';
                         var order;
-                        if(row.status == 0) {
+                        if(row.isPublish == 0) {
                             order = '<button type="button" class="btn btn-success" onclick="updateStatus(\'' + value + '\',1)">通过审核</button>';
                         } else {
                             order = '<button type="button" class="btn btn-warning" onclick="updateStatus(\'' + value + '\',0)">置未审核</button>';
@@ -146,7 +146,7 @@ function updateStatus(id, status) {
 }
 
 function confirmUpdate() {
-    $.post('/brand/update', {id: vm.currentId, status: vm.status}, function(result) {
+    $.post('/brand/update', {id: vm.currentId, isPublish: vm.status}, function(result) {
         if(result != null && result.state == 11) {
             $('#tb_body').bootstrapTable('refresh');
             $('#myModal').modal('hide');
