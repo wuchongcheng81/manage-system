@@ -16,27 +16,27 @@ public class BrandDetailDTO {
     private String companyName;
 
     /**认证*/
-    private int labelAuth;
+    private Integer labelAuth;
     /**诚信*/
-    private int labelHonest;
+    private Integer labelHonest;
     /**VIP*/
-    private int labelVip;
+    private Integer labelVip;
     /**优质*/
-    private int labelQuality;
+    private Integer labelQuality;
 
     /**品牌分类*/
     private String typeName;
     /**加盟条件*/
     private String joinCondition;
     /**是否招商*/
-    private int isInvest;
+    private Integer isInvest;
 
     /**创立时间*/
-    private int establishYear;
+    private Integer establishYear;
     /**品牌发源地*/
     private String originPlace;
     /**品牌热度*/
-    private int brandPopular;
+    private Integer brandPopular;
 
     /**品牌简介*/
     private String description;
