@@ -23,6 +23,6 @@ public class BrandInvestDTO {
     private String investContentLogo;
     private String mark;
     private String createTimeStr;
-    private String expireDateStr;
     private String publishTimeStr;
+    private boolean isExpire;
 }

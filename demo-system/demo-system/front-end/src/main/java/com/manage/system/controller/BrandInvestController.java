@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -52,11 +53,16 @@ public class BrandInvestController {
     private BrandInvestDTO getDTO(BrandInvest brand) {
         if(brand != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date now = new Date();
             BrandInvestDTO brandInvestDTO = new BrandInvestDTO();
             BeanUtils.copyProperties(brand, brandInvestDTO);
             brandInvestDTO.setCreateTimeStr(brand.getCreateTime() != null ? sdf.format(brand.getCreateTime()) : "");
             brandInvestDTO.setPublishTimeStr(brand.getPublishTime() != null ? sdf.format(brand.getPublishTime()) : "");
-            brandInvestDTO.setExpireDateStr(brand.getExpireDate() != null ? sdf.format(brand.getExpireDate()) : "");
+            if(now.before(brand.getExpireDate())) {
+                brandInvestDTO.setExpire(false);
+            }else {
+                brandInvestDTO.setExpire(true);
+            }
             return brandInvestDTO;
         }
         return null;
