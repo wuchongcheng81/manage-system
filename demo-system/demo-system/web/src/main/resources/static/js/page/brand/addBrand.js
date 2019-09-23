@@ -1,34 +1,23 @@
 $(function () {
-    $('#summernoteDescription').summernote(
-        {
-            placeholder: '请输入品牌简介',
-            focus: false,
-            lang: 'zh-CN',
-            height: 300,
-            width: '70%',
-            callbacks: {
-                onImageUpload: function (files) {
-                    sendFileA(files);
-                }
-            }
-        }
-    );
+    var De = window.wangEditor;
+    var editorD = new De('#editorD');
+    //设置文件上传的参数名称
+    editorD.customConfig.uploadFileName = 'file';
+    //设置上传文件的服务器路径
+    editorD.customConfig.uploadImgServer = '/upload/wangEditorUpload';
+    //将图片大小限制为5M
+    editorD.customConfig.uploadImgMaxSize = 5 * 1024 * 1024;
+    editorD.create();
 
-    $('#summernotePolicy').summernote(
-        {
-            placeholder: '请输入招商政策',
-            focus: false,
-            lang: 'zh-CN',
-            height: 300,
-            width: '70%',
-            callbacks: {
-                onImageUpload: function (files) {
-                    sendFileB(files);
-                }
-            }
-        }
-    );
-
+    var Po = window.wangEditor;
+    var editorP = new Po('#editorP');
+    //设置文件上传的参数名称
+    editorP.customConfig.uploadFileName = 'file';
+    //设置上传文件的服务器路径
+    editorP.customConfig.uploadImgServer = '/upload/wangEditorUpload';
+    //将图片大小限制为5M
+    editorP.customConfig.uploadImgMaxSize = 5 * 1024 * 1024;
+    editorP.create();
 
     $("#addForm").submit(function (ev) {
         ev.preventDefault();
@@ -102,8 +91,8 @@ $(function () {
                 entity.append('recInforEval', recInforEval);
                 entity.append('recInforDetail', recInforDetail);
 
-                entity.append('description', $('#summernoteDescription').summernote('code'));
-                entity.append('investPolicy', $('#summernotePolicy').summernote('code'));
+                entity.append('description', editorD.txt.html());
+                entity.append('investPolicy', editorP.txt.html());
 
                 $.ajax({
                     url: '/brand/save',

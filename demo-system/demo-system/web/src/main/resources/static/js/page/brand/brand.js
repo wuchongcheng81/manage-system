@@ -186,5 +186,5 @@ function add() {
 }
 
 function edit(id) {
-    parent.window.addTab(11, '编辑资讯', 'brand/editBrand.html?id=' + id);
+    parent.window.addTab(11, '编辑品牌', 'brand/editBrand.html?id=' + id);
 }

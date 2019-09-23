@@ -5,10 +5,8 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <th:block th:insert="header :: common_header"/>
-    <link rel="stylesheet" th:href="@{/css/summernote.css}"/>
-    <script th:src="@{/js/summernote.js}"></script>
-    <script th:src="@{/js/summernote-zh-CN.js}"></script>
-    <script th:src="@{/js/page/brand/addBrand.js(v=4)}"></script>
+    <script th:src="@{/js/editor/wangEditor.js}"></script>
+    <script th:src="@{/js/page/brand/addBrand.js(v=5)}"></script>
     <style type="text/css">
         .form-control {
             width: 70%;
@@ -171,7 +169,9 @@
                 <div class="form-group">
                     <label>品牌简介</label>
                 </div>
-                <div id="summernoteDescription"></div>
+                <div id="editorD">
+                    <p>请输入品牌简介</p>
+                </div>
 
                 <table>
                     <tr>
@@ -264,7 +264,9 @@
                 <div class="form-group">
                     <label>招商政策</label>
                 </div>
-                <div id="summernotePolicy"></div>
+                <div id="editorP">
+                    <p>请输入招商政策</p>
+                </div>
 
                 <div class="form-group">
                     <label>是否立即发布</label>

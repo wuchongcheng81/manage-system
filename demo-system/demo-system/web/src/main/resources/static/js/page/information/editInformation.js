@@ -1,19 +1,14 @@
 var id;
 $(function () {
-    $('#summernote').summernote(
-        {
-            placeholder: '请输入文本内容',
-            focus: false,
-            lang: 'zh-CN',
-            height: 300,
-            width: '70%',
-            callbacks: {
-                onImageUpload: function (files) {
-                    sendFile(files);
-                }
-            }
-        }
-    );
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+    //设置文件上传的参数名称
+    editor.customConfig.uploadFileName = 'file';
+    //设置上传文件的服务器路径
+    editor.customConfig.uploadImgServer = '/upload/wangEditorUpload';
+    //将图片大小限制为5M
+    editor.customConfig.uploadImgMaxSize = 5 * 1024 * 1024;
+    editor.create();
 
     id = getUrlParam('id');
     $.get('/information/get', {id : id}, function (result) {
@@ -36,7 +31,7 @@ $(function () {
             if(result.data.recDay == 1)
                 $("#recDay").attr("checked",true);
 
-            $('#summernote').summernote('code', result.data.content);
+            editor.txt.html(result.data.content);
         }
     });
 
@@ -58,7 +53,7 @@ $(function () {
                     recDayFlag = 1;
                 var entity = new FormData($('#editForm')[0]);
                 entity.append('id', id);
-                entity.append('content', $('#summernote').summernote('code'));
+                entity.append('content', editor.txt.html());
                 entity.append('coverUrl', vm.cover);
                 entity.append('isPublish', isPublishFlag);
                 entity.append('recDay', recDayFlag);

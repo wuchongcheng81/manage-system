@@ -1,6 +1,7 @@
 package com.manage.system.controller;
 
 import com.manage.system.bean.Photo;
+import com.manage.system.dto.WangEditorDTO;
 import com.manage.system.response.ResultData;
 import com.manage.system.service.PhotoService;
 import com.manage.system.service.UploadServiceFeign;
@@ -34,12 +35,16 @@ public class UploadController {
     private UploadServiceFeign uploadServiceFeign;
 
     @PostMapping(value = "/image")
-    public ResultData uploadImg(MultipartFile file,
-                                @RequestParam(required = false) String relatedId,
-                                @RequestParam(required = false) Integer isShow) {
-//        Photo photo = photoService.save(file, filePath, imgPattern, relatedId, host, isShow != null ? isShow : 0);
-//        return new ResultData<>(true, photo);
+    public ResultData uploadImg(MultipartFile file) {
         String imgUrl = FileUtil.uploadFileReturnFileUrl(host, imgPattern, file, filePath);
         return new ResultData(true, imgUrl);
+    }
+
+    @RequestMapping(value = "/wangEditorUpload")
+    public WangEditorDTO wangEditorUpload(MultipartFile file) {
+        String imgUrl = FileUtil.uploadFileReturnFileUrl(host, imgPattern, file, filePath);
+        String[] url = {imgUrl};
+        WangEditorDTO wangEditor = new WangEditorDTO(url);
+        return wangEditor;
     }
 }

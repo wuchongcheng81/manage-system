@@ -1,13 +1,19 @@
 $(function () {
-    var E = window.wangEditor;
-    var editor = new E('#editor');
-    //设置文件上传的参数名称
-    editor.customConfig.uploadFileName = 'file';
-    //设置上传文件的服务器路径
-    editor.customConfig.uploadImgServer = '/upload/wangEditorUpload';
-    //将图片大小限制为5M
-    editor.customConfig.uploadImgMaxSize = 5 * 1024 * 1024;
-    editor.create();
+    $('#summernote').summernote(
+        {
+            placeholder: '请输入文本内容',
+            focus: false,
+            lang: 'zh-CN',
+            height: 300,
+            width: '70%',
+            callbacks: {
+                onImageUpload: function (files) {
+                    sendFile(files);
+                }
+            }
+        }
+    );
+
 
     $("#addForm").submit(function (ev) {
         ev.preventDefault();
@@ -25,7 +31,7 @@ $(function () {
                 if($('#recDay').is(':checked'))
                     recDayFlag = 1;
                 var entity = new FormData($('#addForm')[0]);
-                entity.append('content', editor.txt.html());
+                entity.append('content', $('#summernote').summernote('code'));
                 entity.append('coverUrl', vm.cover);
                 entity.append('isPublish', isPublishFlag);
                 entity.append('recDay', recDayFlag);
