@@ -70,10 +70,10 @@ var TableInit = function () {
                     formatter: function (value, row, index) {
                         var standard;
                         if(row.status == 0) {
-                            standard = '<button type="button" style="margin-right: 15px" class="btn btn-success" onclick="edit(\'' + value + '\')">置为已联系</button>';
+                            standard = '<button type="button" style="margin-right: 15px" class="btn btn-success" onclick="edit(\'' + value + '\',\'' + row.remark + '\')">置为已联系</button>';
                         }
                         if(row.status == 1) {
-                            standard = '<button type="button" style="margin-right: 15px" class="btn btn-primary" onclick="edit(\'' + value + '\')">修改备注</button>';
+                            standard = '<button type="button" style="margin-right: 15px" class="btn btn-primary" onclick="edit(\'' + value + '\',\'' + row.remark + '\')">修改备注</button>';
                         }
                         return standard;
                     }
@@ -103,34 +103,28 @@ var ButtonInit = function () {
     return oInit;
 };
 
-function deleteFunction() {
-    getSelectRows = $('#tb_body').bootstrapTable('getSelections', function (rows) {
-        return rows;
-    });
-    if (getSelectRows.length > 0) {
-        $('#myDModal').modal('show');
+function confirm() {
+    var id = $('#consultId').val();
+    var remarkContent = $('#remarkContent').val();
+    if(remarkContent == null || remarkContent == '') {
+        return;
     }
-}
-
-function confirmDelete() {
-    var ids = '';
-    getSelectRows.forEach(function (data) {
-        ids += data.id + ',';
-    })
-    $.post('/information/deleteByIds', {ids: ids}, function(result) {
+    $.post('/consult/update', {id: id, remark: remarkContent, status: 1}, function(result) {
         if(result != null && result.state == 11) {
             $('#tb_body').bootstrapTable('refresh');
             $('#myDModal').modal('hide');
-            $('#modalSuccessDiv').html('删除成功！');
+            $('#modalSuccessDiv').html('更新成功！');
             $('#mySuccessModal').modal('show');
         }
     })
 }
 
-function add() {
-    parent.window.addTab(10, '新增资讯', 'information/addInformation.html');
-}
-
-function edit(id) {
-    parent.window.addTab(11, '编辑资讯', 'information/editInformation.html?id=' + id);
+function edit(id, remark) {
+    $('#consultId').val(id);
+    if(remark != null && remark != '') {
+        $('#remarkContent').val(remark);
+    }else {
+        $('#remarkContent').val('');
+    }
+    $('#myDModal').modal('show');
 }
