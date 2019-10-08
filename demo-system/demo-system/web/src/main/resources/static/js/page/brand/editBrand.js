@@ -404,7 +404,7 @@ function sendFileA(files) {
         },
         // 图片上传失败
         error: function () {
-            console.log('图片上传失败');
+            // console.log('图片上传失败');
         }
     });
 }

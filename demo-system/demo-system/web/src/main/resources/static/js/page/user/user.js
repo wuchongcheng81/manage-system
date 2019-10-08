@@ -209,7 +209,6 @@ function bindRoleModal(userId, roleId) {
     var roTableInit = new rTableInit();
     roTableInit.Init();
 
-    // console.log($('#roleList input[type="radio"]'));
     $('#roleModal').modal('show');
 }
 

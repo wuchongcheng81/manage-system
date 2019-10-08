@@ -80,11 +80,6 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/view/page/user/addUser", "anon");
         filterChainDefinitionMap.put("/view/page/user/forgetPwd", "anon");
 
-        filterChainDefinitionMap.put("/upload/image", "anon");
-
-        filterChainDefinitionMap.put("/user/save", "anon");
-        filterChainDefinitionMap.put("/user/getSmsCode", "anon");
-        filterChainDefinitionMap.put("/user/checkCode", "anon");
         filterChainDefinitionMap.put("/user/updatePassword", "anon");
 
 		//<!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;

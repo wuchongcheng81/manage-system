@@ -45,7 +45,6 @@ $(function () {
         btnType = 'saveMenu';
         $('#myModal').modal('show');
         $('#successMsg').text('确认要修改权限吗？');
-        console.log();
     })
 });
 
