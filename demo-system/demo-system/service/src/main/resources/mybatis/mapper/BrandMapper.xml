@@ -110,15 +110,24 @@
     <select id="findPopularList" resultType="com.manage.system.dto.BrandDTO">
         SELECT
             t.NAME AS typeName,
-            b.*
+            b.*,
+            b.brand_popular as increaseNum
         FROM
             t_brand b
             INNER JOIN t_type t ON t.id = b.type_id
+            INNER JOIN (
+        SELECT
+            max( a.brand_popular ) AS mp,
+            GROUP_CONCAT( DISTINCT a.type_id ) AS tid
+        FROM
+            t_brand a
+        GROUP BY
+            a.type_id
+            ) temp ON temp.mp = b.brand_popular
+            AND temp.tid = b.type_id
         WHERE
-            b.is_publish = #{isPublish}
-        and
-            b.brand_popular IN ( SELECT max( a.brand_popular ) FROM t_brand a GROUP BY a.type_id )
-        AND b.brand_popular != 0
+            b.is_publish = 1
+            AND b.brand_popular != 0
     </select>
 
     <select id="findWeekPopular" resultType="com.manage.system.dto.BrandDTO">

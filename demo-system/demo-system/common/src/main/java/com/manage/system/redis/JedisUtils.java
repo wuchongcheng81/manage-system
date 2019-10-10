@@ -20,7 +20,7 @@ public class JedisUtils extends JedisBase {
 
     private JedisUtils() {
         super.setJedisEnum(JedisBaseEnum.DB0);
-        super.setKeyPrefix("manage-system:");
+        super.setKeyPrefix("pinpin:front:");
     }
 
     /**
