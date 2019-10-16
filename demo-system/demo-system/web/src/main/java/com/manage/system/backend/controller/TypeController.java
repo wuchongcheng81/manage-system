@@ -1,5 +1,6 @@
 package com.manage.system.backend.controller;
 
+import com.manage.system.base.BaseController;
 import com.manage.system.bean.Type;
 import com.manage.system.response.ResultData;
 import com.manage.system.service.TypeService;

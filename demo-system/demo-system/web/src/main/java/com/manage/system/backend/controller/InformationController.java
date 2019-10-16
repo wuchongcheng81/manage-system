@@ -1,5 +1,6 @@
 package com.manage.system.backend.controller;
 
+import com.manage.system.base.BaseController;
 import com.manage.system.bean.Information;
 import com.manage.system.dto.InformationDTO;
 import com.manage.system.response.ResultPage;

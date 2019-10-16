@@ -71,13 +71,13 @@ public class ShiroConfig {
 		//拦截器.
 		Map<String,String> filterChainDefinitionMap = new LinkedHashMap<String,String>();
 		// 配置不会被拦截的链接 顺序判断
+        filterChainDefinitionMap.put("/api/**", "anon");
+
 		filterChainDefinitionMap.put("/static/**", "anon");
 		filterChainDefinitionMap.put("/js/**", "anon");
 		filterChainDefinitionMap.put("/css/**", "anon");
 		filterChainDefinitionMap.put("/assets/**", "anon");
         filterChainDefinitionMap.put("/file-dir/**", "anon");
-
-        filterChainDefinitionMap.put("/api/**", "anon");
 
         filterChainDefinitionMap.put("/view/page/user/addUser", "anon");
         filterChainDefinitionMap.put("/view/page/user/forgetPwd", "anon");
