@@ -1,6 +1,5 @@
 package com.manage.system.backend.controller;
 
-import com.manage.system.base.BaseController;
 import com.manage.system.bean.BrandInvest;
 import com.manage.system.service.BrandInvestService;
 import org.springframework.web.bind.annotation.RequestMapping;

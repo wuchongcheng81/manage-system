@@ -1,6 +1,5 @@
 package com.manage.system.frontend.controller;
 
-import com.manage.system.base.BaseController;
 import com.manage.system.bean.Website;
 import com.manage.system.response.ResultData;
 import com.manage.system.service.WebsiteService;

@@ -1,6 +1,5 @@
 package com.manage.system.backend.controller;
 
-import com.manage.system.base.BaseController;
 import com.manage.system.bean.FocusMap;
 import com.manage.system.dto.FocusMapGroupDTO;
 import com.manage.system.response.ResultData;
