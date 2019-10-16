@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+
+    <contextName>manage-system</contextName>
+
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>===%d{yyyy-MM-dd HH:mm:ss.SSS} requestId: %X{requestId} %-5level %logger Line:%-3L - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="R" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>../logs/manage-system.log</File>
+        <encoder>
+            <pattern>===%d{yyyy-MM-dd HH:mm:ss.SSS} requestId: %X{requestId} %-5level %logger Line:%-3L - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>../logs/history/manage-system.log.%d{yyyy-MM-dd}</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+
+    <logger name="com.manage.system" level="${app.logger.level}" additivity="false">
+        <appender-ref ref="R"/>
+        <appender-ref ref="Console"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="Console"/>
+        <appender-ref ref="R"/>
+    </root>
+</configuration>
