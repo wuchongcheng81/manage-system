@@ -16,7 +16,7 @@ import java.util.Date;
  */
 @Data
 @TableName("t_information")
-public class Information extends BaseModel {
+public class  Information extends BaseModel {
     @TableId(type = IdType.AUTO)
     private Integer id;
     private Integer isDel;

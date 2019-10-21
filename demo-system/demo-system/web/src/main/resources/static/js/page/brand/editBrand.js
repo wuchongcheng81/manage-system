@@ -305,8 +305,8 @@ function validateForm() {
                     },
                     stringLength: {
                         min: 1,
-                        max: 8,
-                        message: '品牌名称长度不得超过8'
+                        max: 30,
+                        message: '品牌名称长度不得超过30'
                     }
                 }
             },

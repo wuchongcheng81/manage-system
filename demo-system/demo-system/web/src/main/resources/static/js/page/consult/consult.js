@@ -64,6 +64,10 @@ var TableInit = function () {
                     field: 'remark',
                     title: '备注'
                 },{
+                    field: 'createTimeStr',
+                    title: '创建时间'
+                },
+                {
                     field: 'id',
                     title: '操作',
                     cellStyle: {'css': {'text-align': 'center', 'width': '220px'}},

@@ -1,11 +1,13 @@
 package com.manage.system.bean;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.manage.system.base.BaseModel;
 import lombok.Data;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -30,4 +32,15 @@ public class Consult extends BaseModel {
     private Date createTime;
     private Date updateTime;
     private String requestIp;
+
+    @TableField(exist = false)
+    private String createTimeStr;
+
+    public static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public String getCreateTimeStr() {
+        if(createTime !=null) {
+            return sdf.format(createTime);
+        }
+        return "";
+    }
 }
