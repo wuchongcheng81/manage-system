@@ -119,6 +119,9 @@ $(function () {
 
 
     $('#coverFile').on('change', function () {
+        if(!validateImg($('#coverFile'))) {
+            return;
+        }
         var formData = new FormData($('#coverForm')[0]);
         $.ajax({
             url: '/upload/image',

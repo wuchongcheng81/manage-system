@@ -2,144 +2,162 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <title>Insert title here</title>
 <th:block th:fragment="common_header">
-<link rel="stylesheet" th:href="@{/assets/plugins/yui/tabview.css}" />
-<link th:href="@{/assets/css/bootstrap.min.css(v=1)}" rel="stylesheet" />
-<link th:href="@{/css/bootstrap-table.css}" rel="stylesheet" />
-<link rel="stylesheet" th:href="@{/assets/css/font-awesome.min.css}" />
-<link rel="stylesheet" th:href="@{/assets/css/font-awesome-ie7.min.css}" />
-<link rel="stylesheet" th:href="@{/assets/css/jquery-ui-1.10.3.full.min.css}" />
-<link rel="stylesheet" th:href="@{/assets/css/datepicker.css}" />
-<link rel="stylesheet" th:href="@{/assets/css/ui.jqgrid.css}" />
-<link rel="stylesheet" th:href="@{/assets/css/ace-rtl.min.css}" />
-<link rel="stylesheet" th:href="@{/assets/css/ace-skins.min.css}" />
-<link rel="stylesheet" th:href="@{/assets/css/ace-ie.min.css}" />
-<link rel="stylesheet" th:href="@{/assets/css/ljhy.css}" />
-<link rel="stylesheet" th:href="@{/css/bootstrapValidator.min.css}" />
-<link rel="stylesheet" th:href="@{/css/bootstrap-datetimepicker.min.css}" />
-<link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}" />
-<link rel="stylesheet" th:href="@{/css/bootstrap-editable.css}" />
-<link rel="stylesheet" th:href="@{/css/fileinput.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/plugins/yui/tabview.css}"/>
+    <link th:href="@{/assets/css/bootstrap.min.css(v=1)}" rel="stylesheet"/>
+    <link th:href="@{/css/bootstrap-table.css}" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/assets/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/css/font-awesome-ie7.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/css/jquery-ui-1.10.3.full.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/css/datepicker.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/css/ui.jqgrid.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/css/ace-rtl.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/css/ace-skins.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/css/ace-ie.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/css/ljhy.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrapValidator.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-datetimepicker.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-editable.css}"/>
+    <link rel="stylesheet" th:href="@{/css/fileinput.min.css}"/>
 
 
-<script th:src="@{/js/jquery-3.0.0.min.js}"></script>
-<script th:src="@{/js/bootstrap-table.js}"></script>
-<script th:src="@{/js/bootstrap-table-zh-CN.js}"></script>
-<script th:src="@{/assets/js/ace-extra.min.js}"></script>
-<script th:src="@{/assets/js/jquery-ui-1.10.3.full.min.js}"></script>
-<script th:src="@{/assets/js/jqGrid/jquery.jqGrid.min.js}"></script>
-<script th:src="@{/assets/js/html5shiv.js}"></script>
-<script th:src="@{/assets/js/respond.min.js}"></script>
-<script type="text/javascript">
-    window.jQuery || document.write("<script th:src='@{/js/jquery-3.0.0.min.js}'>"+"<"+"/script>");
-</script>
-<script type="text/javascript">
-    window.jQuery || document.write("<script th:src='@{/assets/js/jquery-1.10.2.min.js}'>" + "<" + "/script>");
-</script>
-<script type="text/javascript">
-    if("ontouchend" in document) document.write("<script th:src='@{/assets/js/jquery.mobile.custom.min.js}'>"+"<"+"/script>");
-</script>
-<script th:src="@{/assets/js/bootstrap.min.js}"></script>
-<script th:src="@{/assets/js/typeahead-bs2.min.js}"></script>
-<script th:src="@{/assets/plugins/yui/yahoo-dom-event.js}"></script>
-<script th:src="@{/assets/plugins/yui/connection-min.js}"></script>
-<script th:src="@{/assets/plugins/yui/element-beta-min.js}"></script>
-<script th:src="@{/assets/plugins/yui/tabview-min.js}"></script>
-<script th:src="@{/assets/js/underscore-min.js}"></script>
-<script th:src="@{/assets/js/template.js}"></script>
-<script th:src="@{/assets/js/ace-elements.min.js}"></script>
-<script th:src="@{/assets/js/ace.min.js}"></script>
-<script th:src="@{/js/bootstrapValidator.min.js}"></script>
-<script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
-<script th:src="@{/js/bootstrap-datetimepicker.zh-CN.js}"></script>
-<script th:src="@{/js/bootstrap-select.min.js}"></script>
-<script th:src="@{/js/bootstrap-editable.min.js}"></script>
-<script th:src="@{/js/fileinput.min.js}"></script>
-<script th:src="@{/js/zh.js}"></script>
-<script th:src="@{/js/vue/vue.min.js}"></script>
+    <script th:src="@{/js/jquery-3.0.0.min.js}"></script>
+    <script th:src="@{/js/bootstrap-table.js}"></script>
+    <script th:src="@{/js/bootstrap-table-zh-CN.js}"></script>
+    <script th:src="@{/assets/js/ace-extra.min.js}"></script>
+    <script th:src="@{/assets/js/jquery-ui-1.10.3.full.min.js}"></script>
+    <script th:src="@{/assets/js/jqGrid/jquery.jqGrid.min.js}"></script>
+    <script th:src="@{/assets/js/html5shiv.js}"></script>
+    <script th:src="@{/assets/js/respond.min.js}"></script>
+    <script type="text/javascript">
+        window.jQuery || document.write("<script th:src='@{/js/jquery-3.0.0.min.js}'>" + "<" + "/script>");
+    </script>
+    <script type="text/javascript">
+        window.jQuery || document.write("<script th:src='@{/assets/js/jquery-1.10.2.min.js}'>" + "<" + "/script>");
+    </script>
+    <script type="text/javascript">
+        if ("ontouchend" in document) document.write("<script th:src='@{/assets/js/jquery.mobile.custom.min.js}'>" + "<" + "/script>");
+    </script>
+    <script th:src="@{/assets/js/bootstrap.min.js}"></script>
+    <script th:src="@{/assets/js/typeahead-bs2.min.js}"></script>
+    <script th:src="@{/assets/plugins/yui/yahoo-dom-event.js}"></script>
+    <script th:src="@{/assets/plugins/yui/connection-min.js}"></script>
+    <script th:src="@{/assets/plugins/yui/element-beta-min.js}"></script>
+    <script th:src="@{/assets/plugins/yui/tabview-min.js}"></script>
+    <script th:src="@{/assets/js/underscore-min.js}"></script>
+    <script th:src="@{/assets/js/template.js}"></script>
+    <script th:src="@{/assets/js/ace-elements.min.js}"></script>
+    <script th:src="@{/assets/js/ace.min.js}"></script>
+    <script th:src="@{/js/bootstrapValidator.min.js}"></script>
+    <script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
+    <script th:src="@{/js/bootstrap-datetimepicker.zh-CN.js}"></script>
+    <script th:src="@{/js/bootstrap-select.min.js}"></script>
+    <script th:src="@{/js/bootstrap-editable.min.js}"></script>
+    <script th:src="@{/js/fileinput.min.js}"></script>
+    <script th:src="@{/js/zh.js}"></script>
+    <script th:src="@{/js/vue/vue.min.js}"></script>
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    $(function () {
-       /* $.ajax({
-            url: '/user/checkUserIsLogin',
-            type: 'POST',
-            success: function (data) {
-                console.log(data);
-                if(data.state == '00') {
-                    alert('用户身份已过期，请重新登录');
-                    window.location.reload();
-                }
-            }
-        })*/
-        $.ajaxSetup({
-            complete:function(XMLHttpRequest,status){
-                if(status=="parsererror"){
-                    alert('登陆超时！请重新登陆！');
-                    if (window != top) {
-                        top.location.href=location.href;
-                    }
-                } else if(status=="error"){
-                    alert('请求超时！请稍后再试！');
-                }
-            }
-        })
-    })
-
-    //获取url中的参数
-    function getUrlParam(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-        if (r != null) return unescape(r[2]); return null; //返回参数值
-    }
-
-    //点击节点生成TAB页
-    function setTab(obj) {
-        window.main.addTab($(obj).attr('menuid'), $(obj).attr('menuname'), $(obj).attr('menuurl'));
-        var tobarCurrString = "&nbsp;<a href=" + $(obj).attr('menuurl') + " target=iFrame" + $(obj).attr('menuid') + ">" + $(obj).attr('menuname') + "</a>";
-    }
-
-    function add0(m){return m<10?'0'+m:m }
-    function formatTimeStamp(dateTime)
-    {
-        var time = new Date(dateTime);
-        var y = time.getFullYear();
-        var m = time.getMonth()+1;
-        var d = time.getDate();
-        var h = time.getHours();
-        var mm = time.getMinutes();
-        var s = time.getSeconds();
-        return y+'-'+add0(m)+'-'+add0(d);
-    }
-
-    function format(dateTime)
-    {
-        var time = new Date(dateTime);
-        var y = time.getFullYear();
-        var m = time.getMonth()+1;
-        var d = time.getDate();
-        var h = time.getHours();
-        var mm = time.getMinutes();
-        var s = time.getSeconds();
-        return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
-    }
-
-    function checkUserIsLogin() {
-        $.ajax({
-            url: '/user/checkUserIsLogin',
-            type: 'POST',
-            async: false,
-            success: function (data) {
-                if(data.state != '11') {
-                    alert('用户身份已过期，请重新登录');
-                    if (window != top) {
-                        top.location.href=location.href;
-                    }else {
-                        location.reload();
+        $(function () {
+            /* $.ajax({
+                 url: '/user/checkUserIsLogin',
+                 type: 'POST',
+                 success: function (data) {
+                     console.log(data);
+                     if(data.state == '00') {
+                         alert('用户身份已过期，请重新登录');
+                         window.location.reload();
+                     }
+                 }
+             })*/
+            $.ajaxSetup({
+                complete: function (XMLHttpRequest, status) {
+                    if (status == "parsererror") {
+                        alert('登陆超时！请重新登陆！');
+                        if (window != top) {
+                            top.location.href = location.href;
+                        }
+                    } else if (status == "error") {
+                        alert('请求超时！请稍后再试！');
                     }
                 }
-            }
+            })
         })
-    }
-</script>
+
+        //获取url中的参数
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r != null) return unescape(r[2]);
+            return null; //返回参数值
+        }
+
+        //点击节点生成TAB页
+        function setTab(obj) {
+            window.main.addTab($(obj).attr('menuid'), $(obj).attr('menuname'), $(obj).attr('menuurl'));
+            var tobarCurrString = "&nbsp;<a href=" + $(obj).attr('menuurl') + " target=iFrame" + $(obj).attr('menuid') + ">" + $(obj).attr('menuname') + "</a>";
+        }
+
+        function add0(m) {
+            return m < 10 ? '0' + m : m
+        }
+
+        function formatTimeStamp(dateTime) {
+            var time = new Date(dateTime);
+            var y = time.getFullYear();
+            var m = time.getMonth() + 1;
+            var d = time.getDate();
+            var h = time.getHours();
+            var mm = time.getMinutes();
+            var s = time.getSeconds();
+            return y + '-' + add0(m) + '-' + add0(d);
+        }
+
+        function format(dateTime) {
+            var time = new Date(dateTime);
+            var y = time.getFullYear();
+            var m = time.getMonth() + 1;
+            var d = time.getDate();
+            var h = time.getHours();
+            var mm = time.getMinutes();
+            var s = time.getSeconds();
+            return y + '-' + add0(m) + '-' + add0(d) + ' ' + add0(h) + ':' + add0(mm) + ':' + add0(s);
+        }
+
+        function checkUserIsLogin() {
+            $.ajax({
+                url: '/user/checkUserIsLogin',
+                type: 'POST',
+                async: false,
+                success: function (data) {
+                    if (data.state != '11') {
+                        alert('用户身份已过期，请重新登录');
+                        if (window != top) {
+                            top.location.href = location.href;
+                        } else {
+                            location.reload();
+                        }
+                    }
+                }
+            })
+        }
+
+        function validateImg(ele) {
+            // 返回 KB，保留小数点后两位
+            var fileType = ele[0].files[0].type;
+            if(!/.(gif|jpg|jpeg|png|GIF|JPG|bmp)$/.test(fileType)){
+                alert("图片类型必须是.gif,jpeg,jpg,png,bmp中的一种");
+                return false;
+            }else{
+                //返回Byte(B),保留小数点后两位
+                if(((ele[0].files[0].size).toFixed(2))>=(5*1024*1024)){
+                    alert("请上传小于5M的图片");
+                    return false;
+                }
+                return true;
+            }
+        }
+    </script>
 </th:block>
 </html>
