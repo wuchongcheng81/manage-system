@@ -25,7 +25,7 @@
             i.*
         FROM
             `t_information` i
-            INNER JOIN t_type t ON t.id = i.type_id
+            LEFT JOIN t_type t ON t.id = i.type_id
             LEFT JOIN t_brand b ON b.id = i.brand_id
 	where i.id = #{id}
     </select>
@@ -36,7 +36,7 @@
         FROM
             t_information i
             LEFT JOIN t_brand b ON b.id = i.brand_id
-            INNER JOIN t_type t on t.id = i.type_id
+            LEFT JOIN t_type t on t.id = i.type_id
             <where>
                 <if test="title != null and title != ''">
                     and i.title LIKE CONCAT('%',#{title},'%')
