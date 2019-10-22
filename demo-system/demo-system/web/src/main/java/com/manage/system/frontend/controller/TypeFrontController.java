@@ -2,6 +2,7 @@ package com.manage.system.frontend.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.Lists;
+import com.manage.system.base.BaseFrontController;
 import com.manage.system.bean.Type;
 import com.manage.system.dto.BrandDTO;
 import com.manage.system.dto.TypeDTO;
@@ -23,7 +24,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/api/type")
-public class TypeFrontController {
+public class TypeFrontController extends BaseFrontController {
 
     @Autowired
     private TypeService typeService;

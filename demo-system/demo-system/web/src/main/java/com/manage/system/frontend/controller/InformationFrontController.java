@@ -1,5 +1,6 @@
 package com.manage.system.frontend.controller;
 
+import com.manage.system.base.BaseFrontController;
 import com.manage.system.bean.InformationVisitRecord;
 import com.manage.system.dto.InformationFrontDTO;
 import com.manage.system.response.ResultData;
@@ -23,7 +24,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/api/information")
-public class InformationFrontController {
+public class InformationFrontController extends BaseFrontController {
 
     @Autowired
     private InformationService informationService;
@@ -51,7 +52,7 @@ public class InformationFrontController {
 
     @RequestMapping(value = "/addClickNum")
     public ResultData addClickNum(HttpServletRequest request, @RequestParam int informationId) {
-        String ip = HttpUtil.getIpAddr(request);
+        String ip = HttpUtil.getRemoteHost(request);
 
         List<InformationVisitRecord> list = informationVisitRecordService.findCurrentDay(ip, informationId);
         if(CollectionUtils.isEmpty(list)) {

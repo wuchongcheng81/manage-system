@@ -3,6 +3,8 @@ package com.manage.system.base;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.manage.system.response.ResultData;
 import com.manage.system.response.ResultPage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.io.Serializable;
 
 public abstract class BaseController<MAPPER extends BaseService<T, ID>, T, ID extends Serializable> {
+
+    protected Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     protected MAPPER mapper;

@@ -1,5 +1,6 @@
 package com.manage.system.frontend.controller;
 
+import com.manage.system.base.BaseFrontController;
 import com.manage.system.bean.Brand;
 import com.manage.system.bean.BrandPopularRecord;
 import com.manage.system.dto.BrandDTO;
@@ -25,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/api/brand")
-public class BrandFrontController {
+public class BrandFrontController extends BaseFrontController {
 
     @Autowired
     private BrandService brandService;
@@ -37,7 +38,7 @@ public class BrandFrontController {
      * @param typeId
      * @param pageNumber
      * @param pageSize
-     * @return
+     * @returnl
      */
     @RequestMapping(value = "/findList")
     public ResultData findList(Integer typeId, Integer pageNumber, Integer pageSize) {
@@ -69,7 +70,8 @@ public class BrandFrontController {
             @RequestParam String type,
             @RequestParam int brandId) {
 
-        String ip = HttpUtil.getIpAddr(request);
+        String ip = HttpUtil.getRemoteHost(request);
+        logger.info("add popular, request ip address : [{}]", ip);
 
         List<BrandPopularRecord> list = brandPopularRecordService.findTodayList(brandId, ip, type);
         if(BrandPopularRecord.MANUAL_TYPE.equals(type)) {

@@ -1,6 +1,7 @@
 package com.manage.system.frontend.controller;
 
 import com.google.common.collect.Lists;
+import com.manage.system.base.BaseFrontController;
 import com.manage.system.bean.BrandInvest;
 import com.manage.system.dto.BrandInvestDTO;
 import com.manage.system.response.ResultData;
@@ -22,7 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/api/brandInvest")
-public class BrandInvestFrontController {
+public class BrandInvestFrontController extends BaseFrontController {
 
     @Autowired
     private BrandInvestService brandInvestService;

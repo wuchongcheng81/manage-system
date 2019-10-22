@@ -1,5 +1,6 @@
 package com.manage.system.frontend.controller;
 
+import com.manage.system.base.BaseFrontController;
 import com.manage.system.bean.FocusMap;
 import com.manage.system.response.ResultData;
 import com.manage.system.service.FocusMapService;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/api/focusMap")
-public class FocusMapFrontController {
+public class FocusMapFrontController extends BaseFrontController {
 
     @Autowired
     private FocusMapService focusMapService;

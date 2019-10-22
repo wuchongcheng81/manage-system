@@ -1,5 +1,6 @@
 package com.manage.system.frontend.controller;
 
+import com.manage.system.base.BaseFrontController;
 import com.manage.system.frontend.service.WeixinService;
 import com.manage.system.response.ResultData;
 import org.apache.commons.lang3.StringUtils;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/api/weixin")
-public class WeixinController {
+public class WeixinController extends BaseFrontController {
 
     @Autowired
     private WeixinService weixinService;

@@ -1,5 +1,6 @@
 package com.manage.system.frontend.controller;
 
+import com.manage.system.base.BaseFrontController;
 import com.manage.system.bean.Advertisement;
 import com.manage.system.bean.FocusMap;
 import com.manage.system.dto.BrandDTO;
@@ -27,7 +28,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/api/index")
-public class IndexController {
+public class IndexController extends BaseFrontController {
 
     @Autowired
     private BrandService brandService;

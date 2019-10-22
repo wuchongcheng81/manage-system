@@ -1,5 +1,6 @@
 package com.manage.system.frontend.controller;
 
+import com.manage.system.base.BaseFrontController;
 import com.manage.system.bean.Consult;
 import com.manage.system.response.ResultData;
 import com.manage.system.service.ConsultService;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/api/consult")
-public class ConsultFrontController {
+public class ConsultFrontController extends BaseFrontController {
 
     @Autowired
     private ConsultService consultService;
@@ -38,7 +39,7 @@ public class ConsultFrontController {
             @RequestParam String phone,
             @RequestParam String brandName) {
 
-        String ip = HttpUtil.getIpAddr(request);
+        String ip = HttpUtil.getRemoteHost(request);
         List<Consult> list = consultService.findByIpAndType(ip, Consult.JOIN_STATUS);
         if(!CollectionUtils.isEmpty(list) && list.size() >= 5) {
             return new ResultData(false, "提交次数已超过限制");
@@ -68,7 +69,7 @@ public class ConsultFrontController {
             @RequestParam String phone,
             @RequestParam String content) {
 
-        String ip = HttpUtil.getIpAddr(request);
+        String ip = HttpUtil.getRemoteHost(request);
         List<Consult> list = consultService.findByIpAndType(ip, Consult.CONSULT_STATUS);
         if(!CollectionUtils.isEmpty(list) && list.size() >= 5) {
             return new ResultData(false, "提交次数已超过限制");

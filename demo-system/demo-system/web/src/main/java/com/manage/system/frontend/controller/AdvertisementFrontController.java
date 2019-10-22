@@ -1,5 +1,6 @@
 package com.manage.system.frontend.controller;
 
+import com.manage.system.base.BaseFrontController;
 import com.manage.system.bean.Advertisement;
 import com.manage.system.response.ResultData;
 import com.manage.system.service.AdvertisementService;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/api/advertisement")
-public class AdvertisementFrontController {
+public class AdvertisementFrontController extends BaseFrontController {
 
     @Autowired
     private AdvertisementService advertisementService;
