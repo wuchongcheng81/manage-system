@@ -264,9 +264,9 @@ function validateAddForm() {
             link: {
                 validators: {
                     stringLength: {
-                        min: 0,
-                        max: 50,
-                        message: '品牌分类名称不得超过50'
+                        min: 1,
+                        max: 300,
+                        message: '品牌分类名称不得超过300'
                     }
                 }
             }

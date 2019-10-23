@@ -118,8 +118,8 @@ function validateForm() {
                     },
                     stringLength: {
                         min: 1,
-                        max: 20,
-                        message: '标题长度不得超过20'
+                        max: 300,
+                        message: '标题长度不得超过300'
                     }
                 }
             },
@@ -130,8 +130,8 @@ function validateForm() {
                     },
                     stringLength: {
                         min: 1,
-                        max: 20,
-                        message: '类别长度不得超过20'
+                        max: 300,
+                        message: '类别长度不得超过300'
                     }
                 }
             },
@@ -142,8 +142,8 @@ function validateForm() {
                     },
                     stringLength: {
                         min: 1,
-                        max: 30,
-                        message: '招商类别长度不得超过30'
+                        max: 300,
+                        message: '招商类别长度不得超过300'
                     }
                 }
             },
@@ -154,8 +154,8 @@ function validateForm() {
                     },
                     stringLength: {
                         min: 1,
-                        max: 30,
-                        message: '招商地区长度不得超过30'
+                        max: 300,
+                        message: '招商地区长度不得超过300'
                     }
                 }
             },
@@ -174,8 +174,8 @@ function validateForm() {
                     },
                     stringLength: {
                         min: 1,
-                        max: 30,
-                        message: '品牌名字长度不得超过30'
+                        max: 300,
+                        message: '品牌名字长度不得超过300'
                     }
                 }
             }

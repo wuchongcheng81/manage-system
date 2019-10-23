@@ -366,8 +366,8 @@ function validateAddForm() {
                     },
                     stringLength: {
                         min: 1,
-                        max: 50,
-                        message: '品牌分类名称不得超过50'
+                        max: 300,
+                        message: '品牌分类名称不得超过300'
                     }
                 }
             },
@@ -386,8 +386,8 @@ function validateAddForm() {
                 },
                 stringLength: {
                     min: 1,
-                    max: 100,
-                    message: 'icon不得超过100'
+                    max: 300,
+                    message: 'icon不得超过300'
                 }
             }
         }
@@ -424,8 +424,8 @@ function validateUpdateForm() {
                     },
                     stringLength: {
                         min: 1,
-                        max: 50,
-                        message: '品牌分类名称不得超过50'
+                        max: 300,
+                        message: '品牌分类名称不得超过300'
                     }
                 }
             },
@@ -444,8 +444,8 @@ function validateUpdateForm() {
                 },
                 stringLength: {
                     min: 1,
-                    max: 100,
-                    message: 'icon不得超过100'
+                    max: 300,
+                    message: 'icon不得超过300'
                 }
             }
         }

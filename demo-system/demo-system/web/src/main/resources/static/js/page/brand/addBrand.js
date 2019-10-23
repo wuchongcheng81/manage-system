@@ -245,8 +245,8 @@ function validateForm() {
                     },
                     stringLength: {
                         min: 1,
-                        max: 30,
-                        message: '品牌名称长度不得超过30'
+                        max: 300,
+                        message: '品牌名称长度不得超过300'
                     }
                 }
             },
@@ -257,8 +257,8 @@ function validateForm() {
                     },
                     stringLength: {
                         min: 1,
-                        max: 30,
-                        message: '公司名称长度不得超过30'
+                        max: 300,
+                        message: '公司名称长度不得超过300'
                     }
                 }
             },
@@ -266,8 +266,8 @@ function validateForm() {
                 validators: {
                     stringLength: {
                         min: 1,
-                        max: 30,
-                        message: '发源地长度不得超过30'
+                        max: 300,
+                        message: '发源地长度不得超过300'
                     }
                 }
             },
@@ -283,8 +283,8 @@ function validateForm() {
                 validators: {
                     stringLength: {
                         min: 1,
-                        max: 30,
-                        message: '加盟条件长度不得超过30'
+                        max: 300,
+                        message: '加盟条件长度不得超过300'
                     }
                 }
             },
@@ -292,8 +292,8 @@ function validateForm() {
                 validators: {
                     stringLength: {
                         min: 1,
-                        max: 30,
-                        message: '招商类型长度不得超过30'
+                        max: 300,
+                        message: '招商类型长度不得超过300'
                     }
                 }
             },
@@ -301,8 +301,8 @@ function validateForm() {
                 validators: {
                     stringLength: {
                         min: 1,
-                        max: 50,
-                        message: '招商地区长度不得超过50'
+                        max: 300,
+                        message: '招商地区长度不得超过300'
                     }
                 }
             },

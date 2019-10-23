@@ -93,8 +93,8 @@ function validateForm() {
                     },
                     stringLength: {
                         min: 1,
-                        max: 50,
-                        message: '标题长度不得超过50'
+                        max: 300,
+                        message: '标题长度不得超过300'
                     }
                 }
             },

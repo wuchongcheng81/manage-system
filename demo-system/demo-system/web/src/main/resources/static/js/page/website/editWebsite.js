@@ -109,8 +109,8 @@ function validateForm() {
                 validators: {
                     stringLength: {
                         min: 1,
-                        max: 50,
-                        message: '网站名称长度不得超过50'
+                        max: 300,
+                        message: '网站名称长度不得超过300'
                     }
                 }
             },
@@ -118,8 +118,8 @@ function validateForm() {
                 validators: {
                     stringLength: {
                         min: 1,
-                        max: 50,
-                        message: '网站关键字长度不得超过50'
+                        max: 300,
+                        message: '网站关键字长度不得超过300'
                     }
                 }
             },
@@ -127,8 +127,8 @@ function validateForm() {
                 validators: {
                     stringLength: {
                         min: 1,
-                        max: 30,
-                        message: '网站描述长度不得超过30'
+                        max: 300,
+                        message: '网站描述长度不得超过300'
                     }
                 }
             },
@@ -136,8 +136,8 @@ function validateForm() {
                 validators: {
                     stringLength: {
                         min: 1,
-                        max: 50,
-                        message: '网站域名长度不得超过50'
+                        max: 300,
+                        message: '网站域名长度不得超过300'
                     }
                 }
             },
@@ -145,8 +145,8 @@ function validateForm() {
                 validators: {
                     stringLength: {
                         min: 1,
-                        max: 30,
-                        message: '广告合作长度不得超过30'
+                        max: 300,
+                        message: '广告合作长度不得超过300'
                     }
                 }
             },
@@ -154,8 +154,8 @@ function validateForm() {
                 validators: {
                     stringLength: {
                         min: 1,
-                        max: 200,
-                        message: '版权信息长度不得超过30'
+                        max: 300,
+                        message: '版权信息长度不得超过300'
                     }
                 }
             },
@@ -163,8 +163,8 @@ function validateForm() {
                 validators: {
                     stringLength: {
                         min: 1,
-                        max: 30,
-                        message: '在线客服字样长度不得超过30'
+                        max: 300,
+                        message: '在线客服字样长度不得超过300'
                     }
                 }
             },
@@ -172,8 +172,8 @@ function validateForm() {
                 validators: {
                     stringLength: {
                         min: 1,
-                        max: 30,
-                        message: '咨询加盟字样长度不得超过30'
+                        max: 300,
+                        message: '咨询加盟字样长度不得超过300'
                     }
                 }
             },
@@ -181,8 +181,8 @@ function validateForm() {
                 validators: {
                     stringLength: {
                         min: 1,
-                        max: 30,
-                        message: '搜索框提示语长度不得超过30'
+                        max: 300,
+                        message: '搜索框提示语长度不得超过300'
                     }
                 }
             },
@@ -190,8 +190,8 @@ function validateForm() {
                 validators: {
                     stringLength: {
                         min: 1,
-                        max: 30,
-                        message: '热门搜索品牌长度不得超过30'
+                        max: 300,
+                        message: '热门搜索品牌长度不得超过300'
                     }
                 }
             },
