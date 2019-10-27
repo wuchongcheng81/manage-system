@@ -59,7 +59,7 @@ public class BrandInvestFrontController extends BaseFrontController {
             BeanUtils.copyProperties(brand, brandInvestDTO);
             brandInvestDTO.setCreateTimeStr(brand.getCreateTime() != null ? sdf.format(brand.getCreateTime()) : "");
             brandInvestDTO.setPublishTimeStr(brand.getPublishTime() != null ? sdf.format(brand.getPublishTime()) : "");
-            if(now.before(brand.getExpireDate())) {
+            if(null == brand.getExpireDate() || now.before(brand.getExpireDate())) {
                 brandInvestDTO.setExpire(false);
             }else {
                 brandInvestDTO.setExpire(true);
