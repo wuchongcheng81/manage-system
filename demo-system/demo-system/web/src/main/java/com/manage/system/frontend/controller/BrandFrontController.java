@@ -70,7 +70,7 @@ public class BrandFrontController extends BaseFrontController {
             @RequestParam String type,
             @RequestParam int brandId) {
 
-        String ip = HttpUtil.getRemoteHost(request);
+        String ip = HttpUtil.getIpAddress(request);
         logger.info("add popular, request ip address : [{}]", ip);
 
         List<BrandPopularRecord> list = brandPopularRecordService.findTodayList(brandId, ip, type);

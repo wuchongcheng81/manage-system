@@ -39,7 +39,7 @@ public class ConsultFrontController extends BaseFrontController {
             @RequestParam String phone,
             @RequestParam String brandName) {
 
-        String ip = HttpUtil.getRemoteHost(request);
+        String ip = HttpUtil.getIpAddress(request);
         List<Consult> list = consultService.findByIpAndType(ip, Consult.JOIN_STATUS);
         if(!CollectionUtils.isEmpty(list) && list.size() >= 5) {
             return new ResultData(false, "提交次数已超过限制");
@@ -69,7 +69,7 @@ public class ConsultFrontController extends BaseFrontController {
             @RequestParam String phone,
             @RequestParam String content) {
 
-        String ip = HttpUtil.getRemoteHost(request);
+        String ip = HttpUtil.getIpAddress(request);
         List<Consult> list = consultService.findByIpAndType(ip, Consult.CONSULT_STATUS);
         if(!CollectionUtils.isEmpty(list) && list.size() >= 5) {
             return new ResultData(false, "提交次数已超过限制");

@@ -52,7 +52,7 @@ public class InformationFrontController extends BaseFrontController {
 
     @RequestMapping(value = "/addClickNum")
     public ResultData addClickNum(HttpServletRequest request, @RequestParam int informationId) {
-        String ip = HttpUtil.getRemoteHost(request);
+        String ip = HttpUtil.getIpAddress(request);
 
         List<InformationVisitRecord> list = informationVisitRecordService.findCurrentDay(ip, informationId);
         if(CollectionUtils.isEmpty(list)) {
