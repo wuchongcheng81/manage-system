@@ -1,5 +1,6 @@
 package com.manage.system.frontend.controller;
 
+import com.google.common.collect.Lists;
 import com.manage.system.base.BaseFrontController;
 import com.manage.system.bean.Brand;
 import com.manage.system.bean.BrandPopularRecord;
@@ -12,11 +13,13 @@ import com.manage.system.util.HttpUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -94,10 +97,19 @@ public class BrandFrontController extends BaseFrontController {
         return new ResultData(true);
     }
 
-    @RequestMapping(value = "/findPopular")
-    public ResultData findPopular(Integer searchCount, Integer typeId) {
-
-        return null;
+    @GetMapping(value = "/test")
+    public void test() {
+        List<BrandPopularRecord> popularRecords = Lists.newArrayList();
+        Date now = new Date();
+        for (int i = 0; i < 2; i++) {
+            BrandPopularRecord p = new BrandPopularRecord();
+            p.setCreateTime(now);
+            p.setBrandId(58);
+            p.setType(BrandPopularRecord.VISIT_TYPE);
+            p.setRequestIp("add_by_scheduled");
+            popularRecords.add(p);
+        }
+        int u_b_p = brandPopularRecordService.insertBatch(popularRecords);
     }
 
 }

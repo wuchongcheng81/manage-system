@@ -44,6 +44,11 @@ public class BrandPopularRecordServiceImpl extends AbstractService<BrandPopularR
         return mapper.findTodayList(brandId, requestIp, type);
     }
 
+    @Override
+    public int insertBatch(List<BrandPopularRecord> list) {
+        return mapper.insertList(list);
+    }
+
     private QueryWrapper getWrapper(BrandPopularRecord entity) {
         QueryWrapper<BrandPopularRecord> wrapper = new QueryWrapper<>();
         if(StringUtils.isNotBlank(entity.getRequestIp())) {

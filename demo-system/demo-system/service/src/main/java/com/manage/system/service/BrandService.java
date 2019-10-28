@@ -27,4 +27,6 @@ public interface BrandService extends BaseService<Brand, Integer> {
     List<BrandDTO> findByKeyWord(String keyWord, Integer pageNumber, Integer pageSize);
 
     void addPopularById(int id);
+
+    int addPopularByIdAndPopular(int brandPopular, int id);
 }

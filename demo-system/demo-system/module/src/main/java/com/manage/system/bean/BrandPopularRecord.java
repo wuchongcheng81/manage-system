@@ -24,6 +24,7 @@ public class BrandPopularRecord {
     private Integer brandId;
     private Date createTime;
     private String requestIp;
+    @TableField("visit_type")
     private String type;
 
     public BrandPopularRecord(String requestIp, String type, Integer brandId) {

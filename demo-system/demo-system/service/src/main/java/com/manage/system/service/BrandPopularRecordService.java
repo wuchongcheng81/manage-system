@@ -12,4 +12,6 @@ import java.util.List;
 public interface BrandPopularRecordService extends BaseService<BrandPopularRecord, Integer> {
     List<BrandPopularRecord> findList(BrandPopularRecord entity);
     List<BrandPopularRecord> findTodayList(int brandId, String requestIp, String type);
+
+    int insertBatch(List<BrandPopularRecord> list);
 }

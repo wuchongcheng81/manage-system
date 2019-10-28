@@ -30,4 +30,6 @@ public interface BrandMapper extends BaseMapper<Brand> {
 
     void addPopularById(@Param("id") int id);
 
+    int addPopularByIdAndPopular(@Param("brandPopular") int brandPopular, @Param("id") int id);
+
 }

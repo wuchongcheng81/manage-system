@@ -150,6 +150,11 @@ public class BrandServiceImpl extends AbstractService<Brand, Integer, BrandMappe
     }
 
     @Override
+    public int addPopularByIdAndPopular(int brandPopular, int id) {
+        return mapper.addPopularByIdAndPopular(brandPopular, id);
+    }
+
+    @Override
     public int countByTypeId(int typeId) {
         return mapper.countByTypeId(typeId);
     }

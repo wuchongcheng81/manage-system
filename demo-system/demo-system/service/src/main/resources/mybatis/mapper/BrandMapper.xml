@@ -86,6 +86,9 @@
             <if test="typeId != null">
                 and type_id = #{typeId}
             </if>
+            <if test="isPublish != null">
+                and is_publish = #{isPublish}
+            </if>
         </where>
     </select>
 
@@ -214,9 +217,11 @@
             LIMIT  #{pageNumber},#{pageSize}
     </select>
 
-
-
     <update id="addPopularById">
         update t_brand set brand_popular = brand_popular+1 where id = #{id}
+    </update>
+
+    <update id="addPopularByIdAndPopular">
+        update t_brand set brand_popular = brand_popular + #{brandPopular} where id = #{id}
     </update>
 </mapper>

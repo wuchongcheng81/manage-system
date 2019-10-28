@@ -12,4 +12,6 @@ import java.util.List;
  */
 public interface BrandPopularRecordMapper extends BaseMapper<BrandPopularRecord> {
     List<BrandPopularRecord> findTodayList(@Param("brandId") int brandId, @Param("requestIp") String requestIp, @Param("type") String type);
+
+    int insertList(@Param("list") List<BrandPopularRecord> list);
 }
