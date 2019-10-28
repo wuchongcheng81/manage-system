@@ -3,14 +3,19 @@ package com.manage.system.util;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author wcc
  * @date 2019/9/16 22:13
  */
 public class HttpUtil {
+
+    private static Logger logger = LoggerFactory.getLogger(HttpUtil.class);
 
     public static String getIpAddr(HttpServletRequest request){
         String ipAddress = request.getHeader("x-forwarded-for");
@@ -61,42 +66,91 @@ public class HttpUtil {
         return ip.equals("0:0:0:0:0:0:0:1") ? "127.0.0.1" : ip;
     }
 
-    /**
-     * 获取Ip地址
-     * @param request
-     * @return
-     */
-    public static String getIpAddress(HttpServletRequest request) {
-        String Xip = request.getHeader("X-Real-IP");
-        String XFor = request.getHeader("X-Forwarded-For");
-        if(StringUtils.isNotEmpty(XFor) && !"unKnown".equalsIgnoreCase(XFor)){
-            //多次反向代理后会有多个ip值，第一个ip才是真实ip
-            int index = XFor.indexOf(",");
-            if(index != -1){
-                return XFor.substring(0,index);
-            }else{
-                return XFor;
+    public final static String getIpAddress(HttpServletRequest request) {
+        // 获取请求主机IP地址,如果通过代理进来，则透过防火墙获取真实IP地址
+
+        String ip = request.getHeader("X-Forwarded-For");
+//        logger.info("getIpAddress(HttpServletRequest) - X-Forwarded-For - String ip=" + ip);
+        String loggerInfo = "getIpAddress(HttpServletRequest) - X-Forwarded-For - String ip=" + ip;
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+                ip = request.getHeader("Proxy-Client-IP");
+//                logger.info("getIpAddress(HttpServletRequest) - Proxy-Client-IP - String ip=" + ip);
+                loggerInfo = "getIpAddress(HttpServletRequest) - Proxy-Client-IP - String ip=" + ip;
+            }
+            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+                ip = request.getHeader("WL-Proxy-Client-IP");
+//                logger.info("getIpAddress(HttpServletRequest) - WL-Proxy-Client-IP - String ip=" + ip);
+                loggerInfo = "getIpAddress(HttpServletRequest) - WL-Proxy-Client-IP - String ip=" + ip;
+            }
+            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+                ip = request.getHeader("HTTP_CLIENT_IP");
+//                logger.info("getIpAddress(HttpServletRequest) - HTTP_CLIENT_IP - String ip=" + ip);
+                loggerInfo = "getIpAddress(HttpServletRequest) - HTTP_CLIENT_IP - String ip=" + ip;
+            }
+            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+                ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+//                logger.info("getIpAddress(HttpServletRequest) - HTTP_X_FORWARDED_FOR - String ip=" + ip);
+                loggerInfo = "getIpAddress(HttpServletRequest) - HTTP_X_FORWARDED_FOR - String ip=" + ip;
+            }
+            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+                ip = request.getRemoteAddr();
+//                logger.info("getIpAddress(HttpServletRequest) - getRemoteAddr - String ip=" + ip);
+                loggerInfo = "getIpAddress(HttpServletRequest) - getRemoteAddr - String ip=" + ip;
+            }
+        } else if (ip.length() > 15) {
+            String[] ips = ip.split(",");
+            for (int index = 0; index < ips.length; index++) {
+                String strIp = ips[index];
+                if (!("unknown".equalsIgnoreCase(strIp))) {
+                    ip = strIp;
+                    break;
+                }
             }
         }
-        XFor = Xip;
-        if(StringUtils.isNotEmpty(XFor) && !"unKnown".equalsIgnoreCase(XFor)){
-            return XFor;
+        if("127.0.0.1".equals(ip)) {
+            ip = getRemoteAddr(request);
+            loggerInfo = "getRemoteAddr";
         }
-        if (StringUtils.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
-            XFor = request.getHeader("Proxy-Client-IP");
+        logger.info("request ip : " + ip);
+        logger.info("request ip type : " + loggerInfo);
+        return ip;
+    }
+
+    public static String getRemoteAddr(HttpServletRequest request) {
+        String remoteAddr = request.getHeader("X-Real-IP");
+        String type = "X-Real-IP";
+        logger.info("first remoteAddr : " + remoteAddr);
+        if (StringUtils.isBlank(remoteAddr)) {
+            remoteAddr = request.getHeader("X-Forwarded-For");
+            type = "X-Forwarded-For";
+        } else {
+            if("127.0.0.1".equals(remoteAddr)) {
+                remoteAddr = request.getHeader("X-Forwarded-For");
+                type = "X-Forwarded-For";
+            }
         }
-        if (StringUtils.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
-            XFor = request.getHeader("WL-Proxy-Client-IP");
+
+        if (StringUtils.isBlank(remoteAddr)) {
+            remoteAddr = request.getHeader("Proxy-Client-IP");
+            type = "Proxy-Client-IP";
+        }else {
+            if("127.0.0.1".equals(remoteAddr)) {
+                remoteAddr = request.getHeader("Proxy-Client-IP");
+                type = "Proxy-Client-IP";
+            }
         }
-        if (StringUtils.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
-            XFor = request.getHeader("HTTP_CLIENT_IP");
+        if (StringUtils.isBlank(remoteAddr)) {
+            remoteAddr = request.getHeader("WL-Proxy-Client-IP");
+            type = "WL-Proxy-Client-IP";
+        }else {
+            if("127.0.0.1".equals(remoteAddr)) {
+                remoteAddr = request.getHeader("WL-Proxy-Client-IP");
+                type = "WL-Proxy-Client-IP";
+            }
         }
-        if (StringUtils.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
-            XFor = request.getHeader("HTTP_X_FORWARDED_FOR");
-        }
-        if (StringUtils.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
-            XFor = request.getRemoteAddr();
-        }
-        return XFor;
+        logger.info("request.getRemoteAddr() : " + request.getRemoteAddr());
+        logger.info("getRemoteAddr type : " + type);
+        return remoteAddr != null ? remoteAddr : request.getRemoteAddr();
     }
 }
