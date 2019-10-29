@@ -5,7 +5,7 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <th:block th:insert="header :: common_header"/>
-    <script th:src="@{/js/page/brand/brand.js(v=7.1)}"></script>
+    <script th:src="@{/js/page/brand/brand.js(v=7.2)}"></script>
 </head>
 <style type="text/css">
     .coverDiv {
@@ -120,6 +120,12 @@
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control" id="search_name">
                                 </div>
+                                <label class="control-label col-sm-1" for="search_name">品牌分类</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control" id="typeId">
+                                        <option v-for="(t, index) in typeList" :value="t.id">{{t.name}}</option>
+                                    </select>
+                                </div>
                                 <div class="col-sm-4" style="text-align:left;">
                                     <button type="button" style="margin-left:50px" id="btn_query"
                                             class="btn btn-primary" onclick="search()">查询
@@ -148,10 +154,21 @@
         el: '#bodyList',
         data: {
             currentId: '',
-            status: null
+            status: null,
+            typeList: []
         },
         mounted: function () {
 
+        },
+        created: function () {
+            $.get('/type/findAll', function (result) {
+                vm.typeList.push({id: '', name: '所有分类'});
+                if (result != null && result.data != null) {
+                    result.data.forEach(function (val, index) {
+                        vm.typeList.push({id:val.id,name:val.name});
+                    })
+                }
+            });
         },
         methods: {}
     })

@@ -134,6 +134,7 @@ $(function () {
                 if(result != null && result.data != null) {
                     vm.cover = result.data;
                     $('#coverDiv').removeClass('coverDiv');
+                    $('#coverDivImg').show();
                 }
             }
         });
@@ -152,6 +153,7 @@ $(function () {
                 if(result != null && result.data != null) {
                     vm.coverA = result.data;
                     $('#coverADiv').removeClass('coverDiv');
+                    $('#coverADivImg').show();
                 }
             }
         });
@@ -170,6 +172,7 @@ $(function () {
                 if(result != null && result.data != null) {
                     vm.coverB = result.data;
                     $('#coverBDiv').removeClass('coverDiv');
+                    $('#coverBDivImg').show();
                 }
             }
         });
@@ -188,6 +191,7 @@ $(function () {
                 if(result != null && result.data != null) {
                     vm.coverC = result.data;
                     $('#coverCDiv').removeClass('coverDiv');
+                    $('#coverCDivImg').show();
                 }
             }
         });
@@ -206,11 +210,43 @@ $(function () {
                 if(result != null && result.data != null) {
                     vm.coverV = result.data;
                     $('#coverVDiv').removeClass('coverDiv');
+                    $('#coverVDivImg').show();
                 }
             }
         });
     })
 })
+
+function deleteCover() {
+    vm.cover = '';
+    document.getElementById('coverFile').value = '';
+    $('#coverDivImg').hide();
+    $('#coverDiv').addClass('coverDiv');
+}
+function deleteACover() {
+    vm.coverA = '';
+    document.getElementById('coverAFile').value = '';
+    $('#coverADivImg').hide();
+    $('#coverADiv').addClass('coverDiv');
+}
+function deleteBCover() {
+    vm.coverB = '';
+    document.getElementById('coverBFile').value = '';
+    $('#coverBDivImg').hide();
+    $('#coverBDiv').addClass('coverDiv');
+}
+function deleteCCover() {
+    vm.coverC = '';
+    document.getElementById('coverCFile').value = '';
+    $('#coverCDivImg').hide();
+    $('#coverCDiv').addClass('coverDiv');
+}
+function deleteVCover() {
+    vm.coverV = '';
+    document.getElementById('coverVFile').value = '';
+    $('#coverVDivImg').hide();
+    $('#coverVDiv').addClass('coverDiv');
+}
 
 function uploadCover() {
     $('#coverFile').click();

@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <th:block th:insert="header :: common_header"/>
     <script th:src="@{/js/editor/wangEditor.js}"></script>
-    <script th:src="@{/js/page/brand/addBrand.js(v=7.2)}"></script>
+    <script th:src="@{/js/page/brand/addBrand.js(v=7.9)}"></script>
     <style type="text/css">
         .form-control {
             width: 70%;
         }
+
         .coverDiv {
             border: 1px solid #C1C1C1;
             border-radius: 20px;
@@ -95,9 +96,13 @@
                     <div style="height: 100px;">
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <div style="float: left; height: 100px" class="coverDiv" id="coverDiv">
-                            <img style="width: 100px" :src="cover">
+                            <img style="width: 100px" :src="cover" id="coverDivImg">
                         </div>
-                        <div style="float: left; margin-top: 50px; margin-left: 10px">
+                        <div style="float: left; margin-top: 10px; margin-left: 10px">
+                            <button type="button" class="btn btn-danger" style="margin-right: 15px"
+                                    onclick="deleteCover()">删除
+                            </button>
+                            <br><br>
                             <button type="button" class="btn btn-info" style="margin-right: 15px"
                                     onclick="uploadCover()">上传文件
                             </button>
@@ -106,6 +111,7 @@
                     </div>
                 </div>
             </form>
+            <br>
             <form role="form" class="required-validate" id="addForm" method="post" action="/brand/save"
                   enctype="multipart/form-data">
                 <div class="form-group">
@@ -157,13 +163,13 @@
                 <div class="form-group">
                     <label>品牌标签</label>
                     <br/>
-                    <input type="checkbox" id="labelAuth" >认证
+                    <input type="checkbox" id="labelAuth">认证
                     &nbsp;&nbsp;
-                    <input type="checkbox" id="labelHonest" >诚信
+                    <input type="checkbox" id="labelHonest">诚信
                     &nbsp;&nbsp;
-                    <input type="checkbox" id="labelVip" >VIP
+                    <input type="checkbox" id="labelVip">VIP
                     &nbsp;&nbsp;
-                    <input type="checkbox" id="labelQuality" >优质
+                    <input type="checkbox" id="labelQuality">优质
                 </div>
 
                 <div class="form-group">
@@ -181,9 +187,13 @@
                                 <div style="height: 100px;">
                                     &nbsp;&nbsp;&nbsp;&nbsp;
                                     <div style="float: left; height: 100px" class="coverDiv" id="coverADiv">
-                                        <img style="width: 100px" :src="coverA">
+                                        <img style="width: 100px" :src="coverA" id="coverADivImg">
                                     </div>
-                                    <div style="float: left; margin-top: 50px; margin-left: 10px">
+                                    <div style="float: left; margin-top: 10px; margin-left: 10px">
+                                        <button type="button" class="btn btn-danger" style="margin-right: 15px"
+                                                onclick="deleteACover()">删除
+                                        </button>
+                                        <br><br>
                                         <button type="button" class="btn btn-info" style="margin-right: 15px"
                                                 onclick="uploadACover()">上传文件
                                         </button>
@@ -197,9 +207,13 @@
                                 <div style="height: 100px;">
                                     &nbsp;&nbsp;&nbsp;&nbsp;
                                     <div style="float: left; height: 100px" class="coverDiv" id="coverBDiv">
-                                        <img style="width: 100px" :src="coverB">
+                                        <img style="width: 100px" :src="coverB" id="coverBDivImg">
                                     </div>
-                                    <div style="float: left; margin-top: 50px; margin-left: 10px">
+                                    <div style="float: left; margin-top: 10px; margin-left: 10px">
+                                        <button type="button" class="btn btn-danger" style="margin-right: 15px"
+                                                onclick="deleteBCover()">删除
+                                        </button>
+                                        <br><br>
                                         <button type="button" class="btn btn-info" style="margin-right: 15px"
                                                 onclick="uploadBCover()">上传文件
                                         </button>
@@ -215,9 +229,13 @@
                                 <div style="height: 100px;">
                                     &nbsp;&nbsp;&nbsp;&nbsp;
                                     <div style="float: left; height: 100px" class="coverDiv" id="coverCDiv">
-                                        <img style="width: 100px" :src="coverC">
+                                        <img style="width: 100px" :src="coverC" id="coverCDivImg">
                                     </div>
-                                    <div style="float: left; margin-top: 50px; margin-left: 10px">
+                                    <div style="float: left; margin-top: 10px; margin-left: 10px">
+                                        <button type="button" class="btn btn-danger" style="margin-right: 15px"
+                                                onclick="deleteCCover()">删除
+                                        </button>
+                                        <br><br>
                                         <button type="button" class="btn btn-info" style="margin-right: 15px"
                                                 onclick="uploadCCover()">上传文件
                                         </button>
@@ -231,9 +249,13 @@
                                 <div style="height: 100px;">
                                     &nbsp;&nbsp;&nbsp;&nbsp;
                                     <div style="float: left; height: 100px" class="coverDiv" id="coverVDiv">
-                                        <img style="width: 100px" :src="coverV">
+                                        <img style="width: 100px" :src="coverV" id="coverVDivImg">
                                     </div>
-                                    <div style="float: left; margin-top: 50px; margin-left: 10px">
+                                    <div style="float: left; margin-top: 10px; margin-left: 10px">
+                                        <button type="button" class="btn btn-danger" style="margin-right: 15px"
+                                                onclick="deleteVCover()">删除
+                                        </button>
+                                        <br><br>
                                         <button type="button" class="btn btn-info" style="margin-right: 15px"
                                                 onclick="uploadVCover()">上传文件
                                         </button>
@@ -246,7 +268,7 @@
 
                 <div class="form-group">
                     <label>是否招商</label>
-                    <input type="checkbox" id="isInvest" >
+                    <input type="checkbox" id="isInvest">
                 </div>
 
                 <div class="form-group">
@@ -270,7 +292,7 @@
 
                 <div class="form-group">
                     <label>是否立即发布</label>
-                    <input type="checkbox" id="isPublish" >
+                    <input type="checkbox" id="isPublish">
                 </div>
 
                 <div class="form-group">
@@ -278,33 +300,33 @@
                     <table>
                         <tr>
                             <td>
-                                <input type="checkbox" id="recIndex" >推荐至首页
+                                <input type="checkbox" id="recIndex">推荐至首页
                             </td>
                             <td>
                                 &nbsp;&nbsp;
-                                <input type="checkbox" id="recTypeIndex" >推荐至总分类页
+                                <input type="checkbox" id="recTypeIndex">推荐至总分类页
                             </td>
                             <td>
                                 &nbsp;&nbsp;
-                                <input type="checkbox" id="recTypeRank" >推荐至品牌排行页
+                                <input type="checkbox" id="recTypeRank">推荐至品牌排行页
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <input type="checkbox" id="recTypeInfor" >推荐至品牌资讯页
+                                <input type="checkbox" id="recTypeInfor">推荐至品牌资讯页
                             </td>
                             <td>
                                 &nbsp;&nbsp;
-                                <input type="checkbox" id="recInforHead" >推荐至资讯头条页
+                                <input type="checkbox" id="recInforHead">推荐至资讯头条页
                             </td>
                             <td>
                                 &nbsp;&nbsp;
-                                <input type="checkbox" id="recInforEval" >推荐至资讯评测页
+                                <input type="checkbox" id="recInforEval">推荐至资讯评测页
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <input type="checkbox" id="recInforDetail" >推荐至资讯详情页
+                                <input type="checkbox" id="recInforDetail">推荐至资讯详情页
                             </td>
                             <td></td>
                             <td></td>
@@ -352,7 +374,7 @@
         },
         created: function () {
             $.get('/type/findAll', function (result) {
-                if(result != null && result.data != null )
+                if (result != null && result.data != null)
                     vm.typeList = result.data;
             });
         },
