@@ -96,20 +96,4 @@ public class BrandFrontController extends BaseFrontController {
 
         return new ResultData(true);
     }
-
-    @GetMapping(value = "/test")
-    public void test() {
-        List<BrandPopularRecord> popularRecords = Lists.newArrayList();
-        Date now = new Date();
-        for (int i = 0; i < 2; i++) {
-            BrandPopularRecord p = new BrandPopularRecord();
-            p.setCreateTime(now);
-            p.setBrandId(58);
-            p.setType(BrandPopularRecord.VISIT_TYPE);
-            p.setRequestIp("add_by_scheduled");
-            popularRecords.add(p);
-        }
-        int u_b_p = brandPopularRecordService.insertBatch(popularRecords);
-    }
-
 }

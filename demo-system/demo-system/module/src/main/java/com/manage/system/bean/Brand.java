@@ -52,8 +52,11 @@ public class Brand extends BaseModel {
     private Integer recInforEval;
     private Integer recInforDetail;
     private Integer isPublish;
+
     private String officialWebsite;
     private String onlineShopUrl;
+
+    private String wechatShareImgUrl;
 
     @TableField(exist = false)
     private String createTimeStr;
@@ -62,8 +65,9 @@ public class Brand extends BaseModel {
     private String typeName;
 
     public static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     public String getCreateTimeStr() {
-        if(createTime !=null) {
+        if (createTime != null) {
             return sdf.format(createTime);
         }
         return "";

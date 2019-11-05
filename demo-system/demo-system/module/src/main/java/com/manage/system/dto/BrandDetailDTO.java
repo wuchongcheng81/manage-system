@@ -60,4 +60,6 @@ public class BrandDetailDTO {
 
     private String officialWebsite;
     private String onlineShopUrl;
+    /**微信分享图片*/
+    private String wechatShareImgUrl;
 }

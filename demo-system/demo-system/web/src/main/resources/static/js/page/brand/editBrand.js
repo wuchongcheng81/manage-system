@@ -45,6 +45,10 @@ $(function () {
                 vm.coverV = brand.logoViewpoint;
                 $('#coverVDiv').removeClass('coverDiv');
             }
+            if(brand.wechatShareImgUrl != null && brand.wechatShareImgUrl != '') {
+                vm.coverW = brand.wechatShareImgUrl;
+                $('#coverWDiv').removeClass('coverDiv');
+            }
 
             if(brand.isPublish == 1)
                 $("#isPublish").attr("checked",true)
@@ -138,6 +142,7 @@ $(function () {
                 entity.append('logoA', vm.coverA);
                 entity.append('logoB', vm.coverB);
                 entity.append('logoC', vm.coverC);
+                entity.append('wechatShareImgUrl', vm.coverW);
                 entity.append('logoViewpoint', vm.coverV);
                 entity.append('isInvest', isInvest);
                 entity.append('isPublish', isPublish);
@@ -275,6 +280,25 @@ $(function () {
             }
         });
     })
+
+    $('#coverWFile').on('change', function () {
+        var formData = new FormData($('#logoWForm')[0]);
+        $.ajax({
+            url: '/upload/image',
+            type: 'POST',
+            dataType: 'json',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                if(result != null && result.data != null) {
+                    vm.coverW = result.data;
+                    $('#coverWDiv').removeClass('coverDiv');
+                    $('#coverWDivImg').show();
+                }
+            }
+        });
+    })
 })
 
 function deleteCover() {
@@ -307,6 +331,12 @@ function deleteVCover() {
     $('#coverVDivImg').hide();
     $('#coverVDiv').addClass('coverDiv');
 }
+function deleteWCover() {
+    vm.coverW = '';
+    document.getElementById('coverWFile').value = '';
+    $('#coverWDivImg').hide();
+    $('#coverWDiv').addClass('coverDiv');
+}
 
 function uploadCover() {
     $('#coverFile').click();
@@ -322,6 +352,9 @@ function uploadCCover() {
 }
 function uploadVCover() {
     $('#coverVFile').click();
+}
+function uploadWCover() {
+    $('#coverWFile').click();
 }
 
 

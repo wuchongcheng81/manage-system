@@ -47,6 +47,8 @@
         <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
         <result column="official_website" property="officialWebsite" jdbcType="VARCHAR"/>
         <result column="online_shop_url" property="onlineShopUrl" jdbcType="VARCHAR"/>
+
+        <result column="wechat_share_img_url" property="wechatShareImgUrl" jdbcType="VARCHAR"/>
     </resultMap>
 
     <select id="findByKeyWord" resultType="com.manage.system.dto.BrandDTO">
