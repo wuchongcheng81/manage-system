@@ -102,9 +102,9 @@ var TableInit = function () {
                         var standard = '<button type="button" style="margin-right: 15px" class="btn btn-primary" onclick="edit(\'' + value + '\')">编辑</button>';
                         var order;
                         if(row.isPublish == 0) {
-                            order = '<button type="button" class="btn btn-success" onclick="updateStatus(\'' + value + '\',1)">通过审核</button>';
+                            order = '<button type="button" class="btn btn-success" onclick="updateStatus(\'' + value + '\',1)">推荐</button>';
                         } else {
-                            order = '<button type="button" class="btn btn-warning" onclick="updateStatus(\'' + value + '\',0)">置未审核</button>';
+                            order = '<button type="button" class="btn btn-warning" onclick="updateStatus(\'' + value + '\',0)">不推荐</button>';
                         }
                         return standard + order;
                     }
@@ -144,9 +144,9 @@ function updateStatus(id, status) {
     vm.currentId = id;
     vm.status = status;
     if(status == 1) {
-        $('#modalDiv').html('确认通过审核该品牌吗？');
+        $('#modalDiv').html('确认推荐该品牌吗？');
     }else {
-        $('#modalDiv').html('确认将该品牌置未审核吗？');
+        $('#modalDiv').html('确认将不推荐该品牌吗？');
     }
     $('#myModal').modal('show');
 }
