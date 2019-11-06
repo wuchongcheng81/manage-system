@@ -1,27 +1,11 @@
 $(function () {
-    //1.初始化Table
-    var oTable = new TableInit();
-    oTable.Init();
+    $.get('/type/findAllList', function(response) {
+        var $table = $('#tb_body');
 
-    //2.初始化Button的点击事件
-    var oButtonInit = new ButtonInit();
-    oButtonInit.Init();
-
-});
-
-var $table = $('#tb_body')
-
-var TableInit = function () {
-    var oTableInit = new Object();
-    //初始化Table
-    oTableInit.Init = function () {
-        $('#tb_body').bootstrapTable({
-            url: '/type/findAllList',                 //请求后台的URL（*）
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-            striped: true,
-            sidePagination: 'server',
+        $table.bootstrapTable({
+            data: response,
             idField: 'id',
-            showColumns: true,
+            dataType:'jsonp',
             columns: [
                 {
                     field: 'sort',
@@ -67,8 +51,24 @@ var TableInit = function () {
                     }
                 }
             ],
-            treeShowField: 'name',
+            treeShowField: 'sort',
             parentIdField: 'parentId',
+            onResetView: function(data) {
+                //console.log('load');
+                $table.treegrid({
+                    initialState: 'collapsed',// 所有节点都折叠
+                    // initialState: 'expanded',// 所有节点都展开，默认展开
+                    treeColumn: 0,
+                    // expanderExpandedClass: 'glyphicon glyphicon-minus',  //图标样式
+                    // expanderCollapsedClass: 'glyphicon glyphicon-plus',
+                    onChange: function() {
+                        $table.bootstrapTable('resetWidth');
+                    }
+                });
+
+                //只展开树形的第一级节点
+                // $table.treegrid('getRootNodes').treegrid('expand');
+            },
             onPostBody: function() {
                 var columns = $table.bootstrapTable('getOptions').columns
                 if (columns && columns[0][1].visible) {
@@ -81,26 +81,5 @@ var TableInit = function () {
                 }
             }
         });
-    };
-
-    //得到查询的参数
-    oTableInit.queryParams = function (params) {
-        var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-            'pageNumber': this.pageNumber,   //页面大小
-            'pageSize': this.pageSize,  //页码
-            'name': $('#search_menuTitle').val()
-        };
-        return temp;
-    };
-    return oTableInit;
-};
-
-var ButtonInit = function () {
-    var oInit = new Object();
-    var postdata = {};
-
-    oInit.Init = function () {
-        //初始化页面上面的按钮事件
-    };
-    return oInit;
-};
+    })
+});

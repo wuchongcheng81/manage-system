@@ -5,61 +5,62 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <th:block th:insert="header :: common_header"/>
-    <link rel="stylesheet" th:href="@{/css/jquery.treegrid.min.css}"/>
-    <script th:src="@{/js/page/type/typeNew.js(v=6.1)}"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-treegrid/0.2.0/css/jquery.treegrid.min.css">
+    <script th:src="@{/js/page/type/typeNew.js(v=6.2)}"></script>
     <script th:src="@{/js/bootstrap-table-editable.js}"></script>
-    <script th:src="@{/js/jquery.treegrid.min.js}"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.12.0/extensions/treegrid/bootstrap-table-treegrid.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-treegrid/0.2.0/js/jquery.treegrid.min.js"></script>
 </head>
 <body>
 <div id="bodyList">
-<div class="calls">
-    <div class="breadcrumbs" id="breadcrumbs">
-        <script type="text/javascript">
-            try {
-                ace.settings.check('breadcrumbs', 'fixed')
-            } catch (e) {
-            }
-        </script>
-        <ul class="breadcrumb">
-            <li>
-                <i class="icon-home home-icon"></i>
-                <a href="#">首页</a>
-            </li>
-            <li class="active">品牌新分类管理</li>
-        </ul><!-- .breadcrumb -->
+    <div class="calls">
+        <table id="tb_body"></table>
     </div>
+<!--    <div class="breadcrumbs" id="breadcrumbs">-->
+<!--        <script type="text/javascript">-->
+<!--            try {-->
+<!--                ace.settings.check('breadcrumbs', 'fixed')-->
+<!--            } catch (e) {-->
+<!--            }-->
+<!--        </script>-->
+<!--        <ul class="breadcrumb">-->
+<!--            <li>-->
+<!--                <i class="icon-home home-icon"></i>-->
+<!--                <a href="#">首页</a>-->
+<!--            </li>-->
+<!--            <li class="active">品牌新分类管理</li>-->
+<!--        </ul>&lt;!&ndash; .breadcrumb &ndash;&gt;-->
+<!--    </div>-->
 
-    <div class="page-content">
+<!--    <div class="page-content">-->
 
-        <div class="panel-body" style="margin-bottom: 70px">
-            <div class="panel panel-default">
-                <div class="panel-heading">查询条件</div>
-                <div class="panel-body">
-                    <form id="formSearch" class="form-horizontal">
-                        <div class="form-group" style="margin-top:15px">
-                            <label class="control-label col-sm-1" for="search_menuTitle">品牌分类名称</label>
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" id="search_menuTitle">
-                            </div>
-                            <div class="col-sm-4" style="text-align:left;">
-                                <button type="button" style="margin-left:50px" id="btn_query"
-                                        class="btn btn-primary" onclick="search()">查询
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+<!--        <div class="panel-body" style="margin-bottom: 70px">-->
+<!--            <div class="panel panel-default">-->
+<!--                <div class="panel-heading">查询条件</div>-->
+<!--                <div class="panel-body">-->
+<!--                    <form id="formSearch" class="form-horizontal">-->
+<!--                        <div class="form-group" style="margin-top:15px">-->
+<!--                            <label class="control-label col-sm-1" for="search_menuTitle">品牌分类名称</label>-->
+<!--                            <div class="col-sm-3">-->
+<!--                                <input type="text" class="form-control" id="search_menuTitle">-->
+<!--                            </div>-->
+<!--                            <div class="col-sm-4" style="text-align:left;">-->
+<!--                                <button type="button" style="margin-left:50px" id="btn_query"-->
+<!--                                        class="btn btn-primary" onclick="search()">查询-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--            </div>-->
 
-            <div id="toolbar" class="btn-group">
-                <button id="btn_add" type="button" class="btn btn-default" onclick="add()">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
-                </button>
-            </div>
-            <table id="tb_body"></table>
-        </div>
-    </div>
-</div>
+<!--            <div id="toolbar" class="btn-group">-->
+<!--                <button id="btn_add" type="button" class="btn btn-default" onclick="add()">-->
+<!--                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增-->
+<!--                </button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 </div>
 </body>
 </html>
