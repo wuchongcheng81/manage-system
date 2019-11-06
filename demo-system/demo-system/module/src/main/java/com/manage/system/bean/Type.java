@@ -29,7 +29,8 @@ public class Type extends BaseModel {
     private String linkColor;
     //icon
     private String icon;
-
+    //父级id
+    private Integer parentId;
 
     @TableField(exist = false)
     private int brandCount;
