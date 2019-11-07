@@ -14,53 +14,53 @@
 <body>
 <div id="bodyList">
     <div class="calls">
-        <table id="tb_body"></table>
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try {
+                ace.settings.check('breadcrumbs', 'fixed')
+            } catch (e) {
+            }
+        </script>
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home home-icon"></i>
+                <a href="#">首页</a>
+            </li>
+            <li class="active">品牌新分类管理</li>
+        </ul><!-- .breadcrumb -->
     </div>
-<!--    <div class="breadcrumbs" id="breadcrumbs">-->
-<!--        <script type="text/javascript">-->
-<!--            try {-->
-<!--                ace.settings.check('breadcrumbs', 'fixed')-->
-<!--            } catch (e) {-->
-<!--            }-->
-<!--        </script>-->
-<!--        <ul class="breadcrumb">-->
-<!--            <li>-->
-<!--                <i class="icon-home home-icon"></i>-->
-<!--                <a href="#">首页</a>-->
-<!--            </li>-->
-<!--            <li class="active">品牌新分类管理</li>-->
-<!--        </ul>&lt;!&ndash; .breadcrumb &ndash;&gt;-->
-<!--    </div>-->
 
-<!--    <div class="page-content">-->
+    <div class="page-content">
 
-<!--        <div class="panel-body" style="margin-bottom: 70px">-->
-<!--            <div class="panel panel-default">-->
-<!--                <div class="panel-heading">查询条件</div>-->
-<!--                <div class="panel-body">-->
-<!--                    <form id="formSearch" class="form-horizontal">-->
-<!--                        <div class="form-group" style="margin-top:15px">-->
-<!--                            <label class="control-label col-sm-1" for="search_menuTitle">品牌分类名称</label>-->
-<!--                            <div class="col-sm-3">-->
-<!--                                <input type="text" class="form-control" id="search_menuTitle">-->
-<!--                            </div>-->
-<!--                            <div class="col-sm-4" style="text-align:left;">-->
-<!--                                <button type="button" style="margin-left:50px" id="btn_query"-->
-<!--                                        class="btn btn-primary" onclick="search()">查询-->
-<!--                                </button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </form>-->
-<!--                </div>-->
-<!--            </div>-->
+        <div class="panel-body" style="margin-bottom: 70px">
+            <!--<div class="panel panel-default">-->
+                <!--<div class="panel-heading">查询条件</div>-->
+                <!--<div class="panel-body">-->
+                    <!--<form id="formSearch" class="form-horizontal">-->
+                        <!--<div class="form-group" style="margin-top:15px">-->
+                            <!--<label class="control-label col-sm-1" for="search_menuTitle">品牌分类名称</label>-->
+                            <!--<div class="col-sm-3">-->
+                                <!--<input type="text" class="form-control" id="search_menuTitle">-->
+                            <!--</div>-->
+                            <!--<div class="col-sm-4" style="text-align:left;">-->
+                                <!--<button type="button" style="margin-left:50px" id="btn_query"-->
+                                        <!--class="btn btn-primary" onclick="search()">查询-->
+                                <!--</button>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</form>-->
+                <!--</div>-->
+            <!--</div>-->
 
-<!--            <div id="toolbar" class="btn-group">-->
-<!--                <button id="btn_add" type="button" class="btn btn-default" onclick="add()">-->
-<!--                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增-->
-<!--                </button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+            <div id="toolbar" class="btn-group">
+                <button id="btn_add" type="button" class="btn btn-default" onclick="add()">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增分类
+                </button>
+            </div>
+            <table id="tb_body"></table>
+        </div>
+    </div>
+    </div>
 </div>
 </body>
 </html>
