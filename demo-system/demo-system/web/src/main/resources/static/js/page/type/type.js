@@ -1,13 +1,8 @@
 var btnType;
 var currentId;
 $(function () {
-    //1.初始化Table
-    var oTable = new TableInit();
-    oTable.Init();
 
-    //2.初始化Button的点击事件
-    var oButtonInit = new ButtonInit();
-    oButtonInit.Init();
+    initTable();
 
     $("#confirmBtn").on("click", function () {
         if(vm.currentId != null) {
@@ -46,6 +41,7 @@ $(function () {
                     detailImgUrl: vm.aDetailImgUrl,
                     pageImgIsShow: $("input[name='aPageisShow']:checked").val(),
                     detailImgIsShow: $("input[name='aDetailisShow']:checked").val(),
+                    parentId: $('#a_parent').val()
                 }, function(data) {
                     if(data.state == 11) {
                         $('#addModal').modal('hide');
@@ -76,6 +72,7 @@ $(function () {
                     detailImgUrl: vm.uDetailImgUrl,
                     pageImgIsShow: $("input[name='uPageisShow']:checked").val(),
                     detailImgIsShow: $("input[name='uDetailisShow']:checked").val(),
+                    parentId: $('#u_parent').val()
                 }, function(data) {
                     if(data.state == 11) {
                         $('#updateModal').modal('hide');
@@ -166,47 +163,14 @@ $(function () {
 
 });
 
-function search() {
-    $('#tb_body').bootstrapTable('refresh');
-}
+function initTable() {
+    $.get('/type/findAllList', function(response) {
+        var $table = $('#tb_body');
 
-function add() {
-    $("#addTypeForm").data('bootstrapValidator').destroy();
-    $('#addTypeForm').data('bootstrapValidator', null);
-    validateAddForm();
-    $('#addModal').modal('show');
-}
-
-var TableInit = function () {
-    var oTableInit = new Object();
-    //初始化Table
-    oTableInit.Init = function () {
-        $('#tb_body').bootstrapTable({
-            url: '/type/findPage',                 //请求后台的URL（*）
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-            method: 'post',                      //请求方式（*）
-            toolbar: '#toolbar',                //工具按钮用哪个容器
-            striped: true,                      //是否显示行间隔色
-            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-            pagination: true,                   //是否显示分页（*）
-            sortable: true,                    //是否启用排序
-            sortOrder: "asc",                   //排序方式
-            queryParams: oTableInit.queryParams,//传递参数（*）
-            sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
-            pageNumber: 1,                       //初始化加载第一页，默认第一页
-            pageSize: 10,                       //每页的记录行数（*）
-            pageList: [5, 10, 30],        //可供选择的每页的行数（*）
-            search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
-            strictSearch: true,
-            // showColumns: true,                  //是否显示所有的列
-            showRefresh: true,                  //是否显示刷新按钮
-            minimumCountColumns: 2,             //最少允许的列数
-            clickToSelect: true,                //是否启用点击选中行
-            // height: 650,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-            uniqueId: "id",                     //每一行的唯一标识，一般为主键列
-            showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
-            cardView: false,                    //是否显示详细视图
-            detailView: false,                   //是否显示父子表
+        $table.bootstrapTable({
+            data: response,
+            idField: 'id',
+            dataType:'jsonp',
             columns: [
                 {
                     field: 'sort',
@@ -244,38 +208,71 @@ var TableInit = function () {
                 }, {
                     field: 'id',
                     title: '操作',
-                    cellStyle: {'css': {'text-align': 'center', 'width': '220px'}},
+                    cellStyle: {'css': {'text-align': 'center', 'width': '300px'}},
                     formatter: function (value, row, index) {
-                        var standard = '<button type="button" style="margin-right: 15px" class="btn btn-success" onclick="updateModal(\'' + value + '\')">修改</button>';
-                        var order = '<button type="button" class="btn btn-danger" onclick="deleteFunction(\'' + value + '\')">删除</button>';
-                        return standard + order;
+                        var addBtn;
+                        var editBtn;
+                        var deleteBtn;
+                        if(row.parentId == 0) {
+                            addBtn = '<button type="button" style="margin-right: 15px" class="btn btn-default" onclick="addChileModal(\'' + value + '\')">添加下级分类</button>';
+                            editBtn = '<button type="button" style="margin-right: 15px" class="btn btn-success" onclick="updateParentModal(\'' + value + '\')">修改</button>';
+                            deleteBtn = '<button type="button" class="btn btn-danger" onclick="deleteFunction(\'' + value + '\')">删除</button>';
+                            return addBtn + editBtn + deleteBtn;
+                        }else {
+                            editBtn = '<button type="button" style="margin-right: 15px" class="btn btn-success" onclick="updateModal(\'' + value + '\')">修改</button>';
+                            deleteBtn = '<button type="button" class="btn btn-danger" onclick="deleteFunction(\'' + value + '\')">删除</button>';
+                            return editBtn + deleteBtn;
+                        }
                     }
                 }
-            ]
+            ],
+            treeShowField: 'sort',
+            parentIdField: 'parentId',
+            onResetView: function(data) {
+                //console.log('load');
+                $table.treegrid({
+                    initialState: 'collapsed',// 所有节点都折叠
+                    // initialState: 'expanded',// 所有节点都展开，默认展开
+                    treeColumn: 0,
+                    // expanderExpandedClass: 'glyphicon glyphicon-minus',  //图标样式
+                    // expanderCollapsedClass: 'glyphicon glyphicon-plus',
+                    onChange: function() {
+                        $table.bootstrapTable('resetWidth');
+                    }
+                });
+
+                //只展开树形的第一级节点
+                // $table.treegrid('getRootNodes').treegrid('expand');
+            },
+            onPostBody: function() {
+                var columns = $table.bootstrapTable('getOptions').columns
+                if (columns && columns[0][1].visible) {
+                    $table.treegrid({
+                        treeColumn: 1,
+                        onChange: function() {
+                            $table.bootstrapTable('resetWidth')
+                        }
+                    })
+                }
+            }
         });
-    };
+    })
+}
 
-    //得到查询的参数
-    oTableInit.queryParams = function (params) {
-        var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-            'pageNumber': this.pageNumber,   //页面大小
-            'pageSize': this.pageSize,  //页码
-            'name': $('#search_menuTitle').val()
-        };
-        return temp;
-    };
-    return oTableInit;
-};
+function addChileModal() {
+    $("#addTypeForm").data('bootstrapValidator').destroy();
+    $('#addTypeForm').data('bootstrapValidator', null);
+    validateAddForm();
+    $.get('/type/findAllParent', function(response) {
+        vm.parentTypes = [];
+        response.forEach(function (p) {
+            vm.parentTypes.push({id: p.id, name: p.name});
+        })
+    });
 
-var ButtonInit = function () {
-    var oInit = new Object();
-    var postdata = {};
+    $('#addModal').modal('show');
+}
 
-    oInit.Init = function () {
-        //初始化页面上面的按钮事件
-    };
-    return oInit;
-};
 
 function deleteFunction(id) {
     vm.currentId = id;
@@ -287,38 +284,43 @@ function updateModal(id) {
     $('#updateTypeForm').data('bootstrapValidator', null);
     validateUpdateForm();
 
-
+    vm.type = {};
     vm.currentId = id;
-    $.get('/type/get', {id: id}, function (result) {
-        if(result != null && result.state == 11) {
-            var type = result.data;
-            vm.type = type;
-            if(type.pageImgUrl != null && type.pageImgUrl != '') {
-                $('#coverPageDiv').removeClass('coverDiv');
-                vm.uPageImgUrl = type.pageImgUrl;
-            }else {
-                $('#coverPageDiv').addClass('coverDiv');
-                vm.uPageImgUrl = null;
+    $.get('/type/findAllParent', function(response) {
+        vm.parentTypes = [];
+        response.forEach(function (p) {
+            vm.parentTypes.push({id: p.id, name: p.name});
+        })
+        $.get('/type/get', {id: id}, function (result) {
+            if(result != null && result.state == 11) {
+                var type = result.data;
+                vm.type = type;
+                if(type.pageImgUrl != null && type.pageImgUrl != '') {
+                    $('#coverPageDiv').removeClass('coverDiv');
+                    vm.uPageImgUrl = type.pageImgUrl;
+                }else {
+                    $('#coverPageDiv').addClass('coverDiv');
+                    vm.uPageImgUrl = null;
+                }
+                if(type.detailImgUrl != null && type.detailImgUrl != '') {
+                    $('#coverDetailDiv').removeClass('coverDiv');
+                    vm.uDetailImgUrl = type.detailImgUrl;
+                }else {
+                    $('#coverDetailDiv').addClass('coverDiv');
+                    vm.uDetailImgUrl = null;
+                }
+                if(type.pageImgIsShow == 1) {
+                    $('input:radio[name="uPageisShow"]').eq(1).attr('checked',true);
+                }else {
+                    $('input:radio[name="uPageisShow"]').eq(0).attr('checked',true);
+                }
+                if(type.detailImgIsShow == 1) {
+                    $('input:radio[name="uDetailisShow"]').eq(1).attr('checked',true);
+                }else {
+                    $('input:radio[name="uDetailisShow"]').eq(0).attr('checked',true);
+                }
             }
-            if(type.detailImgUrl != null && type.detailImgUrl != '') {
-                $('#coverDetailDiv').removeClass('coverDiv');
-                vm.uDetailImgUrl = type.detailImgUrl;
-            }else {
-                $('#coverDetailDiv').addClass('coverDiv');
-                vm.uDetailImgUrl = null;
-            }
-            if(type.pageImgIsShow == 1) {
-                $('input:radio[name="uPageisShow"]').eq(1).attr('checked',true);
-            }else {
-                $('input:radio[name="uPageisShow"]').eq(0).attr('checked',true);
-            }
-            if(type.detailImgIsShow == 1) {
-                $('input:radio[name="uDetailisShow"]').eq(1).attr('checked',true);
-            }else {
-                $('input:radio[name="uDetailisShow"]').eq(0).attr('checked',true);
-            }
-
-        }
+        });
     });
     $('#updateModal').modal('show');
 }
@@ -348,6 +350,13 @@ function validateAddForm() {
             validating: 'glyphicon glyphicon-refresh'
         },
         fields: {
+            parentId: {
+                validators: {
+                    notEmpty: {
+                        message: '上级分类不能为空'
+                    }
+                }
+            },
             sort: {
                 validators: {
                     notEmpty: {
@@ -406,6 +415,13 @@ function validateUpdateForm() {
             validating: 'glyphicon glyphicon-refresh'
         },
         fields: {
+            parentId: {
+                validators: {
+                    notEmpty: {
+                        message: '上级分类不能为空'
+                    }
+                }
+            },
             sort: {
                 validators: {
                     notEmpty: {

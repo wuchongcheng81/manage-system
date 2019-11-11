@@ -5,8 +5,11 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <th:block th:insert="header :: common_header"/>
-    <script th:src="@{/js/page/type/type.js(v=6.1)}"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-treegrid/0.2.0/css/jquery.treegrid.min.css">
+    <script th:src="@{/js/page/type/type.js(v=6.9.6)}"></script>
     <script th:src="@{/js/bootstrap-table-editable.js}"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.12.0/extensions/treegrid/bootstrap-table-treegrid.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-treegrid/0.2.0/js/jquery.treegrid.min.js"></script>
 </head>
 <style type="text/css">
     .coverDiv {
@@ -30,6 +33,13 @@
                 <!--<form id="addForm">-->
                     <div class="modal-body">
                         <form id="addTypeForm" class="required-validate" role="form">
+                            <div class="form-group">
+                                <label>上级分类</label>
+                                <select class="form-control" id="a_parent" name="parentId">
+                                    <option v-for="(t, index) in parentTypes" :value="t.id">{{t.name}}</option>
+                                </select>
+                            </div>
+
                             <div class="form-group">
                                 <label>序号</label>
                                 <input type="text" class="form-control" id="a_sort" name="sort"
@@ -128,6 +138,12 @@
                 </div>
                 <div class="modal-body">
                     <form id="updateTypeForm" class="required-validate" role="form">
+                        <div class="form-group">
+                            <label>上级分类</label>
+                            <select class="form-control" id="u_parent" name="parentId" :value="type.parentId">
+                                <option v-for="(t, index) in parentTypes" :value="t.id">{{t.name}}</option>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label>序号</label>
                             <input type="text" class="form-control" id="u_sort" name="sort" :value="type.sort"
@@ -283,24 +299,24 @@
         <div class="page-content">
 
             <div class="panel-body" style="margin-bottom: 70px">
-                <div class="panel panel-default">
-                    <div class="panel-heading">查询条件</div>
-                    <div class="panel-body">
-                        <form id="formSearch" class="form-horizontal">
-                            <div class="form-group" style="margin-top:15px">
-                                <label class="control-label col-sm-1" for="search_menuTitle">品牌分类名称</label>
-                                <div class="col-sm-3">
-                                    <input type="text" class="form-control" id="search_menuTitle">
-                                </div>
-                                <div class="col-sm-4" style="text-align:left;">
-                                    <button type="button" style="margin-left:50px" id="btn_query"
-                                            class="btn btn-primary" onclick="search()">查询
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                <!--<div class="panel panel-default">-->
+                    <!--<div class="panel-heading">查询条件</div>-->
+                    <!--<div class="panel-body">-->
+                        <!--<form id="formSearch" class="form-horizontal">-->
+                            <!--<div class="form-group" style="margin-top:15px">-->
+                                <!--<label class="control-label col-sm-1" for="search_menuTitle">品牌分类名称</label>-->
+                                <!--<div class="col-sm-3">-->
+                                    <!--<input type="text" class="form-control" id="search_menuTitle">-->
+                                <!--</div>-->
+                                <!--<div class="col-sm-4" style="text-align:left;">-->
+                                    <!--<button type="button" style="margin-left:50px" id="btn_query"-->
+                                            <!--class="btn btn-primary" onclick="search()">查询-->
+                                    <!--</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</form>-->
+                    <!--</div>-->
+                <!--</div>-->
 
                 <div id="toolbar" class="btn-group">
                     <button id="btn_add" type="button" class="btn btn-default" onclick="add()">
@@ -322,7 +338,8 @@
             aDetailImgUrl: '',
             uPageImgUrl: '',
             uDetailImgUrl: '',
-            type: {'sort':'','name':''}
+            type: {'sort':'','name':''},
+            parentTypes: []
         },
         mounted: function () {
 

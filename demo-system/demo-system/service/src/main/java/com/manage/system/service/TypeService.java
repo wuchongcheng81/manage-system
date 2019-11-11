@@ -7,4 +7,8 @@ import java.util.List;
 
 public interface TypeService extends BaseService<Type, Integer> {
     List<Type> findAll();
+
+    List<Type> findAllWithBrandCount();
+
+    List<Type> findAllParent();
 }

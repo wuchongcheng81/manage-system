@@ -3,6 +3,7 @@ package com.manage.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Lists;
 import com.manage.system.base.AbstractService;
 import com.manage.system.bean.Type;
 import com.manage.system.dao.BrandMapper;
@@ -18,6 +19,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -57,6 +59,41 @@ public class TypeServiceImpl extends AbstractService<Type, Integer, TypeMapper> 
         return mapper.selectList(wrapper);
     }
 
+    @Override
+    public List<Type> findAllWithBrandCount() {
+        QueryWrapper wrapper = getWrapper(null);
+        List<Type> list = mapper.selectList(wrapper);
+
+        if(!CollectionUtils.isEmpty(list)) {
+            List<Type> parentList = list.stream().filter(t -> t.getParentId() == 0).collect(Collectors.toList());
+            list.removeAll(parentList);
+            List<Type> chileList = Lists.newArrayList(list);
+
+            chileList.forEach(t ->
+                t.setBrandCount(brandService.countByTypeId(t.getId()))
+            );
+
+            parentList.forEach(p ->
+                chileList.forEach(c -> {
+                    if(c.getParentId() == p.getId()) {
+                        p.setBrandCount(p.getBrandCount()+1);
+                    }
+                })
+            );
+            parentList.addAll(chileList);
+            return parentList;
+        }
+        return null;
+    }
+
+    @Override
+    public List<Type> findAllParent() {
+        Type type = new Type();
+        type.setParentId(0);
+        QueryWrapper wrapper = getWrapper(type);
+        return mapper.selectList(wrapper);
+    }
+
     private QueryWrapper getWrapper(Type entity) {
         QueryWrapper<Type> wrapper = new QueryWrapper<>();
         wrapper.eq("is_del", 0);
@@ -66,6 +103,9 @@ public class TypeServiceImpl extends AbstractService<Type, Integer, TypeMapper> 
             }
             if (StringUtils.isNotBlank(entity.getName())) {
                 wrapper.like("name", entity.getName());
+            }
+            if(entity.getParentId() != null) {
+                wrapper.like("parent_id", entity.getParentId());
             }
         }
         wrapper.orderByAsc("sort");
