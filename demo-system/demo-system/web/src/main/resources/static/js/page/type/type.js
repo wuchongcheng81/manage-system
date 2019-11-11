@@ -19,6 +19,8 @@ $(function () {
 
     validateAddForm();
     validateUpdateForm();
+    validateAddParentForm();
+    validateUpdateParentForm();
 
     $('#cancelUpdate').on("click", function () {
         $('#updateModal').modal('hide');
@@ -26,6 +28,14 @@ $(function () {
 
     $('#a_cancelUpdate').on("click", function () {
         $('#addModal').modal('hide');
+    })
+
+    $('#a_p_cancelUpdate').on("click", function () {
+        $('#addParentModal').modal('hide');
+    })
+
+    $('#p_cancelUpdate').on("click", function () {
+        $('#updateParentModal').modal('hide');
     })
 
     $('#a_confirmUpdate').on("click", function () {
@@ -55,6 +65,54 @@ $(function () {
                 });
 
             $('#addModal').modal('hide');
+        }
+    })
+
+    $('#a_p_confirmUpdate').on("click", function () {
+        $("#addParentTypeForm").bootstrapValidator('validate');
+        if ($("#addParentTypeForm").data('bootstrapValidator').isValid()) {
+            $.post('/type/save',
+                {
+                    name: $('#a_p_name').val(),
+                    sort: $('#a_p_sort').val(),
+                    parentId: 0
+                }, function(data) {
+                    if(data.state == 11) {
+                        $('#addParentModal').modal('hide');
+                        $('#successMsg').text('添加品牌分类成功！');
+                        $('#successModal').modal('show');
+                        $('#tb_body').bootstrapTable('refresh');
+                    }else {
+                        $('#successMsg').text('添加品牌分类失败！');
+                        $('#successModal').modal('show');
+                    }
+                });
+
+            $('#addParentModal').modal('hide');
+        }
+    })
+
+    $('#p_confirmUpdate').on("click", function () {
+        $("#updateParentTypeForm").bootstrapValidator('validate');
+        if ($("#updateParentTypeForm").data('bootstrapValidator').isValid()) {
+            $.post('/type/update',
+                {
+                    id: vm.currentId,
+                    name: $('#u_p_name').val(),
+                    sort: $('#u_p_sort').val(),
+                    parentId: 0
+                }, function(data) {
+                    if(data.state == 11) {
+                        $('#updateParentModal').modal('hide');
+                        $('#successMsg').text('修改品牌分类成功！');
+                        $('#successModal').modal('show');
+                        $('#tb_body').bootstrapTable('refresh');
+                    }else {
+                        $('#successMsg').text('修改品牌分类失败！');
+                        $('#successModal').modal('show');
+                    }
+                });
+            $('#updateParentModal').modal('hide');
         }
     })
 
@@ -208,7 +266,7 @@ function initTable() {
                 }, {
                     field: 'id',
                     title: '操作',
-                    cellStyle: {'css': {'text-align': 'center', 'width': '300px'}},
+                    cellStyle: {'css': {'text-align': 'center', 'width': '300px','min-width': '265px'}},
                     formatter: function (value, row, index) {
                         var addBtn;
                         var editBtn;
@@ -259,6 +317,13 @@ function initTable() {
     })
 }
 
+function add() {
+    $("#addParentTypeForm").data('bootstrapValidator').destroy();
+    $('#addParentTypeForm').data('bootstrapValidator', null);
+    validateAddParentForm();
+    $('#addParentModal').modal('show');
+}
+
 function addChileModal() {
     $("#addTypeForm").data('bootstrapValidator').destroy();
     $('#addTypeForm').data('bootstrapValidator', null);
@@ -277,6 +342,23 @@ function addChileModal() {
 function deleteFunction(id) {
     vm.currentId = id;
     $('#confirmModal').modal('show');
+}
+
+function updateParentModal(id) {
+    $("#updateParentTypeForm").data('bootstrapValidator').destroy();
+    $('#updateParentTypeForm').data('bootstrapValidator', null);
+    validateUpdateParentForm();
+
+    vm.type = {};
+    vm.currentId = id;
+
+    $.get('/type/get', {id: id}, function (result) {
+        if(result != null && result.state == 11) {
+            var type = result.data;
+            vm.type = type;
+        }
+    });
+    $('#updateParentModal').modal('show');
 }
 
 function updateModal(id) {
@@ -341,6 +423,45 @@ function uploadDetailCover() {
     $('#coverDetailFile').click();
 }
 
+function validateAddParentForm() {
+    $('#addParentTypeForm').bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            sort: {
+                validators: {
+                    notEmpty: {
+                        message: '序号不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[+]{0,1}(\d+)$/,
+                        message: '请输入正确的序号'
+                    }
+                }
+            },
+            name: {
+                validators: {
+                    notEmpty: {
+                        message: '品牌分类名称不能为空'
+                    },
+                    stringLength: {
+                        min: 1,
+                        max: 300,
+                        message: '品牌分类名称不得超过300'
+                    }
+                }
+            }
+        }
+    }).on('success.form.bv', function (e) {//验证通过后会执行这个函数。
+        // Prevent submit form
+        e.preventDefault();
+    });
+}
+
 function validateAddForm() {
     $('#addTypeForm').bootstrapValidator({
         message: 'This value is not valid',
@@ -397,6 +518,45 @@ function validateAddForm() {
                     min: 1,
                     max: 300,
                     message: 'icon不得超过300'
+                }
+            }
+        }
+    }).on('success.form.bv', function (e) {//验证通过后会执行这个函数。
+        // Prevent submit form
+        e.preventDefault();
+    });
+}
+
+function validateUpdateParentForm() {
+    $('#updateParentTypeForm').bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            sort: {
+                validators: {
+                    notEmpty: {
+                        message: '序号不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[+]{0,1}(\d+)$/,
+                        message: '请输入正确的序号'
+                    }
+                }
+            },
+            name: {
+                validators: {
+                    notEmpty: {
+                        message: '品牌分类名称不能为空'
+                    },
+                    stringLength: {
+                        min: 1,
+                        max: 300,
+                        message: '品牌分类名称不得超过300'
+                    }
                 }
             }
         }

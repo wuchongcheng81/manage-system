@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <th:block th:insert="header :: common_header"/>
     <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-treegrid/0.2.0/css/jquery.treegrid.min.css">
-    <script th:src="@{/js/page/type/type.js(v=6.9.6)}"></script>
+    <script th:src="@{/js/page/type/type.js(v=6.9.11)}"></script>
     <script th:src="@{/js/bootstrap-table-editable.js}"></script>
     <script src="https://cdn.bootcss.com/bootstrap-table/1.12.0/extensions/treegrid/bootstrap-table-treegrid.js"></script>
     <script src="https://cdn.bootcss.com/jquery-treegrid/0.2.0/js/jquery.treegrid.min.js"></script>
@@ -20,6 +20,42 @@
 </style>
 <body style="background:#fff">
 <div id="bodyList">
+
+    <div class="modal fade" id="addParentModal" tabindex="-1" role="dialog" aria-labelledby="addParentModalLabel"
+         aria-hidden="false" data-keyboard="false">
+        <div class="modal-dialog" style="width: 550px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="addParentModalLabel">
+                        新增
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="addParentTypeForm" class="required-validate" role="form">
+                        <div class="form-group">
+                            <label>序号</label>
+                            <input type="text" class="form-control" id="a_p_sort" name="sort"
+                                   placeholder="请输入序号">
+                        </div>
+                        <div class="form-group">
+                            <label>分类名称</label>
+                            <input type="text" class="form-control" id="a_p_name" name="name"
+                                   placeholder="请输入分类名称">
+                        </div>
+                    </form>
+                </div>
+                <!--</form>-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="a_p_cancelUpdate">
+                        关闭
+                    </button>
+                    <button type="button" class="btn btn-primary" id="a_p_confirmUpdate">
+                        确认
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
 
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel"
          aria-hidden="false" data-keyboard="false">
@@ -120,6 +156,41 @@
                         关闭
                     </button>
                     <button type="button" class="btn btn-primary" id="a_confirmUpdate">
+                        确认
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="updateParentModal" tabindex="-1" role="dialog" aria-labelledby="updateParentModalLabel"
+         aria-hidden="false" data-keyboard="false">
+        <div class="modal-dialog" style="width: 550px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="updateParentModalLabel">
+                        修改
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="updateParentTypeForm" class="required-validate" role="form">
+                        <div class="form-group">
+                            <label>序号</label>
+                            <input type="text" class="form-control" id="u_p_sort" name="sort" :value="type.sort"
+                                   placeholder="请输入序号">
+                        </div>
+                        <div class="form-group">
+                            <label>分类名称</label>
+                            <input type="text" class="form-control" id="u_p_name" name="name" :value="type.name"
+                                   placeholder="请输入分类名称">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="p_cancelUpdate">
+                        关闭
+                    </button>
+                    <button type="button" class="btn btn-primary" id="p_confirmUpdate">
                         确认
                     </button>
                 </div>
