@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <th:block th:insert="header :: common_header"/>
     <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-treegrid/0.2.0/css/jquery.treegrid.min.css">
-    <script th:src="@{/js/page/type/type.js(v=6.9.11)}"></script>
+    <script th:src="@{/js/page/type/type.js(v=6.9.14)}"></script>
     <script th:src="@{/js/bootstrap-table-editable.js}"></script>
     <script src="https://cdn.bootcss.com/bootstrap-table/1.12.0/extensions/treegrid/bootstrap-table-treegrid.js"></script>
     <script src="https://cdn.bootcss.com/jquery-treegrid/0.2.0/js/jquery.treegrid.min.js"></script>
@@ -410,7 +410,8 @@
             uPageImgUrl: '',
             uDetailImgUrl: '',
             type: {'sort':'','name':''},
-            parentTypes: []
+            parentTypes: [],
+            isParent: 0
         },
         mounted: function () {
 

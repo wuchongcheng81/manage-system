@@ -11,4 +11,6 @@ public interface TypeService extends BaseService<Type, Integer> {
     List<Type> findAllWithBrandCount();
 
     List<Type> findAllParent();
+
+    Integer findListByParentId(int parentId);
 }

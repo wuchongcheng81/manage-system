@@ -155,6 +155,11 @@ public class BrandServiceImpl extends AbstractService<Brand, Integer, BrandMappe
     }
 
     @Override
+    public int countByTypeParentId(int typeId) {
+        return mapper.countByTypeParentId(typeId);
+    }
+
+    @Override
     public int countByTypeId(int typeId) {
         return mapper.countByTypeId(typeId);
     }

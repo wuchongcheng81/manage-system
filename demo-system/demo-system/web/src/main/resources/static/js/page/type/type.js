@@ -6,14 +6,32 @@ $(function () {
 
     $("#confirmBtn").on("click", function () {
         if(vm.currentId != null) {
-            $.post('/type/delete', {id : vm.currentId}, function(data) {
-                if(data != null && data.state == 11) {
+            if(vm.isParent == 0) {
+                $.post('/type/deleteType', {id : vm.currentId}, function(data) {
                     $('#confirmModal').modal('hide');
-                    $('#successMsg').text('删除品牌分类成功！');
-                    $('#successModal').modal('show');
-                    $('#tb_body').bootstrapTable('refresh');
-                }
-            })
+                    if(data != null && data.state == 00) {
+                        $('#successMsg').text(data.note);
+                        $('#successModal').modal('show');
+                    }else {
+                        $('#successMsg').text('删除品牌分类成功！');
+                        $('#successModal').modal('show');
+                        reload();
+                    }
+                })
+            }else {
+                $.post('/type/deleteParent', {id : vm.currentId}, function(data) {
+                    $('#confirmModal').modal('hide');
+                    if(data != null && data.state == 00) {
+                        $('#successMsg').text(data.note);
+                        $('#successModal').modal('show');
+                    }else {
+                        $('#successMsg').text('删除品牌分类成功！');
+                        $('#successModal').modal('show');
+                        reload();
+                    }
+                })
+            }
+
         }
     })
 
@@ -57,7 +75,7 @@ $(function () {
                         $('#addModal').modal('hide');
                         $('#successMsg').text('添加品牌分类成功！');
                         $('#successModal').modal('show');
-                        $('#tb_body').bootstrapTable('refresh');
+                        reload();
                     }else {
                         $('#successMsg').text('添加品牌分类失败！');
                         $('#successModal').modal('show');
@@ -81,7 +99,7 @@ $(function () {
                         $('#addParentModal').modal('hide');
                         $('#successMsg').text('添加品牌分类成功！');
                         $('#successModal').modal('show');
-                        $('#tb_body').bootstrapTable('refresh');
+                        reload();
                     }else {
                         $('#successMsg').text('添加品牌分类失败！');
                         $('#successModal').modal('show');
@@ -106,7 +124,7 @@ $(function () {
                         $('#updateParentModal').modal('hide');
                         $('#successMsg').text('修改品牌分类成功！');
                         $('#successModal').modal('show');
-                        $('#tb_body').bootstrapTable('refresh');
+                        reload();
                     }else {
                         $('#successMsg').text('修改品牌分类失败！');
                         $('#successModal').modal('show');
@@ -136,7 +154,7 @@ $(function () {
                         $('#updateModal').modal('hide');
                         $('#successMsg').text('修改品牌分类成功！');
                         $('#successModal').modal('show');
-                        $('#tb_body').bootstrapTable('refresh');
+                        reload();
                     }else {
                         $('#successMsg').text('修改品牌分类失败！');
                         $('#successModal').modal('show');
@@ -221,6 +239,12 @@ $(function () {
 
 });
 
+function reload() {
+    // parent.window.addTab(5, '品牌类型管理', 'type/typeList.html');
+    $("#tb_body").bootstrapTable('destroy');
+    initTable();
+}
+
 function initTable() {
     $.get('/type/findAllList', function(response) {
         var $table = $('#tb_body');
@@ -274,7 +298,7 @@ function initTable() {
                         if(row.parentId == 0) {
                             addBtn = '<button type="button" style="margin-right: 15px" class="btn btn-default" onclick="addChileModal(\'' + value + '\')">添加下级分类</button>';
                             editBtn = '<button type="button" style="margin-right: 15px" class="btn btn-success" onclick="updateParentModal(\'' + value + '\')">修改</button>';
-                            deleteBtn = '<button type="button" class="btn btn-danger" onclick="deleteFunction(\'' + value + '\')">删除</button>';
+                            deleteBtn = '<button type="button" class="btn btn-danger" onclick="deleteParentFunction(\'' + value + '\')">删除</button>';
                             return addBtn + editBtn + deleteBtn;
                         }else {
                             editBtn = '<button type="button" style="margin-right: 15px" class="btn btn-success" onclick="updateModal(\'' + value + '\')">修改</button>';
@@ -341,6 +365,13 @@ function addChileModal() {
 
 function deleteFunction(id) {
     vm.currentId = id;
+    vm.isParent = 0;
+    $('#confirmModal').modal('show');
+}
+
+function deleteParentFunction(id) {
+    vm.currentId = id;
+    vm.isParent = 1;
     $('#confirmModal').modal('show');
 }
 

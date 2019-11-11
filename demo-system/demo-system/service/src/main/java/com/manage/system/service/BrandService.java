@@ -29,4 +29,6 @@ public interface BrandService extends BaseService<Brand, Integer> {
     void addPopularById(int id);
 
     int addPopularByIdAndPopular(int brandPopular, int id);
+
+    int countByTypeParentId(int typeId);
 }

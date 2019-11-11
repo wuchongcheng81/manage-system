@@ -69,7 +69,7 @@
     </select>
 
     <select id="countByTypeId" resultType="int">
-        select count(1) from t_brand where type_id = #{typeId}
+        select count(1) from t_brand where is_del = 0 and type_id = #{typeId}
     </select>
 
     <select id="findById" resultMap="BaseResultMap">
@@ -219,6 +219,18 @@
             LIMIT  #{pageNumber},#{pageSize}
     </select>
 
+    <select id="countByTypeParentId" resultType="int">
+        SELECT
+            count( b.id )
+        FROM
+            t_brand b
+            INNER JOIN t_type t ON t.id = b.type_id
+        WHERE
+            b.is_del = 0
+        AND
+            t.parent_id = #{typeId}
+    </select>
+
     <update id="addPopularById">
         update t_brand set brand_popular = brand_popular+1 where id = #{id}
     </update>
@@ -226,4 +238,5 @@
     <update id="addPopularByIdAndPopular">
         update t_brand set brand_popular = brand_popular + #{brandPopular} where id = #{id}
     </update>
+
 </mapper>

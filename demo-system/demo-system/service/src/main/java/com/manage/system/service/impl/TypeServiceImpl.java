@@ -94,6 +94,15 @@ public class TypeServiceImpl extends AbstractService<Type, Integer, TypeMapper> 
         return mapper.selectList(wrapper);
     }
 
+    @Override
+    public Integer findListByParentId(int parentId) {
+        Type type = new Type();
+        type.setParentId(parentId);
+        QueryWrapper wrapper = getWrapper(type);
+
+        return mapper.selectCount(wrapper);
+    }
+
     private QueryWrapper getWrapper(Type entity) {
         QueryWrapper<Type> wrapper = new QueryWrapper<>();
         wrapper.eq("is_del", 0);
