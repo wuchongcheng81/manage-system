@@ -43,7 +43,7 @@ public class TypeFrontController extends BaseFrontController {
         Type type = new Type();
         type.setPageNumber(pageNumber);
         type.setPageSize(pageSize);
-        type.setParentId(0);
+        type.setParentId(-1);
         IPage iPage = typeService.findPage(type);
         List<TypeDTO> resultList = Lists.newArrayList();
         if(iPage != null && !CollectionUtils.isEmpty(iPage.getRecords())) {
@@ -68,7 +68,7 @@ public class TypeFrontController extends BaseFrontController {
     @RequestMapping(value = "/findAll")
     public ResultData findAll() {
         Type type = new Type();
-        type.setParentId(0);
+        type.setParentId(-1);
         return new ResultData<>(true, typeService.findAll(type));
     }
 

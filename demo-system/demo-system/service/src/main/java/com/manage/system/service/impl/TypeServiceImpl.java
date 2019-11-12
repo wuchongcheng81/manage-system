@@ -27,8 +27,6 @@ import java.util.stream.Collectors;
 public class TypeServiceImpl extends AbstractService<Type, Integer, TypeMapper> implements TypeService {
 
     @Resource
-    private PhotoService photoService;
-    @Resource
     private BrandService brandService;
 
     @Override
@@ -76,7 +74,7 @@ public class TypeServiceImpl extends AbstractService<Type, Integer, TypeMapper> 
             parentList.forEach(p ->
                 chileList.forEach(c -> {
                     if(c.getParentId() == p.getId()) {
-                        p.setBrandCount(p.getBrandCount()+1);
+                        p.setBrandCount(p.getBrandCount()+c.getBrandCount());
                     }
                 })
             );
@@ -114,7 +112,11 @@ public class TypeServiceImpl extends AbstractService<Type, Integer, TypeMapper> 
                 wrapper.like("name", entity.getName());
             }
             if(entity.getParentId() != null) {
-                wrapper.like("parent_id", entity.getParentId());
+                if(entity.getParentId() == -1) {
+                    wrapper.ne("parent_id", 0);
+                }else {
+                    wrapper.eq("parent_id", entity.getParentId());
+                }
             }
         }
         wrapper.orderByAsc("sort");
