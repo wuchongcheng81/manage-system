@@ -221,7 +221,7 @@
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    if (data.state == 11) {
+                    if (data.state == '11') {
                         $('#myModal').modal('hide');
                         parent.window.addTab(1, '用户信息', 'updateUser.html');
                     }

@@ -9,7 +9,7 @@ $(function () {
             if(vm.isParent == 0) {
                 $.post('/type/deleteType', {id : vm.currentId}, function(data) {
                     $('#confirmModal').modal('hide');
-                    if(data != null && data.state == 00) {
+                    if(data != null && data.state == '00') {
                         $('#successMsg').text(data.note);
                         $('#successModal').modal('show');
                     }else {
@@ -21,7 +21,7 @@ $(function () {
             }else {
                 $.post('/type/deleteParent', {id : vm.currentId}, function(data) {
                     $('#confirmModal').modal('hide');
-                    if(data != null && data.state == 00) {
+                    if(data != null && data.state == '00') {
                         $('#successMsg').text(data.note);
                         $('#successModal').modal('show');
                     }else {
@@ -71,7 +71,7 @@ $(function () {
                     detailImgIsShow: $("input[name='aDetailisShow']:checked").val(),
                     parentId: $('#a_parent').val()
                 }, function(data) {
-                    if(data.state == 11) {
+                    if(data.state == '11') {
                         $('#addModal').modal('hide');
                         $('#successMsg').text('添加品牌分类成功！');
                         $('#successModal').modal('show');
@@ -95,7 +95,7 @@ $(function () {
                     sort: $('#a_p_sort').val(),
                     parentId: 0
                 }, function(data) {
-                    if(data.state == 11) {
+                    if(data.state == '11') {
                         $('#addParentModal').modal('hide');
                         $('#successMsg').text('添加品牌分类成功！');
                         $('#successModal').modal('show');
@@ -120,7 +120,7 @@ $(function () {
                     sort: $('#u_p_sort').val(),
                     parentId: 0
                 }, function(data) {
-                    if(data.state == 11) {
+                    if(data.state == '11') {
                         $('#updateParentModal').modal('hide');
                         $('#successMsg').text('修改品牌分类成功！');
                         $('#successModal').modal('show');
@@ -150,7 +150,7 @@ $(function () {
                     detailImgIsShow: $("input[name='uDetailisShow']:checked").val(),
                     parentId: $('#u_parent').val()
                 }, function(data) {
-                    if(data.state == 11) {
+                    if(data.state == '11') {
                         $('#updateModal').modal('hide');
                         $('#successMsg').text('修改品牌分类成功！');
                         $('#successModal').modal('show');

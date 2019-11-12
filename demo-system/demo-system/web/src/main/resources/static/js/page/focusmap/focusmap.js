@@ -49,7 +49,7 @@ $(function () {
     $("#confirmBtn").on("click", function () {
         if(vm.currentId != null) {
             $.post('/focusMap/delete', {id : vm.currentId}, function(data) {
-                if(data != null && data.state == 11) {
+                if(data != null && data.state == '11') {
                     $('#confirmModal').modal('hide');
                     $('#successMsg').text('删除焦点图成功！');
                     $('#successModal').modal('show');
@@ -77,7 +77,7 @@ $(function () {
                 sort: $('#a_sort').val(),
                 positionCode: code
             },function(data) {
-                if(data.state == 11) {
+                if(data.state == '11') {
                     $('#addModal').modal('hide');
                     $('#successMsg').text('新增焦点图成功！');
                     $('#successModal').modal('show');
@@ -98,7 +98,7 @@ $(function () {
                 link: $('#u_link').val(),
                 imgIsShow: $("input[name='uIsShow']:checked").val(),
             }, function(data) {
-                if(data.state == 11) {
+                if(data.state == '11') {
                     $('#updateModal').modal('hide');
                     $('#successMsg').text('修改焦点图成功！');
                     $('#successModal').modal('show');

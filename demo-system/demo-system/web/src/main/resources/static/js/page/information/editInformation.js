@@ -65,7 +65,7 @@ $(function () {
                     contentType: false,
                     processData: false,
                     success: function (data) {
-                        if (data.state == 11) {
+                        if (data.state == '11') {
                             $('#successModal').modal('show');
                             $("#closeSuccessBtn").on("click", function () {
                                 $('#successModal').modal('hide');

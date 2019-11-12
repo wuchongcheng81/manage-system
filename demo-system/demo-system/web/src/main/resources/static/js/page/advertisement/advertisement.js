@@ -37,7 +37,7 @@ $(function () {
                 link: $('#u_link').val(),
                 imgIsShow: $("input[name='uIsShow']:checked").val(),
             }, function(data) {
-                if(data.state == 11) {
+                if(data.state == '11') {
                     $('#updateModal').modal('hide');
                     $('#successMsg').text('修改广告成功！');
                     $('#successModal').modal('show');

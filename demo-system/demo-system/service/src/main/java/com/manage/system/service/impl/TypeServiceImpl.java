@@ -54,8 +54,8 @@ public class TypeServiceImpl extends AbstractService<Type, Integer, TypeMapper> 
     }
 
     @Override
-    public List<Type> findAll() {
-        QueryWrapper wrapper = getWrapper(null);
+    public List<Type> findAll(Type type) {
+        QueryWrapper wrapper = getWrapper(type);
         return mapper.selectList(wrapper);
     }
 

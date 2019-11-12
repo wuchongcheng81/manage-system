@@ -6,7 +6,7 @@ import com.manage.system.bean.Type;
 import java.util.List;
 
 public interface TypeService extends BaseService<Type, Integer> {
-    List<Type> findAll();
+    List<Type> findAll(Type type);
 
     List<Type> findAllWithBrandCount();
 

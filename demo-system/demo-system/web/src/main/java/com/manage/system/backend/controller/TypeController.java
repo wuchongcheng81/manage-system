@@ -27,7 +27,9 @@ public class TypeController extends BaseController<TypeService, Type, Integer> {
 
     @GetMapping(value = "/findAll")
     public ResultData<List<Type>> findAll() {
-        return new ResultData<>(true, mapper.findAll());
+        Type type = new Type();
+        type.setParentId(0);
+        return new ResultData<>(true, mapper.findAll(type));
     }
 
     @GetMapping(value = "/findAllList")
