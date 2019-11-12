@@ -17,5 +17,9 @@ public class TypeDTO {
     //icon
     private String icon;
 
+    private Integer parentId;
+
     private List<BrandDTO> brandList;
+
+    private List<TypeDTO> childs;
 }

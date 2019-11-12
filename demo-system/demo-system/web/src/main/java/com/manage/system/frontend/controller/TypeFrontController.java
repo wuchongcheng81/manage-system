@@ -76,4 +76,9 @@ public class TypeFrontController extends BaseFrontController {
     public ResultData findById(@RequestParam int typeId) {
         return new ResultData(true, typeService.findById(typeId));
     }
+
+    @RequestMapping(value = "/findAllWithChilds")
+    public ResultData findAllWithChilds() {
+        return new ResultData<>(true, typeService.findAllWithChilds());
+    }
 }

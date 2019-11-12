@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.manage.system.base.BaseModel;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @TableName("t_type")
 public class Type extends BaseModel {
@@ -34,4 +36,7 @@ public class Type extends BaseModel {
 
     @TableField(exist = false)
     private int brandCount;
+
+    @TableField(exist = false)
+    private List<Type> childs;
 }

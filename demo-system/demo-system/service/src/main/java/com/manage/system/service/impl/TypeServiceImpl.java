@@ -8,11 +8,13 @@ import com.manage.system.base.AbstractService;
 import com.manage.system.bean.Type;
 import com.manage.system.dao.BrandMapper;
 import com.manage.system.dao.TypeMapper;
+import com.manage.system.dto.TypeDTO;
 import com.manage.system.service.BrandService;
 import com.manage.system.service.PhotoService;
 import com.manage.system.service.TypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -33,11 +35,11 @@ public class TypeServiceImpl extends AbstractService<Type, Integer, TypeMapper> 
     public IPage<Type> findPage(Type entity) {
         QueryWrapper<Type> wrapper = getWrapper(entity);
         IPage<Type> result = mapper.selectPage(new Page<>(entity.getPageNumber(), entity.getPageSize()), wrapper);
-        if(result != null && !CollectionUtils.isEmpty(result.getRecords())) {
+        if (result != null && !CollectionUtils.isEmpty(result.getRecords())) {
             result.getRecords().forEach(
-                t -> {
-                    t.setBrandCount(brandService.countByTypeId(t.getId()));
-                }
+                    t -> {
+                        t.setBrandCount(brandService.countByTypeId(t.getId()));
+                    }
             );
         }
         return result;
@@ -62,21 +64,21 @@ public class TypeServiceImpl extends AbstractService<Type, Integer, TypeMapper> 
         QueryWrapper wrapper = getWrapper(null);
         List<Type> list = mapper.selectList(wrapper);
 
-        if(!CollectionUtils.isEmpty(list)) {
+        if (!CollectionUtils.isEmpty(list)) {
             List<Type> parentList = list.stream().filter(t -> t.getParentId() == 0).collect(Collectors.toList());
             list.removeAll(parentList);
             List<Type> chileList = Lists.newArrayList(list);
 
             chileList.forEach(t ->
-                t.setBrandCount(brandService.countByTypeId(t.getId()))
+                    t.setBrandCount(brandService.countByTypeId(t.getId()))
             );
 
             parentList.forEach(p ->
-                chileList.forEach(c -> {
-                    if(c.getParentId() == p.getId()) {
-                        p.setBrandCount(p.getBrandCount()+c.getBrandCount());
-                    }
-                })
+                    chileList.forEach(c -> {
+                        if (c.getParentId() == p.getId()) {
+                            p.setBrandCount(p.getBrandCount() + c.getBrandCount());
+                        }
+                    })
             );
             parentList.addAll(chileList);
             return parentList;
@@ -101,20 +103,43 @@ public class TypeServiceImpl extends AbstractService<Type, Integer, TypeMapper> 
         return mapper.selectCount(wrapper);
     }
 
+    @Override
+    public List<TypeDTO> findAllWithChilds() {
+        List<TypeDTO> list = mapper.findAllType();
+        if (!CollectionUtils.isEmpty(list)) {
+            List<TypeDTO> parentList = list.stream().filter(t -> t.getParentId() == 0).collect(Collectors.toList());
+            list.removeAll(parentList);
+            List<TypeDTO> chileList = Lists.newArrayList(list);
+
+            parentList.forEach(p -> {
+                List<TypeDTO> childs = Lists.newArrayList();
+                for (TypeDTO c : chileList) {
+                    if (c.getParentId() == p.getId()) {
+                        childs.add(c);
+                    }
+                }
+                p.setChilds(childs);
+            });
+
+            return parentList;
+        }
+        return null;
+    }
+
     private QueryWrapper getWrapper(Type entity) {
         QueryWrapper<Type> wrapper = new QueryWrapper<>();
         wrapper.eq("is_del", 0);
-        if(entity != null) {
+        if (entity != null) {
             if (entity.getId() != null) {
                 wrapper.eq("id", entity.getId());
             }
             if (StringUtils.isNotBlank(entity.getName())) {
                 wrapper.like("name", entity.getName());
             }
-            if(entity.getParentId() != null) {
-                if(entity.getParentId() == -1) {
+            if (entity.getParentId() != null) {
+                if (entity.getParentId() == -1) {
                     wrapper.ne("parent_id", 0);
-                }else {
+                } else {
                     wrapper.eq("parent_id", entity.getParentId());
                 }
             }
