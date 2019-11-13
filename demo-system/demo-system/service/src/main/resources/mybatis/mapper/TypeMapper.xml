@@ -9,5 +9,6 @@
             t_type
         where
             is_del = 0
+        order by sort asc
     </select>
 </mapper>
