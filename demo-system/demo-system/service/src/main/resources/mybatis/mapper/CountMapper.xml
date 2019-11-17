@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manage.system.dao.CountMapper">
+
+    <select id="countBrowse" resultType="int">
+        SELECT
+            count( id )
+        FROM
+            t_brand_popular_record
+        WHERE
+            to_days( create_time ) = to_days( now( ) )
+        AND visit_type = 'visit'
+        <if test="brandId != null">
+            AND brand_id = #{brandId}
+        </if>
+    </select>
+
+    <select id="countIp" resultType="int">
+        SELECT
+            count( DISTINCT request_ip )
+        FROM
+            t_brand_popular_record
+        WHERE
+            to_days( create_time ) = to_days( now( ) )
+        <if test="brandId != null">
+            AND brand_id = #{brandId}
+        </if>
+    </select>
+
+    <select id="countPopular" resultType="int">
+        SELECT
+            count( id )
+        FROM
+            t_brand_popular_record
+        WHERE
+            to_days( create_time ) = to_days( now( ) )
+        <if test="brandId != null">
+            AND brand_id = #{brandId}
+        </if>
+    </select>
+
+    <select id="countYesterDayBrowse" resultType="int">
+        SELECT
+        count( id )
+        FROM
+        t_brand_popular_record
+        WHERE
+        TO_DAYS( NOW( ) ) - TO_DAYS( create_time) &lt;= 1
+        AND visit_type = 'visit'
+        <if test="brandId != null">
+            AND brand_id = #{brandId}
+        </if>
+    </select>
+
+    <select id="countYesterDayIp" resultType="int">
+        SELECT
+        count( DISTINCT request_ip )
+        FROM
+        t_brand_popular_record
+        WHERE
+        TO_DAYS( NOW( ) ) - TO_DAYS( create_time) &lt;= 1
+        <if test="brandId != null">
+            AND brand_id = #{brandId}
+        </if>
+    </select>
+
+    <select id="countYesterDayPopular" resultType="int">
+        SELECT
+        count( id )
+        FROM
+        t_brand_popular_record
+        WHERE
+        TO_DAYS( NOW( ) ) - TO_DAYS( create_time) &lt;= 1
+        <if test="brandId != null">
+            AND brand_id = #{brandId}
+        </if>
+    </select>
+
+    <select id="countBrowseByBeforeDay" resultType="com.manage.system.dto.CountDetailDTO">
+        SELECT
+            count( t.id ) AS countNum,
+            t.cdate
+        FROM
+            (
+            SELECT
+                id,
+                date_format( create_time, '%Y-%m-%d' ) AS cdate
+            FROM
+                t_brand_popular_record
+            WHERE
+                create_time &gt;= str_to_date( #{beforeDay}, '%Y-%m-%d' )
+            AND
+                visit_type = 'visit'
+            <if test="brandId != null">
+                AND brand_id = #{brandId}
+            </if>
+            ) AS t
+        GROUP BY
+            t.cdate
+    </select>
+
+    <select id="countIpByBeforeDay" resultType="com.manage.system.dto.CountDetailDTO">
+        SELECT
+            count( DISTINCT t.request_ip ) AS countNum,
+            cdate
+        FROM
+            (
+                SELECT
+                    request_ip, date_format( create_time, '%Y-%m-%d' ) AS cdate
+                FROM
+                    t_brand_popular_record
+                WHERE
+                    create_time &gt;= str_to_date( #{beforeDay}, '%Y-%m-%d' )
+                <if test="brandId != null">
+                    AND brand_id = #{brandId}
+                </if>
+            ) AS t
+        GROUP BY
+            t.cdate
+    </select>
+
+    <select id="countPopularByBeforeDay" resultType="com.manage.system.dto.CountDetailDTO">
+        SELECT
+            count( t.id ) AS countNum,
+            t.cdate as cdate
+        FROM
+            (
+                SELECT
+                    id, date_format( create_time, '%Y-%m-%d' ) AS cdate
+                FROM
+                    t_brand_popular_record
+                WHERE
+                    create_time &gt;= str_to_date( #{beforeDay}, '%Y-%m-%d' )
+                <if test="brandId != null">
+                    AND brand_id = #{brandId}
+                </if>
+            ) AS t
+        GROUP BY
+            t.cdate
+    </select>
+</mapper>

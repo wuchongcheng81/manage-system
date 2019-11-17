@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <th:block th:insert="header :: common_header"/>
+    <script th:src="@{/js/page/count/count.js(v=1)}"></script>
+    <script th:src="@{/js/echarts/echarts.min.js}"></script>
+</head>
+<style type="text/css">
+    .coverDiv {
+        border: 1px solid #C1C1C1;
+        border-radius: 20px;
+        width: 100px;
+    }
+    .tableTdSize {
+        font-size: 20px;
+    }
+</style>
+<body style="background:#fff">
+<div id="bodyList">
+
+    <div class="calls">
+        <div class="breadcrumbs" id="breadcrumbs">
+            <script type="text/javascript">
+                try {
+                    ace.settings.check('breadcrumbs', 'fixed')
+                } catch (e) {
+                }
+            </script>
+            <ul class="breadcrumb">
+                <li>
+                    <i class="icon-home home-icon"></i>
+                    <a href="#">首页</a>
+                </li>
+                <li class="active">品牌数据统计管理</li>
+            </ul><!-- .breadcrumb -->
+        </div>
+
+        <div class="page-content">
+
+            <div class="panel-body" style="margin-bottom: 70px">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><label style="font-weight: bold">今日数据</label></div>
+                    <div class="panel-body">
+                        <table style="width: 100%; text-align: center">
+                            <tr style="height: 30px;font-weight: bold">
+                                <td width="20%"></td>
+                                <td width="20%">浏览量(PV)</td>
+                                <td width="20%">IP数</td>
+                                <td width="20%">热度</td>
+                                <td width="20%">分享</td>
+                            </tr>
+                            <tr style="height: 40px;">
+                                <td style="font-weight: bold">今日</td>
+                                <td class="tableTdSize">{{countDetail.countBrowse}}</td>
+                                <td class="tableTdSize">{{countDetail.countIp}}</td>
+                                <td class="tableTdSize">{{countDetail.countPopular}}</td>
+                                <td class="tableTdSize">{{countDetail.countShare}}</td>
+                            </tr>
+                            <tr style="height: 40px;">
+                                <td style="font-weight: bold">昨日</td>
+                                <td class="tableTdSize">{{countDetail.countYesBrowse}}</td>
+                                <td class="tableTdSize">{{countDetail.countYesIp}}</td>
+                                <td class="tableTdSize">{{countDetail.countYesPopular}}</td>
+                                <td class="tableTdSize">{{countDetail.countYesShare}}</td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div id="toolbar" class="btn-group">
+                    <button id="sevenDays" type="button" class="btn btn-default" @click="searchByBeforeDay(7)">
+                        <span class="glyphicon glyphicon-glass" aria-hidden="true"></span>最近7天
+                    </button>
+                    <button id="thirtyDasy" type="button" class="btn btn-default" @click="searchByBeforeDay(30)">
+                        <span class="glyphicon glyphicon-glass" aria-hidden="true"></span>最近30天
+                    </button>
+                </div>
+                <div id="main" style="width: 90%;height:500px; min-width: 500px"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    var vm = new Vue({
+        el: '#bodyList',
+        data: {
+            countDetail: {},
+            myChart: null,
+            option: null,
+            xAxisData: ['昨日', '今天']
+        },
+        mounted: function () {
+
+        },
+        created: function() {
+            $.post('/count/data/getCount',function(response) {
+                vm.countDetail = response.data;
+
+                vm.myChart = echarts.init(document.getElementById('main'));
+
+                vm.initEchart();
+                // 使用刚指定的配置项和数据显示图表。
+                vm.myChart.setOption(vm.option);
+            });
+        },
+        methods: {
+            initEchart: function() {
+                // 基于准备好的dom，初始化echarts实例
+
+                vm.option = {
+                    title: {
+                        text: ''
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:['浏览量(PV)','IP数','热度','分享']
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        }
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: ['昨日', '今天']
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [
+                        {
+                            name:'浏览量(PV)',
+                            type:'line',
+                            data:[vm.countDetail.countYesBrowse, vm.countDetail.countBrowse]
+                        },
+                        {
+                            name:'IP数',
+                            type:'line',
+                            data:[vm.countDetail.countYesIp, vm.countDetail.countIp]
+                        },
+                        {
+                            name:'热度',
+                            type:'line',
+                            data:[vm.countDetail.countYesPopular, vm.countDetail.countPopular]
+                        },
+                        {
+                            name:'分享',
+                            type:'line',
+                            data:[vm.countDetail.countYesShare, vm.countDetail.countShare]
+                        }
+                    ]
+                };
+            },
+            searchByBeforeDay: function(beforeDay) {
+                $.post('/count/data/getCountList',{beforeDay: beforeDay}, function(response) {
+                    var result = response.data;
+                    vm.option.xAxis.data = result.beforeDays;
+                    var series = [
+                        {
+                            name:'浏览量(PV)',
+                            type:'line',
+                            data:result.browseList
+                        },
+                        {
+                            name:'IP数',
+                            type:'line',
+                            data:result.ipList
+                        },
+                        {
+                            name:'热度',
+                            type:'line',
+                            data:result.popularList
+                        },
+                        {
+                            name:'分享',
+                            type:'line',
+                            data:result.shareList
+                        }
+                    ];
+                    vm.option.series = series;
+                    vm.myChart.setOption(vm.option);
+                })
+            }
+        }
+    })
+</script>
+</html>
+
+
+
+
