@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manage.system.dao.BrandShareRecordMapper">
+
+    <select id="countShare" resultType="int">
+        SELECT
+            count( id )
+        FROM
+            t_brand_share_record
+        WHERE
+            to_days( create_time ) = to_days( now( ) )
+        <if test="brandId != null">
+            AND brand_id = #{brandId}
+        </if>
+    </select>
+
+    <select id="countYesterDayShare" resultType="int">
+        SELECT
+            count( id )
+        FROM
+            t_brand_share_record
+        WHERE
+        TO_DAYS( NOW( ) ) - TO_DAYS( create_time) = 1
+        <if test="brandId != null">
+            AND brand_id = #{brandId}
+        </if>
+    </select>
+
+    <select id="countShareByBeforeDay" resultType="com.manage.system.dto.CountDetailDTO">
+        SELECT
+            count( t.id ) AS countNum,
+            t.cdate
+        FROM
+            (
+            SELECT
+                id,
+                date_format( create_time, '%Y-%m-%d' ) AS cdate
+            FROM
+                t_brand_share_record
+            WHERE
+                create_time &gt;= str_to_date( #{beforeDay}, '%Y-%m-%d' )
+            <if test="brandId != null">
+                AND brand_id = #{brandId}
+            </if>
+            ) AS t
+        GROUP BY
+            t.cdate
+    </select>
+
+</mapper>

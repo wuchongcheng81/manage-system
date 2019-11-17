@@ -100,6 +100,7 @@
         created: function() {
             $.post('/count/data/getCount',function(response) {
                 vm.countDetail = response.data;
+                console.log(vm.countDetail);
 
                 vm.myChart = echarts.init(document.getElementById('main'));
 
@@ -168,6 +169,7 @@
             searchByBeforeDay: function(beforeDay) {
                 $.post('/count/data/getCountList',{beforeDay: beforeDay}, function(response) {
                     var result = response.data;
+                    console.log(result);
                     vm.option.xAxis.data = result.beforeDays;
                     var series = [
                         {

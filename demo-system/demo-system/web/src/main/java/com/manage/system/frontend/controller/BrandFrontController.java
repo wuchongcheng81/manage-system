@@ -4,11 +4,13 @@ import com.google.common.collect.Lists;
 import com.manage.system.base.BaseFrontController;
 import com.manage.system.bean.Brand;
 import com.manage.system.bean.BrandPopularRecord;
+import com.manage.system.bean.BrandShareRecord;
 import com.manage.system.dto.BrandDTO;
 import com.manage.system.dto.BrandDetailDTO;
 import com.manage.system.response.ResultData;
 import com.manage.system.service.BrandPopularRecordService;
 import com.manage.system.service.BrandService;
+import com.manage.system.service.BrandShareRecordService;
 import com.manage.system.util.HttpUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,8 @@ public class BrandFrontController extends BaseFrontController {
 
     @Autowired
     private BrandService brandService;
+    @Autowired
+    private BrandShareRecordService shareRecordService;
     @Autowired
     private BrandPopularRecordService brandPopularRecordService;
 
@@ -93,6 +97,18 @@ public class BrandFrontController extends BaseFrontController {
 
         brandPopularRecordService.save(record);
         brandService.addPopularById(brandId);
+
+        return new ResultData(true);
+    }
+
+    @RequestMapping(value = "/share")
+    public ResultData share(HttpServletRequest request, @RequestParam int brandId) {
+        String ip = HttpUtil.getIpAddress(request);
+        BrandShareRecord shareRecord = new BrandShareRecord();
+        shareRecord.setRequestIp(ip);
+        shareRecord.setCreateTime(new Date());
+        shareRecord.setBrandId(brandId);
+        shareRecordService.save(shareRecord);
 
         return new ResultData(true);
     }

@@ -45,7 +45,7 @@
         FROM
         t_brand_popular_record
         WHERE
-        TO_DAYS( NOW( ) ) - TO_DAYS( create_time) &lt;= 1
+        TO_DAYS( NOW( ) ) - TO_DAYS( create_time) = 1
         AND visit_type = 'visit'
         <if test="brandId != null">
             AND brand_id = #{brandId}
@@ -58,7 +58,7 @@
         FROM
         t_brand_popular_record
         WHERE
-        TO_DAYS( NOW( ) ) - TO_DAYS( create_time) &lt;= 1
+        TO_DAYS( NOW( ) ) - TO_DAYS( create_time) = 1
         <if test="brandId != null">
             AND brand_id = #{brandId}
         </if>
@@ -70,7 +70,7 @@
         FROM
         t_brand_popular_record
         WHERE
-        TO_DAYS( NOW( ) ) - TO_DAYS( create_time) &lt;= 1
+        TO_DAYS( NOW( ) ) - TO_DAYS( create_time) = 1
         <if test="brandId != null">
             AND brand_id = #{brandId}
         </if>
