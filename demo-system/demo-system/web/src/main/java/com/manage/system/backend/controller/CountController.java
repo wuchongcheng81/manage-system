@@ -34,13 +34,4 @@ public class CountController {
         CountListDetailDTO countListDetailDTO = countService.getCountList(beforeDay, brandId);
         return new ResultData(true, countListDetailDTO);
     }
-
-    private List<String> getBeforeDays(int beforeDay) {
-        List<String> list = Lists.newArrayList();
-        for(int i = beforeDay; i >= 0; i--) {
-            list.add(DateUtils.getPastDate(i));
-        }
-        return list;
-    }
-
 }

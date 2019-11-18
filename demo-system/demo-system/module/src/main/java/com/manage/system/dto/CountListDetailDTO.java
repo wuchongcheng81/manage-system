@@ -13,7 +13,6 @@ public class CountListDetailDTO {
     private List<Integer> browseList;
     private List<Integer> ipList;
     private List<Integer> popularList;
-    private List<Integer> shareList;
 
     private List<String> beforeDays;
 }

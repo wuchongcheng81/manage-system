@@ -34,7 +34,7 @@
                     <i class="icon-home home-icon"></i>
                     <a href="#">首页</a>
                 </li>
-                <li class="active">品牌数据统计管理</li>
+                <li class="active" id="headTitle">品牌数据统计管理</li>
             </ul><!-- .breadcrumb -->
         </div>
 
@@ -46,25 +46,22 @@
                     <div class="panel-body">
                         <table style="width: 100%; text-align: center">
                             <tr style="height: 30px;font-weight: bold">
-                                <td width="20%"></td>
-                                <td width="20%">浏览量(PV)</td>
-                                <td width="20%">IP数</td>
-                                <td width="20%">热度</td>
-                                <td width="20%">分享</td>
+                                <td width="25%"></td>
+                                <td width="25%">浏览量(PV)</td>
+                                <td width="25%">IP数</td>
+                                <td width="25%">热度</td>
                             </tr>
                             <tr style="height: 40px;">
                                 <td style="font-weight: bold">今日</td>
                                 <td class="tableTdSize">{{countDetail.countBrowse}}</td>
                                 <td class="tableTdSize">{{countDetail.countIp}}</td>
                                 <td class="tableTdSize">{{countDetail.countPopular}}</td>
-                                <td class="tableTdSize">{{countDetail.countShare}}</td>
                             </tr>
                             <tr style="height: 40px;">
                                 <td style="font-weight: bold">昨日</td>
                                 <td class="tableTdSize">{{countDetail.countYesBrowse}}</td>
                                 <td class="tableTdSize">{{countDetail.countYesIp}}</td>
                                 <td class="tableTdSize">{{countDetail.countYesPopular}}</td>
-                                <td class="tableTdSize">{{countDetail.countYesShare}}</td>
                             </tr>
 
                         </table>
@@ -95,12 +92,16 @@
             xAxisData: ['昨日', '今天']
         },
         mounted: function () {
+            $.get('/brand/get', {id : getUrlParam('brandId')}, function(response) {
+                $('#headTitle').html(response.data.name + '-品牌数据统计管理');
+            });
 
         },
         created: function() {
-            $.post('/count/data/getCount',function(response) {
+
+
+            $.post('/count/data/getCount',{brandId: getUrlParam('brandId')}, function(response) {
                 vm.countDetail = response.data;
-                console.log(vm.countDetail);
 
                 vm.myChart = echarts.init(document.getElementById('main'));
 
@@ -121,7 +122,7 @@
                         trigger: 'axis'
                     },
                     legend: {
-                        data:['浏览量(PV)','IP数','热度','分享']
+                        data:['浏览量(PV)','IP数','热度']
                     },
                     grid: {
                         left: '3%',
@@ -157,19 +158,14 @@
                             name:'热度',
                             type:'line',
                             data:[vm.countDetail.countYesPopular, vm.countDetail.countPopular]
-                        },
-                        {
-                            name:'分享',
-                            type:'line',
-                            data:[vm.countDetail.countYesShare, vm.countDetail.countShare]
                         }
                     ]
                 };
             },
             searchByBeforeDay: function(beforeDay) {
-                $.post('/count/data/getCountList',{beforeDay: beforeDay}, function(response) {
+                $.post('/count/data/getCountList',{beforeDay: beforeDay, brandId: getUrlParam('brandId')}, function(response) {
                     var result = response.data;
-                    console.log(result);
+
                     vm.option.xAxis.data = result.beforeDays;
                     var series = [
                         {
@@ -186,11 +182,6 @@
                             name:'热度',
                             type:'line',
                             data:result.popularList
-                        },
-                        {
-                            name:'分享',
-                            type:'line',
-                            data:result.shareList
                         }
                     ];
                     vm.option.series = series;

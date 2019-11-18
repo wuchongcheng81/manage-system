@@ -46,7 +46,7 @@ var TableInit = function () {
                 {
                     field: 'logo',
                     title: '图片',
-                    cellStyle: {'css': {'text-align': 'center', 'width': '20%'}},
+                    cellStyle: {'css': {'text-align': 'center', 'width': '10%'}},
                     formatter: function (value, row, index) {
                         if (value != null && value != '') {
                             var img = '<img src="' + value + '" width="70px">';
@@ -97,7 +97,7 @@ var TableInit = function () {
                 },{
                     field: 'id',
                     title: '操作',
-                    cellStyle: {'css': {'text-align': 'center', 'width': '220px'}},
+                    cellStyle: {'css': {'text-align': 'center', 'width': '300px', 'min-width':'300px'}},
                     formatter: function (value, row, index) {
                         var standard = '<button type="button" style="margin-right: 15px" class="btn btn-primary" onclick="edit(\'' + value + '\')">编辑</button>';
                         var order;
@@ -106,7 +106,8 @@ var TableInit = function () {
                         } else {
                             order = '<button type="button" class="btn btn-warning" onclick="updateStatus(\'' + value + '\',0)">不推荐</button>';
                         }
-                        return standard + order;
+                        var dataCount = '<button type="button" style="margin-left: 15px" class="btn btn-dark" onclick="countDetail(\'' + value + '\',\'' + row.name + '\')">数据统计</button>';
+                        return standard + order + dataCount;
                     }
                 }
             ]
@@ -193,4 +194,8 @@ function add() {
 
 function edit(id) {
     parent.window.addTab(11, '编辑品牌', 'brand/editBrand.html?id=' + id);
+}
+
+function countDetail(id, name) {
+    parent.window.addTab(27, '数据统计', 'count/count.html?brandId=' + id);
 }
