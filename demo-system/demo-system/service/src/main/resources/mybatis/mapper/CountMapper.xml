@@ -10,6 +10,7 @@
         WHERE
             to_days( create_time ) = to_days( now( ) )
         AND visit_type = 'visit'
+        AND request_ip != 'add_by_scheduled'
         <if test="brandId != null">
             AND brand_id = #{brandId}
         </if>
@@ -22,6 +23,7 @@
             t_brand_popular_record
         WHERE
             to_days( create_time ) = to_days( now( ) )
+        AND request_ip != 'add_by_scheduled'
         <if test="brandId != null">
             AND brand_id = #{brandId}
         </if>
@@ -34,6 +36,7 @@
             t_brand_popular_record
         WHERE
             to_days( create_time ) = to_days( now( ) )
+        AND request_ip != 'add_by_scheduled'
         <if test="brandId != null">
             AND brand_id = #{brandId}
         </if>
@@ -47,6 +50,7 @@
         WHERE
         TO_DAYS( NOW( ) ) - TO_DAYS( create_time) = 1
         AND visit_type = 'visit'
+        AND request_ip != 'add_by_scheduled'
         <if test="brandId != null">
             AND brand_id = #{brandId}
         </if>
@@ -59,6 +63,7 @@
         t_brand_popular_record
         WHERE
         TO_DAYS( NOW( ) ) - TO_DAYS( create_time) = 1
+        AND request_ip != 'add_by_scheduled'
         <if test="brandId != null">
             AND brand_id = #{brandId}
         </if>
@@ -71,6 +76,7 @@
         t_brand_popular_record
         WHERE
         TO_DAYS( NOW( ) ) - TO_DAYS( create_time) = 1
+        AND request_ip != 'add_by_scheduled'
         <if test="brandId != null">
             AND brand_id = #{brandId}
         </if>
@@ -91,6 +97,7 @@
                 create_time &gt;= str_to_date( #{beforeDay}, '%Y-%m-%d' )
             AND
                 visit_type = 'visit'
+            AND request_ip != 'add_by_scheduled'
             <if test="brandId != null">
                 AND brand_id = #{brandId}
             </if>
@@ -111,6 +118,7 @@
                     t_brand_popular_record
                 WHERE
                     create_time &gt;= str_to_date( #{beforeDay}, '%Y-%m-%d' )
+                AND request_ip != 'add_by_scheduled'
                 <if test="brandId != null">
                     AND brand_id = #{brandId}
                 </if>
@@ -131,6 +139,7 @@
                     t_brand_popular_record
                 WHERE
                     create_time &gt;= str_to_date( #{beforeDay}, '%Y-%m-%d' )
+                AND request_ip != 'add_by_scheduled'
                 <if test="brandId != null">
                     AND brand_id = #{brandId}
                 </if>

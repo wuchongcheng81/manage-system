@@ -30,7 +30,7 @@ import java.util.List;
 public class BrandServiceImpl extends AbstractService<Brand, Integer, BrandMapper> implements BrandService {
     @Override
     public IPage<Brand> findPage(Brand entity) {
-        QueryWrapper<Brand> wrapper = getWrapper(entity);
+        QueryWrapper<Brand> wrapper = getPageWrapper(entity);
         IPage<Brand> result = mapper.selectPage(new Page<>(entity.getPageNumber(), entity.getPageSize()), wrapper);
         return result;
     }
@@ -177,6 +177,22 @@ public class BrandServiceImpl extends AbstractService<Brand, Integer, BrandMappe
             wrapper.eq("type_id", entity.getTypeId());
         }
         wrapper.orderByAsc("create_time");
+        return wrapper;
+    }
+
+    private QueryWrapper getPageWrapper(Brand entity) {
+        QueryWrapper<Brand> wrapper = new QueryWrapper<>();
+        wrapper.eq("is_del", 0);
+        if (entity.getId() != null) {
+            wrapper.eq("id", entity.getId());
+        }
+        if(StringUtils.isNotBlank(entity.getName())) {
+            wrapper.like("name", entity.getName());
+        }
+        if(entity.getTypeId() != null) {
+            wrapper.eq("type_id", entity.getTypeId());
+        }
+        wrapper.orderByDesc("brand_popular");
         return wrapper;
     }
 }
