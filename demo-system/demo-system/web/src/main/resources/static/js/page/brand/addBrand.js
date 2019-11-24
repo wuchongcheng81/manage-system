@@ -1,3 +1,12 @@
+var editor;
+KindEditor.ready(function(K) {
+    editor = K.create('#editor_id', {
+        cssPath : '/js/kindeditor/prettify.css',
+        uploadJson : 'upload_file_json',
+        fileManagerJson : 'file_manager_json',
+        allowFileManager : true
+    });
+});
 $(function () {
     var De = window.wangEditor;
     var editorD = new De('#editorD');
