@@ -3,12 +3,15 @@ package com.manage.system.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.Lists;
 import com.manage.system.base.AbstractService;
+import com.manage.system.dao.BrandVisitRecordMapper;
 import com.manage.system.dao.CountMapper;
 import com.manage.system.dto.CountDetailDTO;
 import com.manage.system.dto.CountListDetailDTO;
+import com.manage.system.service.BrandVisitRecordService;
 import com.manage.system.service.CountService;
 import com.manage.system.util.DateUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -25,14 +28,17 @@ import java.util.List;
 @Transactional
 public class CountServiceImpl extends AbstractService<CountDetailDTO, Integer, CountMapper> implements CountService {
 
+    @Autowired
+    private BrandVisitRecordService brandVisitRecordService;
+
     @Override
     public CountDetailDTO getCount(Integer brandId) {
         CountDetailDTO countDetailDTO = new CountDetailDTO();
-        countDetailDTO.setCountBrowse(mapper.countBrowse(brandId));
+        countDetailDTO.setCountBrowse(brandVisitRecordService.countBrowse(brandId));
         countDetailDTO.setCountIp(mapper.countIp(brandId));
         countDetailDTO.setCountPopular(mapper.countPopular(brandId));
 
-        countDetailDTO.setCountYesBrowse(mapper.countYesterDayBrowse(brandId));
+        countDetailDTO.setCountYesBrowse(brandVisitRecordService.countYesterDayBrowse(brandId));
         countDetailDTO.setCountYesIp(mapper.countYesterDayIp(brandId));
         countDetailDTO.setCountYesPopular(mapper.countYesterDayPopular(brandId));
         return countDetailDTO;
@@ -45,7 +51,7 @@ public class CountServiceImpl extends AbstractService<CountDetailDTO, Integer, C
         CountListDetailDTO countListDetailDTO = new CountListDetailDTO();
 
         List<String> dayList = getBeforeDays(beforeDay);
-        List<CountDetailDTO> browseDetailList = mapper.countBrowseByBeforeDay(beforeDayStr, brandId);
+        List<CountDetailDTO> browseDetailList = brandVisitRecordService.countBrowseByBeforeDay(beforeDayStr, brandId);
         List<CountDetailDTO> ipDetailList = mapper.countIpByBeforeDay(beforeDayStr, brandId);
         List<CountDetailDTO> popularDetailList = mapper.countPopularByBeforeDay(beforeDayStr, brandId);
 

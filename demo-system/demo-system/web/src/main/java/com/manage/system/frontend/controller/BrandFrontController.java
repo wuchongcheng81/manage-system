@@ -4,11 +4,13 @@ import com.google.common.collect.Lists;
 import com.manage.system.base.BaseFrontController;
 import com.manage.system.bean.Brand;
 import com.manage.system.bean.BrandPopularRecord;
+import com.manage.system.bean.BrandVisitRecord;
 import com.manage.system.dto.BrandDTO;
 import com.manage.system.dto.BrandDetailDTO;
 import com.manage.system.response.ResultData;
 import com.manage.system.service.BrandPopularRecordService;
 import com.manage.system.service.BrandService;
+import com.manage.system.service.BrandVisitRecordService;
 import com.manage.system.util.HttpUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,8 @@ public class BrandFrontController extends BaseFrontController {
 
     @Autowired
     private BrandService brandService;
+    @Autowired
+    private BrandVisitRecordService brandVisitRecordService;
     @Autowired
     private BrandPopularRecordService brandPopularRecordService;
 
@@ -60,6 +64,7 @@ public class BrandFrontController extends BaseFrontController {
         Brand brand = brandService.getByIdWithType(id);
         BrandDetailDTO brandDetailDTO = new BrandDetailDTO();
         if(brand != null) {
+            brandVisitRecordService.save(new BrandVisitRecord(id, new Date()));
             BeanUtils.copyProperties(brand, brandDetailDTO);
             return new ResultData(true, brandDetailDTO);
         }else {
