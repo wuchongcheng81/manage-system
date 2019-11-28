@@ -77,6 +77,19 @@ public class FileUtil {
         return null;
     }
 
+    public static String uploadKindEditorFile(String host, String pattern, MultipartFile file, String uploadDir, String kindEditorDir) {
+        if (!file.isEmpty()) {
+            String fileName = file.getOriginalFilename();
+            String suffixName = fileName.substring(fileName.lastIndexOf("."));
+            fileName = UUID.randomUUID() + suffixName;
+            String dirName = getCurrentDate() + "/" + fileName;;
+            String filePath = uploadDir.concat(kindEditorDir) + dirName;
+            upload(file, filePath);
+            return host + pattern + "/" + kindEditorDir + "/" + dirName;
+        }
+        return null;
+    }
+
     public static void upload(MultipartFile file, String filePath) {
         File dest = new File(filePath);
         if(!dest.getParentFile().exists()) {

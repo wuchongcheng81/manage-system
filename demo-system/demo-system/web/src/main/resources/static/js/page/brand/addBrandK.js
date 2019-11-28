@@ -11,7 +11,7 @@ KindEditor.ready(function(K) {
             'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
             'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
             'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
-            'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
+            'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image',
             'insertfile', 'table', 'hr', 'emoticons', 'pagebreak',
             'anchor', 'link', 'unlink', '|', 'about'
         ]
