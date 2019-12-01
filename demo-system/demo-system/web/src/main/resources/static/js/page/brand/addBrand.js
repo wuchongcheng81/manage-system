@@ -1,37 +1,49 @@
-var editor;
+var editorNewD;
 KindEditor.ready(function(K) {
-    editor = K.create('#editor_id', {
+    editorNewD = K.create('#editor_d', {
         cssPath : '/js/kindeditor/prettify.css',
-        uploadJson : 'upload_file_json',
-        fileManagerJson : 'file_manager_json',
-        allowFileManager : true
+        uploadJson : '/upload/uploadJson',
+        fileManagerJson : '/upload/fileManagerJson',
+        allowFileManager : true,
+        items : [
+            'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'cut', 'copy', 'paste',
+            'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+            'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+            'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+            'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+            'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image',
+            'insertfile', 'table', 'hr', 'emoticons', 'pagebreak',
+            'anchor', 'link', 'unlink', '|', 'about'
+        ]
+    });
+});
+
+var editorNewP;
+KindEditor.ready(function(K) {
+    editorNewP = K.create('#editor_p', {
+        cssPath : '/js/kindeditor/prettify.css',
+        uploadJson : '/upload/uploadJson',
+        fileManagerJson : '/upload/fileManagerJson',
+        allowFileManager : true,
+        items : [
+            'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'cut', 'copy', 'paste',
+            'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+            'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+            'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+            'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+            'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image',
+            'insertfile', 'table', 'hr', 'emoticons', 'pagebreak',
+            'anchor', 'link', 'unlink', '|', 'about'
+        ]
     });
 });
 $(function () {
-    var De = window.wangEditor;
-    var editorD = new De('#editorD');
-    //设置文件上传的参数名称
-    editorD.customConfig.uploadFileName = 'file';
-    //设置上传文件的服务器路径
-    editorD.customConfig.uploadImgServer = '/upload/wangEditorUpload';
-    //将图片大小限制为5M
-    editorD.customConfig.uploadImgMaxSize = 5 * 1024 * 1024;
-    editorD.create();
-
-    var Po = window.wangEditor;
-    var editorP = new Po('#editorP');
-    //设置文件上传的参数名称
-    editorP.customConfig.uploadFileName = 'file';
-    //设置上传文件的服务器路径
-    editorP.customConfig.uploadImgServer = '/upload/wangEditorUpload';
-    //将图片大小限制为5M
-    editorP.customConfig.uploadImgMaxSize = 5 * 1024 * 1024;
-    editorP.create();
 
     $("#addForm").submit(function (ev) {
         ev.preventDefault();
     });
     $('#validaterBtn').on('click', function () {
+
         $("#addForm").bootstrapValidator('validate');
         if ($("#addForm").data('bootstrapValidator').isValid()) {
             $('#myModal').modal('show');
@@ -101,8 +113,8 @@ $(function () {
                 entity.append('recInforEval', recInforEval);
                 entity.append('recInforDetail', recInforDetail);
 
-                entity.append('description', editorD.txt.html());
-                entity.append('investPolicy', editorP.txt.html());
+                entity.append('description', editorNewD.html());
+                entity.append('investPolicy', editorNewP.html());
 
                 $.ajax({
                     url: '/brand/save',

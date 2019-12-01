@@ -69,7 +69,7 @@ public class FileUtil {
             String fileName = file.getOriginalFilename();
             String suffixName = fileName.substring(fileName.lastIndexOf("."));
             fileName = UUID.randomUUID() + suffixName;
-            String dirName = getCurrentDate() + "/" + fileName;;
+            String dirName = getCurrentDate() + "/" + fileName;
             String filePath = uploadDir + dirName;
             upload(file, filePath);
             return host + pattern + "/" + dirName;
