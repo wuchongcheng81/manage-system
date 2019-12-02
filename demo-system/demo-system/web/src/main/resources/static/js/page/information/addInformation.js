@@ -1,13 +1,33 @@
+var editorNew;
+KindEditor.ready(function(K) {
+    editorNew = K.create('#editor_new', {
+        cssPath : '/js/kindeditor/prettify.css',
+        uploadJson : '/upload/uploadJson',
+        fileManagerJson : '/upload/fileManagerJson',
+        allowFileManager : true,
+        items : [
+            'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'cut', 'copy', 'paste',
+            'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+            'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+            'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+            'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+            'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image',
+            'insertfile', 'table', 'hr', 'emoticons', 'pagebreak',
+            'anchor', 'link', 'unlink', '|', 'about'
+        ]
+    });
+});
+
 $(function () {
-    var E = window.wangEditor;
-    var editor = new E('#editor');
-    //设置文件上传的参数名称
-    editor.customConfig.uploadFileName = 'file';
-    //设置上传文件的服务器路径
-    editor.customConfig.uploadImgServer = '/upload/wangEditorUpload';
-    //将图片大小限制为5M
-    editor.customConfig.uploadImgMaxSize = 5 * 1024 * 1024;
-    editor.create();
+    // var E = window.wangEditor;
+    // var editor = new E('#editor');
+    // //设置文件上传的参数名称
+    // editor.customConfig.uploadFileName = 'file';
+    // //设置上传文件的服务器路径
+    // editor.customConfig.uploadImgServer = '/upload/wangEditorUpload';
+    // //将图片大小限制为5M
+    // editor.customConfig.uploadImgMaxSize = 5 * 1024 * 1024;
+    // editor.create();
 
     $("#addForm").submit(function (ev) {
         ev.preventDefault();
@@ -25,7 +45,7 @@ $(function () {
                 if($('#recDay').is(':checked'))
                     recDayFlag = 1;
                 var entity = new FormData($('#addForm')[0]);
-                entity.append('content', editor.txt.html());
+                entity.append('content', editorNew.html());
                 entity.append('coverUrl', vm.cover);
                 entity.append('isPublish', isPublishFlag);
                 entity.append('recDay', recDayFlag);

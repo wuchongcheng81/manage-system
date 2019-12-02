@@ -189,7 +189,7 @@ public class UploadController {
         PrintWriter out = response.getWriter();
 
         String rootPath = filePath + "/kindEditor/";
-        String rootUrl = request.getContextPath() + imgPattern + "/kindEditor/";
+        String rootUrl = host + imgPattern + "/kindEditor/";
         //图片扩展名
         String[] fileTypes = new String[]{"gif", "jpg", "jpeg", "png", "bmp"};
 

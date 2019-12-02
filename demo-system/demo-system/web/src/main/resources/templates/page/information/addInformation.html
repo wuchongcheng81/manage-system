@@ -5,7 +5,11 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <th:block th:insert="header :: common_header"/>
-    <script th:src="@{/js/editor/wangEditor.js}"></script>
+<!--    <script th:src="@{/js/editor/wangEditor.js}"></script>-->
+    <link rel="stylesheet" th:href="@{/js/kindeditor/themes/default/default.css}"/>
+    <link rel="stylesheet" th:href="@{/js/kindeditor/prettify.css}"/>
+    <script th:src="@{/js/kindeditor/kindeditor-all-min.js}"></script>
+    <script th:src="@{/js/kindeditor/zh-CN.js}"></script>
     <script th:src="@{/js/page/information/addInformation.js(v=5.1)}"></script>
     <style type="text/css">
         .form-control {
@@ -153,7 +157,7 @@
                 <div class="form-group">
                     <label>资讯内容</label>
                 </div>
-                <div id="editor">
+                <div id="editor_new">
                     <p>请输入文本内容</p>
                 </div>
 
