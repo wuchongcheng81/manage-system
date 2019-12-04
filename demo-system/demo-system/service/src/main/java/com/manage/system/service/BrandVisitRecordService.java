@@ -16,5 +16,5 @@ public interface BrandVisitRecordService extends BaseService<BrandVisitRecord, I
     /**统计昨天浏览量*/
     int countYesterDayBrowse(Integer brandId);
     /**查询前几天的统计浏览量*/
-    List<CountDetailDTO> countBrowseByBeforeDay(String beforeDay, Integer brandId);
+    List<CountDetailDTO> countBrowseByBeforeDay(String beforeDay, String endDay, Integer brandId);
 }

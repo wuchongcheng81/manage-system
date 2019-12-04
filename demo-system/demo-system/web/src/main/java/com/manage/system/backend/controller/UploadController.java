@@ -6,15 +6,7 @@ import com.manage.system.comparator.NameComparator;
 import com.manage.system.comparator.SizeComparator;
 import com.manage.system.comparator.TypeComparator;
 import com.manage.system.response.ResultData;
-import com.manage.system.service.PhotoService;
-import com.manage.system.service.UploadServiceFeign;
 import com.manage.system.util.FileUtil;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +20,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
-import static rx.internal.operators.NotificationLite.getError;
 
 /**
  * @author wucc
@@ -45,11 +35,6 @@ public class UploadController {
     String filePath;
     @Value("${upload.pattern.img}")
     String imgPattern;
-
-    @Autowired
-    private PhotoService photoService;
-    @Autowired
-    private UploadServiceFeign uploadServiceFeign;
 
     @PostMapping(value = "/image")
     public ResultData uploadImg(MultipartFile file) {
@@ -69,11 +54,10 @@ public class UploadController {
      * KindEditor
      *
      * @param response
-     * @throws FileUploadException
      * @throws IOException
      */
     @RequestMapping(value = "/uploadJson")
-    public void uploadJson(HttpServletResponse response, MultipartFile imgFile) throws FileUploadException, IOException {
+    public void uploadJson(HttpServletResponse response, MultipartFile imgFile) throws IOException {
         PrintWriter out = response.getWriter();
 
         String kindEditorDir = "kindEditor/image/";

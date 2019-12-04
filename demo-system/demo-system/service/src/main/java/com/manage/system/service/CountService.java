@@ -12,4 +12,6 @@ public interface CountService {
     CountDetailDTO getCount(Integer brandId);
 
     CountListDetailDTO getCountList(int beforeDay, Integer brandId);
+
+    CountListDetailDTO getCountListBySearch(Long startDate, Long endDate, Integer brandId);
 }

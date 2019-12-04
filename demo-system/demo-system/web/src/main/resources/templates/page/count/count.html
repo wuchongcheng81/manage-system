@@ -5,14 +5,14 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <th:block th:insert="header :: common_header"/>
-    <script th:src="@{/js/page/count/count.js(v=1)}"></script>
     <script th:src="@{/js/echarts/echarts.min.js}"></script>
+    <script th:src="@{/js/page/count/count.js(v=1.1)}"></script>
 </head>
 <style type="text/css">
-    .coverDiv {
-        border: 1px solid #C1C1C1;
-        border-radius: 20px;
-        width: 100px;
+    .labelInput {
+        width: 125px;
+        display: inline-block;
+        margin-left: 5px;
     }
     .tableTdSize {
         font-size: 20px;
@@ -42,7 +42,9 @@
 
             <div class="panel-body" style="margin-bottom: 70px">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><label style="font-weight: bold">今日数据</label></div>
+                    <div class="panel-heading">
+                        <label style="font-weight: bold">今日数据</label>
+                    </div>
                     <div class="panel-body">
                         <table style="width: 100%; text-align: center">
                             <tr style="height: 30px;font-weight: bold">
@@ -63,20 +65,36 @@
                                 <td class="tableTdSize">{{countDetail.countYesIp}}</td>
                                 <td class="tableTdSize">{{countDetail.countYesPopular}}</td>
                             </tr>
-
                         </table>
                     </div>
                 </div>
 
                 <div id="toolbar" class="btn-group">
-                    <button id="sevenDays" type="button" class="btn btn-default" @click="searchByBeforeDay(7)">
-                        <span class="glyphicon glyphicon-glass" aria-hidden="true"></span>最近7天
-                    </button>
-                    <button id="thirtyDasy" type="button" class="btn btn-default" @click="searchByBeforeDay(30)">
-                        <span class="glyphicon glyphicon-glass" aria-hidden="true"></span>最近30天
-                    </button>
-                </div>
-                <div id="main" style="width: 90%;height:500px; min-width: 500px"></div>
+                    <div style="float: left">
+                        <button id="sevenDays" type="button" class="btn btn-default" @click="searchByBeforeDay(7)">
+                            <span class="glyphicon glyphicon-glass" aria-hidden="true"></span>最近7天
+                        </button>
+                        <button id="thirtyDasy" type="button" class="btn btn-default" @click="searchByBeforeDay(30)">
+                            <span class="glyphicon glyphicon-glass" aria-hidden="true"></span>最近30天
+                        </button>
+                    </div>
+                    <div style="float: left">
+                        <input type="text" class="form-control labelInput" id="startDate" readonly="readonly"
+                               placeholder="开始日期">
+                        <input type="text" class="form-control labelInput" id="endDate" readonly="readonly"
+                               placeholder="截止日期">
+                        <button id="search" type="button" class="btn btn-default" style="float: right;margin-left: 5px" @click="search()">
+                            <span class="glyphicon glyphicon-glass" aria-hidden="true"></span>查询
+                        </button>
+                    </div>
+<!--                    <div style="float: right">-->
+<!--                        <button type="button" class="btn btn-default">-->
+<!--                            <span class="glyphicon glyphicon-export" aria-hidden="true"></span>导出-->
+<!--                        </button>-->
+<!--                    </div>-->
+                <br><br>
+                <div id="toolbar_1" class="btn-group">
+                <div id="main" style="width: 90%;height:500px; min-width: 900px"></div>
             </div>
         </div>
     </div>
@@ -98,8 +116,6 @@
 
         },
         created: function() {
-
-
             $.post('/count/data/getCount',{brandId: getUrlParam('brandId')}, function(response) {
                 vm.countDetail = response.data;
 
@@ -164,6 +180,34 @@
             },
             searchByBeforeDay: function(beforeDay) {
                 $.post('/count/data/getCountList',{beforeDay: beforeDay, brandId: getUrlParam('brandId')}, function(response) {
+                    var result = response.data;
+
+                    vm.option.xAxis.data = result.beforeDays;
+                    var series = [
+                        {
+                            name:'浏览量(PV)',
+                            type:'line',
+                            data:result.browseList
+                        },
+                        {
+                            name:'IP数',
+                            type:'line',
+                            data:result.ipList
+                        },
+                        {
+                            name:'热度',
+                            type:'line',
+                            data:result.popularList
+                        }
+                    ];
+                    vm.option.series = series;
+                    vm.myChart.setOption(vm.option);
+                })
+            },
+            search: function() {
+                var startDate = $('#startDate').datetimepicker('getDate').getTime();
+                var endDate = $('#endDate').datetimepicker('getDate').getTime();
+                $.post('/count/data/getCountListBySearch',{startDate: startDate, endDate: endDate, brandId: getUrlParam('brandId')}, function(response) {
                     var result = response.data;
 
                     vm.option.xAxis.data = result.beforeDays;

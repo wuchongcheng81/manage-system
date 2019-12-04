@@ -94,13 +94,18 @@
             FROM
                 t_brand_popular_record
             WHERE
-                create_time &gt;= str_to_date( #{beforeDay}, '%Y-%m-%d' )
-            AND
                 visit_type = 'visit'
             AND request_ip != 'add_by_scheduled'
             <if test="brandId != null">
                 AND brand_id = #{brandId}
             </if>
+            <if test="beforeDay != null">
+                AND  create_time &gt;= str_to_date( #{beforeDay}, '%Y-%m-%d' )
+            </if>
+            <if test="endDay != null">
+                AND  create_time &lt;= str_to_date( #{endDay}, '%Y-%m-%d' )
+            </if>
+            ORDER BY create_time asc
             ) AS t
         GROUP BY
             t.cdate
@@ -117,11 +122,17 @@
                 FROM
                     t_brand_popular_record
                 WHERE
-                    create_time &gt;= str_to_date( #{beforeDay}, '%Y-%m-%d' )
-                AND request_ip != 'add_by_scheduled'
+                    request_ip != 'add_by_scheduled'
                 <if test="brandId != null">
                     AND brand_id = #{brandId}
                 </if>
+                <if test="beforeDay != null">
+                    AND  create_time &gt;= str_to_date( #{beforeDay}, '%Y-%m-%d' )
+                </if>
+                <if test="endDay != null">
+                    AND  create_time &lt;= str_to_date( #{endDay}, '%Y-%m-%d' )
+                </if>
+                ORDER BY create_time asc
             ) AS t
         GROUP BY
             t.cdate
@@ -138,11 +149,17 @@
                 FROM
                     t_brand_popular_record
                 WHERE
-                    create_time &gt;= str_to_date( #{beforeDay}, '%Y-%m-%d' )
-                AND request_ip != 'add_by_scheduled'
+                    request_ip != 'add_by_scheduled'
                 <if test="brandId != null">
                     AND brand_id = #{brandId}
                 </if>
+                <if test="beforeDay != null">
+                    AND  create_time &gt;= str_to_date( #{beforeDay}, '%Y-%m-%d' )
+                </if>
+                <if test="endDay != null">
+                    AND  create_time &lt;= str_to_date( #{endDay}, '%Y-%m-%d' )
+                </if>
+                ORDER BY create_time asc
             ) AS t
         GROUP BY
             t.cdate

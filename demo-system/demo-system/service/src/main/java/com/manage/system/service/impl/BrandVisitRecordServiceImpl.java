@@ -38,7 +38,7 @@ public class BrandVisitRecordServiceImpl extends AbstractService<BrandVisitRecor
     }
 
     @Override
-    public List<CountDetailDTO> countBrowseByBeforeDay(String beforeDay, Integer brandId) {
-        return mapper.countBrowseByBeforeDay(beforeDay, brandId);
+    public List<CountDetailDTO> countBrowseByBeforeDay(String beforeDay, String endDay, Integer brandId) {
+        return mapper.countBrowseByBeforeDay(beforeDay, endDay, brandId);
     }
 }

@@ -22,7 +22,7 @@ public interface CountMapper extends BaseMapper<CountDetailDTO> {
     int countYesterDayPopular(@Param("brandId") Integer brandId);
 
     /**查询前几天的统计Ip数*/
-    List<CountDetailDTO> countIpByBeforeDay(@Param("beforeDay") String beforeDay, @Param("brandId") Integer brandId);
+    List<CountDetailDTO> countIpByBeforeDay(@Param("beforeDay") String beforeDay, @Param("endDay") String endDay, @Param("brandId") Integer brandId);
     /**查询前几天的统计热度*/
-    List<CountDetailDTO> countPopularByBeforeDay(@Param("beforeDay") String beforeDay, @Param("brandId") Integer brandId);
+    List<CountDetailDTO> countPopularByBeforeDay(@Param("beforeDay") String beforeDay, @Param("endDay") String endDay, @Param("brandId") Integer brandId);
 }

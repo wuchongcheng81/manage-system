@@ -17,5 +17,5 @@ public interface BrandVisitRecordMapper extends BaseMapper<BrandVisitRecord> {
     /**统计昨天浏览量*/
     int countYesterDayBrowse(@Param("brandId") Integer brandId);
     /**查询前几天的统计浏览量*/
-    List<CountDetailDTO> countBrowseByBeforeDay(@Param("beforeDay") String beforeDay, @Param("brandId") Integer brandId);
+    List<CountDetailDTO> countBrowseByBeforeDay(@Param("beforeDay") String beforeDay, @Param("endDay") String endDay,@Param("brandId") Integer brandId);
 }

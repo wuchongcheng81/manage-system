@@ -34,4 +34,15 @@ public class CountController {
         CountListDetailDTO countListDetailDTO = countService.getCountList(beforeDay, brandId);
         return new ResultData(true, countListDetailDTO);
     }
+
+    @RequestMapping(value = "/getCountListBySearch")
+    public ResultData getCountListBySearch(Long startDate, Long endDate, Integer brandId) {
+        CountListDetailDTO countListDetailDTO = countService.getCountListBySearch(startDate, endDate, brandId);
+        return new ResultData(true, countListDetailDTO);
+    }
+
+    @RequestMapping(value = "/export")
+    public void export(int brandId) {
+
+    }
 }

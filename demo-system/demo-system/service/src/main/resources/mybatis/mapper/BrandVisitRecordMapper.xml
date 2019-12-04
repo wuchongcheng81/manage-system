@@ -37,11 +37,18 @@
                 date_format( create_time, '%Y-%m-%d' ) AS cdate
             FROM
                 t_brand_visit_record
-            WHERE
-                create_time &gt;= str_to_date( #{beforeDay}, '%Y-%m-%d' )
-            <if test="brandId != null">
-                AND brand_id = #{brandId}
-            </if>
+            <where>
+                <if test="brandId != null">
+                    AND brand_id = #{brandId}
+                </if>
+                <if test="beforeDay != null">
+                    AND  create_time &gt;= str_to_date( #{beforeDay}, '%Y-%m-%d' )
+                </if>
+                <if test="endDay != null">
+                    AND  create_time &lt;= str_to_date( #{endDay}, '%Y-%m-%d' )
+                </if>
+            </where>
+            ORDER BY create_time asc
             ) AS t
         GROUP BY
             t.cdate

@@ -17,6 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,9 +54,9 @@ public class CountServiceImpl extends AbstractService<CountDetailDTO, Integer, C
         CountListDetailDTO countListDetailDTO = new CountListDetailDTO();
 
         List<String> dayList = getBeforeDays(beforeDay);
-        List<CountDetailDTO> browseDetailList = brandVisitRecordService.countBrowseByBeforeDay(beforeDayStr, brandId);
-        List<CountDetailDTO> ipDetailList = mapper.countIpByBeforeDay(beforeDayStr, brandId);
-        List<CountDetailDTO> popularDetailList = mapper.countPopularByBeforeDay(beforeDayStr, brandId);
+        List<CountDetailDTO> browseDetailList = brandVisitRecordService.countBrowseByBeforeDay(beforeDayStr, null, brandId);
+        List<CountDetailDTO> ipDetailList = mapper.countIpByBeforeDay(beforeDayStr, null, brandId);
+        List<CountDetailDTO> popularDetailList = mapper.countPopularByBeforeDay(beforeDayStr, null, brandId);
 
         List<Integer> browseList = Lists.newArrayList();
         List<Integer> ipList = Lists.newArrayList();
@@ -90,6 +93,72 @@ public class CountServiceImpl extends AbstractService<CountDetailDTO, Integer, C
                     break;
                 }
         });
+        countListDetailDTO.setBrowseList(browseList);
+        countListDetailDTO.setIpList(ipList);
+        countListDetailDTO.setPopularList(popularList);
+        countListDetailDTO.setBeforeDays(dayList);
+
+        return countListDetailDTO;
+    }
+
+    @Override
+    public CountListDetailDTO getCountListBySearch(Long startDateTimeStamp, Long endDateTimeStamp, Integer brandId) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date startDate = new Date(startDateTimeStamp);
+        Date endDate = endDateTimeStamp != null ? new Date(endDateTimeStamp) : new Date();
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(endDate);
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        endDate = c.getTime();
+
+        String startStr = format.format(startDate);
+        String endStr = format.format(endDate);
+
+        List<String> dayList = getBeforeDays(DateUtils.differentDays(startDate, endDate));
+
+        List<CountDetailDTO> browseDetailList = brandVisitRecordService.countBrowseByBeforeDay(startStr, endStr, brandId);
+        List<CountDetailDTO> ipDetailList = mapper.countIpByBeforeDay(startStr, endStr, brandId);
+        List<CountDetailDTO> popularDetailList = mapper.countPopularByBeforeDay(startStr, endStr, brandId);
+
+        List<Integer> browseList = Lists.newArrayList();
+        List<Integer> ipList = Lists.newArrayList();
+        List<Integer> popularList = Lists.newArrayList();
+        dayList.forEach(d -> {
+            if(!CollectionUtils.isEmpty(browseDetailList))
+                for (CountDetailDTO b : browseDetailList) {
+                    if(d.equals(b.getCdate())) {
+                        browseList.add(b.getCountNum());
+                        browseDetailList.remove(b);
+                    }else if(dayList.size() > browseDetailList.size()) {
+                        browseList.add(0);
+                    }
+                    break;
+                }
+            if(!CollectionUtils.isEmpty(ipDetailList))
+                for (CountDetailDTO i : ipDetailList) {
+                    if(d.equals(i.getCdate())) {
+                        ipList.add(i.getCountNum());
+                        ipDetailList.remove(i);
+                    }else if(dayList.size() > ipDetailList.size()) {
+                        ipList.add(0);
+                    }
+                    break;
+                }
+            if(!CollectionUtils.isEmpty(popularDetailList))
+                for (CountDetailDTO p : popularDetailList) {
+                    if(d.equals(p.getCdate())) {
+                        popularList.add(p.getCountNum());
+                        popularDetailList.remove(p);
+                    }else if(dayList.size() > popularDetailList.size()) {
+                        popularList.add(0);
+                    }
+                    break;
+                }
+        });
+
+        CountListDetailDTO countListDetailDTO = new CountListDetailDTO();
         countListDetailDTO.setBrowseList(browseList);
         countListDetailDTO.setIpList(ipList);
         countListDetailDTO.setPopularList(popularList);
